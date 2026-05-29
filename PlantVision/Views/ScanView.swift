@@ -41,13 +41,21 @@ struct ScanView: View {
             }
             .frame(minHeight: 330)
 
+            relayControls
+
             HStack(spacing: 12) {
+                Button {
+                    appModel.connectRelay()
+                } label: {
+                    Label("連線 Relay", systemImage: "link")
+                }
+                .buttonStyle(.borderedProminent)
+
                 Button {
                     appModel.scanWithCameraFirst()
                 } label: {
-                    Label("開始辨識", systemImage: "camera.viewfinder")
+                    Label("主鏡頭 Demo", systemImage: "camera.viewfinder")
                 }
-                .buttonStyle(.borderedProminent)
 
                 Button {
                     Task {
@@ -70,6 +78,27 @@ struct ScanView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(22)
         .glassBackgroundEffect()
+    }
+
+    private var relayControls: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text("Socket.IO Relay")
+                .font(.headline)
+
+            Text(appModel.relayStatus.message)
+                .font(.callout)
+                .foregroundStyle(.secondary)
+
+            TextField("Relay URL", text: $appModel.relayURLText)
+                .textFieldStyle(.roundedBorder)
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled()
+
+            TextField("配對碼", text: $appModel.relayPairingCode)
+                .textFieldStyle(.roundedBorder)
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled()
+        }
     }
 
     @ViewBuilder

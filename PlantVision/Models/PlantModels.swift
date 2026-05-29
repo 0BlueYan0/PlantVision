@@ -60,6 +60,7 @@ struct RecognitionResult: Identifiable, Equatable {
 enum RecognitionSource: String {
     case camera = "Vision Pro 主鏡頭"
     case demo = "Demo 樣本"
+    case relay = "Mac Relay"
 }
 
 struct PlantHistoryRecord: Identifiable, Codable, Equatable {

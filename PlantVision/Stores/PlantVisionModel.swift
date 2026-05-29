@@ -8,15 +8,29 @@ final class PlantVisionModel: ObservableObject {
     @Published var currentResult: RecognitionResult?
     @Published var selectedStage: GrowthStage = .sprout
     @Published var isGrowthPlaying = false
+    @Published var relayURLText = "http://127.0.0.1:8080"
+    @Published var relayPairingCode = "482913"
+    @Published var relayStatus: RelayClientStatus = .disconnected
     @Published private(set) var history: [PlantHistoryRecord] = []
 
     private let demoProvider = DemoRecognitionProvider()
     private let cameraProvider = CameraRecognitionProvider()
+    private let relayClient = SocketIORelayClient()
     private let historyStore = HistoryStore()
     private var playbackTask: Task<Void, Never>?
 
     init() {
         history = historyStore.load()
+        relayClient.onStatusChange = { [weak self] status in
+            Task { @MainActor in
+                self?.handleRelayStatus(status)
+            }
+        }
+        relayClient.onFramePayload = { [weak self] payload in
+            Task { @MainActor in
+                self?.handleRelayFramePayload(payload)
+            }
+        }
     }
 
     func scanWithCameraFirst() {
@@ -38,6 +52,25 @@ final class PlantVisionModel: ObservableObject {
         if case .recognized(let result, let state) = attempt {
             apply(result: result, state: state)
         }
+    }
+
+    func connectRelay() {
+        guard let url = URL(string: relayURLText.trimmingCharacters(in: .whitespacesAndNewlines)) else {
+            relayStatus = .failed("Relay URL 無效")
+            recognitionState = .failed("Relay URL 無效")
+            return
+        }
+
+        do {
+            try relayClient.connect(relayURL: url, pairingCode: relayPairingCode)
+        } catch {
+            relayStatus = .failed(error.localizedDescription)
+            recognitionState = .failed(error.localizedDescription)
+        }
+    }
+
+    func disconnectRelay() {
+        relayClient.disconnect()
     }
 
     func addCurrentResultToHistory() {
@@ -79,6 +112,44 @@ final class PlantVisionModel: ObservableObject {
         currentResult = result
         recognitionState = state
         selectedStage = .sprout
+    }
+
+    private func handleRelayStatus(_ status: RelayClientStatus) {
+        relayStatus = status
+        switch status {
+        case .disconnected:
+            break
+        case .connecting:
+            recognitionState = .relayConnecting(status.message)
+        case .connected, .joined:
+            recognitionState = .relayConnected(status.message)
+        case .failed(let reason):
+            recognitionState = .failed(reason)
+        }
+    }
+
+    private func handleRelayFramePayload(_ payload: RelayFramePayload) {
+        guard payload.message == "成功抽幀" else {
+            recognitionState = .relayResult("收到 Relay 訊息：\(payload.message)")
+            return
+        }
+
+        let plant = PlantDatabase.primaryPlant
+        let sizeDescription: String
+        if let width = payload.frameWidth, let height = payload.frameHeight {
+            sizeDescription = "frame 尺寸 \(width) x \(height)"
+        } else {
+            sizeDescription = "未提供 frame 尺寸"
+        }
+
+        let result = RecognitionResult(
+            plant: plant,
+            confidence: plant.demoConfidence,
+            source: .relay,
+            detectedAt: Date(),
+            note: "已從 Mac relay 收到「成功抽幀」；\(sizeDescription)。目前先沿用本地植物資料顯示辨識結果。"
+        )
+        apply(result: result, state: .relayResult("Mac 已成功抽幀並回傳 Vision Pro"))
     }
 
     private func startGrowthPlayback() {

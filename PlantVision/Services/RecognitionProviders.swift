@@ -10,6 +10,9 @@ enum RecognitionProviderState: Equatable {
     case idle
     case requestingCamera
     case cameraRunning
+    case relayConnecting(String)
+    case relayConnected(String)
+    case relayResult(String)
     case demoMode(String)
     case failed(String)
 
@@ -21,6 +24,12 @@ enum RecognitionProviderState: Equatable {
             "正在請求主鏡頭權限"
         case .cameraRunning:
             "主鏡頭 Demo 辨識中"
+        case .relayConnecting(let detail):
+            "Relay 連線中：\(detail)"
+        case .relayConnected(let detail):
+            "Relay 已連線：\(detail)"
+        case .relayResult(let detail):
+            detail
         case .demoMode(let reason):
             "Demo Mode：\(reason)"
         case .failed(let reason):

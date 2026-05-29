@@ -3,38 +3,40 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 71;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		8A1000012C00000100000001 /* PlantVisionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000012C00000100000001 /* PlantVisionApp.swift */; };
-		8A1000022C00000100000001 /* PlantModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000022C00000100000001 /* PlantModels.swift */; };
-		8A1000032C00000100000001 /* PlantDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000032C00000100000001 /* PlantDatabase.swift */; };
-		8A1000042C00000100000001 /* RecognitionProviders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000042C00000100000001 /* RecognitionProviders.swift */; };
-		8A1000052C00000100000001 /* PlantVisionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000052C00000100000001 /* PlantVisionModel.swift */; };
-		8A1000062C00000100000001 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000062C00000100000001 /* RootView.swift */; };
-		8A1000072C00000100000001 /* ScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000072C00000100000001 /* ScanView.swift */; };
-		8A1000082C00000100000001 /* PlantDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000082C00000100000001 /* PlantDetailView.swift */; };
-		8A1000092C00000100000001 /* GrowthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000092C00000100000001 /* GrowthView.swift */; };
-		8A10000A2C00000100000001 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A20000A2C00000100000001 /* HistoryView.swift */; };
-		8A10000B2C00000100000001 /* SpatialPlantSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A20000B2C00000100000001 /* SpatialPlantSceneView.swift */; };
+		8A1000022C00000100000001 /* Models/PlantModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000022C00000100000001 /* Models/PlantModels.swift */; };
+		8A1000032C00000100000001 /* Services/PlantDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000032C00000100000001 /* Services/PlantDatabase.swift */; };
+		8A1000042C00000100000001 /* Services/RecognitionProviders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000042C00000100000001 /* Services/RecognitionProviders.swift */; };
+		8A1000052C00000100000001 /* Stores/PlantVisionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000052C00000100000001 /* Stores/PlantVisionModel.swift */; };
+		8A1000062C00000100000001 /* Views/RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000062C00000100000001 /* Views/RootView.swift */; };
+		8A1000072C00000100000001 /* Views/ScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000072C00000100000001 /* Views/ScanView.swift */; };
+		8A1000082C00000100000001 /* Views/PlantDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000082C00000100000001 /* Views/PlantDetailView.swift */; };
+		8A1000092C00000100000001 /* Views/GrowthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000092C00000100000001 /* Views/GrowthView.swift */; };
+		8A10000A2C00000100000001 /* Views/HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A20000A2C00000100000001 /* Views/HistoryView.swift */; };
+		8A10000B2C00000100000001 /* Views/SpatialPlantSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A20000B2C00000100000001 /* Views/SpatialPlantSceneView.swift */; };
+		8A10000C2C00000100000001 /* Services/SocketIORelayClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A20000F2C00000100000001 /* Services/SocketIORelayClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		8A2000012C00000100000001 /* PlantVisionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantVisionApp.swift; sourceTree = "<group>"; };
-		8A2000022C00000100000001 /* PlantModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models/PlantModels.swift; sourceTree = "<group>"; };
-		8A2000032C00000100000001 /* PlantDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/PlantDatabase.swift; sourceTree = "<group>"; };
-		8A2000042C00000100000001 /* RecognitionProviders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/RecognitionProviders.swift; sourceTree = "<group>"; };
-		8A2000052C00000100000001 /* PlantVisionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stores/PlantVisionModel.swift; sourceTree = "<group>"; };
-		8A2000062C00000100000001 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/RootView.swift; sourceTree = "<group>"; };
-		8A2000072C00000100000001 /* ScanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/ScanView.swift; sourceTree = "<group>"; };
-		8A2000082C00000100000001 /* PlantDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/PlantDetailView.swift; sourceTree = "<group>"; };
-		8A2000092C00000100000001 /* GrowthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/GrowthView.swift; sourceTree = "<group>"; };
-		8A20000A2C00000100000001 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/HistoryView.swift; sourceTree = "<group>"; };
-		8A20000B2C00000100000001 /* SpatialPlantSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/SpatialPlantSceneView.swift; sourceTree = "<group>"; };
+		8A2000022C00000100000001 /* Models/PlantModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models/PlantModels.swift; sourceTree = "<group>"; };
+		8A2000032C00000100000001 /* Services/PlantDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/PlantDatabase.swift; sourceTree = "<group>"; };
+		8A2000042C00000100000001 /* Services/RecognitionProviders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/RecognitionProviders.swift; sourceTree = "<group>"; };
+		8A2000052C00000100000001 /* Stores/PlantVisionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stores/PlantVisionModel.swift; sourceTree = "<group>"; };
+		8A2000062C00000100000001 /* Views/RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/RootView.swift; sourceTree = "<group>"; };
+		8A2000072C00000100000001 /* Views/ScanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/ScanView.swift; sourceTree = "<group>"; };
+		8A2000082C00000100000001 /* Views/PlantDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/PlantDetailView.swift; sourceTree = "<group>"; };
+		8A2000092C00000100000001 /* Views/GrowthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/GrowthView.swift; sourceTree = "<group>"; };
+		8A20000A2C00000100000001 /* Views/HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/HistoryView.swift; sourceTree = "<group>"; };
+		8A20000B2C00000100000001 /* Views/SpatialPlantSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/SpatialPlantSceneView.swift; sourceTree = "<group>"; };
 		8A20000C2C00000100000001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8A20000D2C00000100000001 /* PlantVision.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PlantVision.entitlements; sourceTree = "<group>"; };
 		8A20000E2C00000100000001 /* PlantVision.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlantVision.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8A20000F2C00000100000001 /* Services/SocketIORelayClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/SocketIORelayClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,16 +62,17 @@
 			isa = PBXGroup;
 			children = (
 				8A2000012C00000100000001 /* PlantVisionApp.swift */,
-				8A2000022C00000100000001 /* PlantModels.swift */,
-				8A2000032C00000100000001 /* PlantDatabase.swift */,
-				8A2000042C00000100000001 /* RecognitionProviders.swift */,
-				8A2000052C00000100000001 /* PlantVisionModel.swift */,
-				8A2000062C00000100000001 /* RootView.swift */,
-				8A2000072C00000100000001 /* ScanView.swift */,
-				8A2000082C00000100000001 /* PlantDetailView.swift */,
-				8A2000092C00000100000001 /* GrowthView.swift */,
-				8A20000A2C00000100000001 /* HistoryView.swift */,
-				8A20000B2C00000100000001 /* SpatialPlantSceneView.swift */,
+				8A2000022C00000100000001 /* Models/PlantModels.swift */,
+				8A2000032C00000100000001 /* Services/PlantDatabase.swift */,
+				8A2000042C00000100000001 /* Services/RecognitionProviders.swift */,
+				8A20000F2C00000100000001 /* Services/SocketIORelayClient.swift */,
+				8A2000052C00000100000001 /* Stores/PlantVisionModel.swift */,
+				8A2000062C00000100000001 /* Views/RootView.swift */,
+				8A2000072C00000100000001 /* Views/ScanView.swift */,
+				8A2000082C00000100000001 /* Views/PlantDetailView.swift */,
+				8A2000092C00000100000001 /* Views/GrowthView.swift */,
+				8A20000A2C00000100000001 /* Views/HistoryView.swift */,
+				8A20000B2C00000100000001 /* Views/SpatialPlantSceneView.swift */,
 				8A20000C2C00000100000001 /* Info.plist */,
 				8A20000D2C00000100000001 /* PlantVision.entitlements */,
 			);
@@ -129,7 +132,6 @@
 			);
 			mainGroup = 8A4000012C00000100000001;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
 			productRefGroup = 8A4000032C00000100000001 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -155,16 +157,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				8A1000012C00000100000001 /* PlantVisionApp.swift in Sources */,
-				8A1000022C00000100000001 /* PlantModels.swift in Sources */,
-				8A1000032C00000100000001 /* PlantDatabase.swift in Sources */,
-				8A1000042C00000100000001 /* RecognitionProviders.swift in Sources */,
-				8A1000052C00000100000001 /* PlantVisionModel.swift in Sources */,
-				8A1000062C00000100000001 /* RootView.swift in Sources */,
-				8A1000072C00000100000001 /* ScanView.swift in Sources */,
-				8A1000082C00000100000001 /* PlantDetailView.swift in Sources */,
-				8A1000092C00000100000001 /* GrowthView.swift in Sources */,
-				8A10000A2C00000100000001 /* HistoryView.swift in Sources */,
-				8A10000B2C00000100000001 /* SpatialPlantSceneView.swift in Sources */,
+				8A1000022C00000100000001 /* Models/PlantModels.swift in Sources */,
+				8A1000032C00000100000001 /* Services/PlantDatabase.swift in Sources */,
+				8A1000042C00000100000001 /* Services/RecognitionProviders.swift in Sources */,
+				8A10000C2C00000100000001 /* Services/SocketIORelayClient.swift in Sources */,
+				8A1000052C00000100000001 /* Stores/PlantVisionModel.swift in Sources */,
+				8A1000062C00000100000001 /* Views/RootView.swift in Sources */,
+				8A1000072C00000100000001 /* Views/ScanView.swift in Sources */,
+				8A1000082C00000100000001 /* Views/PlantDetailView.swift in Sources */,
+				8A1000092C00000100000001 /* Views/GrowthView.swift in Sources */,
+				8A10000A2C00000100000001 /* Views/HistoryView.swift in Sources */,
+				8A10000B2C00000100000001 /* Views/SpatialPlantSceneView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -179,10 +182,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = 3WMZ8937S4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = PlantVision/Info.plist;
-				INFOPLIST_KEY_UIApplicationPreferredDefaultSceneSessionRole = UIWindowSceneSessionRoleApplication;
+				INFOPLIST_KEY_UIApplicationPreferredDefaultSceneSessionRole = UIWindowSceneSessionRoleVolumetricApplication;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -209,10 +213,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = 3WMZ8937S4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = PlantVision/Info.plist;
-				INFOPLIST_KEY_UIApplicationPreferredDefaultSceneSessionRole = UIWindowSceneSessionRoleApplication;
+				INFOPLIST_KEY_UIApplicationPreferredDefaultSceneSessionRole = UIWindowSceneSessionRoleVolumetricApplication;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
