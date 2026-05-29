@@ -18,3 +18,14 @@ func capturedFrameStoresImageDimensions() throws {
     #expect(frame.width == 320)
     #expect(frame.height == 180)
 }
+
+@Test
+func captureTargetLabelsDistinguishDisplaysAndWindows() {
+    let display = CaptureTarget.display(id: 1, title: "Main Display", width: 2560, height: 1664)
+    let window = CaptureTarget.window(id: 42, title: "Vision Pro Mirror", ownerName: "QuickTime Player")
+
+    #expect(display.label == "螢幕：Main Display (2560 x 1664)")
+    #expect(window.label == "視窗：QuickTime Player - Vision Pro Mirror")
+    #expect(display.stableID == "display-1")
+    #expect(window.stableID == "window-42")
+}

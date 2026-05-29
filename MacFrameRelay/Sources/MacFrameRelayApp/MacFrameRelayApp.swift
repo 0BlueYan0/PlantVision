@@ -66,6 +66,8 @@ private final class FrameRelayViewModel: ObservableObject {
     @Published var relayStatus = "Socket.IO 尚未連線"
     @Published var lastCaptureDescription = "等待 Vision Pro 鏡像畫面顯示於 Mac 螢幕"
     @Published var showsPermissionAction = false
+    @Published var captureTargets: [CaptureTarget] = []
+    @Published var selectedTargetID = ""
 
     private let capturer = ScreenFrameCapturer()
     private let relayClient = SocketIORelayClient()
@@ -74,6 +76,7 @@ private final class FrameRelayViewModel: ObservableObject {
         relayClient.onStatusChange = { [weak self] status in
             self?.relayStatus = status
         }
+        refreshCaptureTargets()
     }
 
     func connectRelay() {
@@ -101,12 +104,14 @@ private final class FrameRelayViewModel: ObservableObject {
 
     private func captureAndRelayNow() async {
         do {
-            let frame = try await capturer.captureMainDisplayFrame()
+            let selectedTarget = captureTargets.first { $0.stableID == selectedTargetID }
+            let frame = try await capturer.captureFrame(target: selectedTarget)
             capturedImage = NSImage(
                 cgImage: frame.cgImage,
                 size: NSSize(width: frame.width, height: frame.height)
             )
-            lastCaptureDescription = "\(frame.width) x \(frame.height) · \(frame.capturedAt.formatted(date: .omitted, time: .standard))"
+            let targetLabel = selectedTarget?.label ?? "主螢幕"
+            lastCaptureDescription = "\(targetLabel) · \(frame.width) x \(frame.height) · \(frame.capturedAt.formatted(date: .omitted, time: .standard))"
             statusText = "已抽幀，正在透過 Socket.IO relay 回傳 Vision Pro..."
 
             try relayClient.sendFrameResult(.successFrameCaptured(frame: frame))
@@ -120,6 +125,30 @@ private final class FrameRelayViewModel: ObservableObject {
     func openScreenCaptureSettings() {
         guard let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture") else { return }
         NSWorkspace.shared.open(url)
+    }
+
+    func refreshCaptureTargets() {
+        showsPermissionAction = false
+        guard capturer.hasScreenCaptureAccess || capturer.requestScreenCaptureAccess() else {
+            statusText = ScreenCaptureError.permissionDenied.localizedDescription
+            showsPermissionAction = true
+            return
+        }
+
+        statusText = "正在讀取可擷取的螢幕與視窗..."
+        Task {
+            do {
+                let targets = try await capturer.availableTargets()
+                captureTargets = targets
+                if !targets.contains(where: { $0.stableID == selectedTargetID }) {
+                    selectedTargetID = targets.first?.stableID ?? ""
+                }
+                statusText = targets.isEmpty ? "找不到可擷取目標" : "已讀取 \(targets.count) 個擷取目標"
+            } catch {
+                statusText = error.localizedDescription
+                showsPermissionAction = (error as? ScreenCaptureError) == .permissionDenied
+            }
+        }
     }
 }
 
@@ -223,6 +252,26 @@ private struct FrameRelayView: View {
                 viewModel.connectRelay()
             } label: {
                 Label("連線 Relay", systemImage: "link")
+            }
+
+            Divider()
+
+            Text("擷取目標")
+                .font(.headline)
+
+            Picker("擷取目標", selection: $viewModel.selectedTargetID) {
+                if viewModel.captureTargets.isEmpty {
+                    Text("尚未讀取目標").tag("")
+                }
+                ForEach(viewModel.captureTargets) { target in
+                    Text(target.label).tag(target.stableID)
+                }
+            }
+
+            Button {
+                viewModel.refreshCaptureTargets()
+            } label: {
+                Label("重新整理目標", systemImage: "arrow.clockwise")
             }
 
             Divider()

@@ -129,7 +129,11 @@ Mac app 內要設定：
 - `Relay URL`：本機測試填 `http://127.0.0.1:8080`
 - `配對碼`：例如 `482913`
 - 按 `連線 Relay`
-- Vision Pro 鏡像畫面顯示在 Mac 螢幕後，按 `擷取當前畫面`
+- 按 `重新整理目標`
+- 在 `擷取目標` 選擇 Vision Pro 鏡像所在的螢幕或鏡像視窗
+- Vision Pro 鏡像畫面顯示在選取目標後，按 `擷取當前畫面`
+
+如果 Vision Pro 鏡像輸出佔滿 Mac 主螢幕，建議選擇「鏡像視窗」或使用第二個螢幕放 Mac app。不要把 MacFrameRelayApp 疊在被擷取的畫面上，否則可能會把控制視窗一起截進 frame。
 
 抽幀成功後，Mac app 會 emit：
 
