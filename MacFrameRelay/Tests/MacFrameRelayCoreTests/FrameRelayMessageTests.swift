@@ -12,6 +12,17 @@ func successMessagePayloadIsStable() throws {
 }
 
 @Test
+func successMessagePayloadIncludesClassificationResult() throws {
+    let message = FrameRelayMessage.successFrameCaptured(
+        classification: PlantClassificationResult(label: "monstera-deliciosa", confidence: 0.91)
+    )
+    let payload = try JSONSerialization.jsonObject(with: message.jsonPayload) as? [String: Any]
+
+    #expect(payload?["plantID"] as? String == "monstera-deliciosa")
+    #expect(payload?["confidence"] as? Double == 0.91)
+}
+
+@Test
 func capturedFrameStoresImageDimensions() throws {
     let frame = try CapturedFrame.makePlaceholder(width: 320, height: 180)
 

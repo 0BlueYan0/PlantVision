@@ -5,12 +5,23 @@ public enum FrameRelayCapturePolicy {
     public static let automaticCaptureIntervalNanoseconds: UInt64 = 100_000_000
 }
 
+public struct PlantClassificationResult: Equatable, Sendable {
+    public let label: String
+    public let confidence: Double
+
+    public init(label: String, confidence: Double) {
+        self.label = label
+        self.confidence = confidence
+    }
+}
+
 public struct FrameRelayMessage: Equatable, Sendable {
     public let text: String
     public let type: String
     public let capturedAt: Date?
     public let frameWidth: Int?
     public let frameHeight: Int?
+    public let classification: PlantClassificationResult?
 
     public var jsonPayload: Data {
         let timestamp = capturedAt.map { ISO8601DateFormatter().string(from: $0) }
@@ -19,7 +30,9 @@ public struct FrameRelayMessage: Equatable, Sendable {
             message: text,
             timestamp: timestamp,
             frameWidth: frameWidth,
-            frameHeight: frameHeight
+            frameHeight: frameHeight,
+            plantID: classification?.label,
+            confidence: classification?.confidence
         )
         return (try? JSONEncoder().encode(payload)) ?? Data()
     }
@@ -29,21 +42,27 @@ public struct FrameRelayMessage: Equatable, Sendable {
         type: String = "frameCaptured",
         capturedAt: Date? = nil,
         frameWidth: Int? = nil,
-        frameHeight: Int? = nil
+        frameHeight: Int? = nil,
+        classification: PlantClassificationResult? = nil
     ) {
         self.text = text
         self.type = type
         self.capturedAt = capturedAt
         self.frameWidth = frameWidth
         self.frameHeight = frameHeight
+        self.classification = classification
     }
 
-    public static func successFrameCaptured(frame: CapturedFrame? = nil) -> FrameRelayMessage {
+    public static func successFrameCaptured(
+        frame: CapturedFrame? = nil,
+        classification: PlantClassificationResult? = nil
+    ) -> FrameRelayMessage {
         FrameRelayMessage(
             text: "成功抽幀",
             capturedAt: frame?.capturedAt,
             frameWidth: frame?.width,
-            frameHeight: frame?.height
+            frameHeight: frame?.height,
+            classification: classification
         )
     }
 }
@@ -54,4 +73,6 @@ private struct FrameRelayPayload: Encodable {
     let timestamp: String?
     let frameWidth: Int?
     let frameHeight: Int?
+    let plantID: String?
+    let confidence: Double?
 }

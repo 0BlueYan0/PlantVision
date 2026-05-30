@@ -114,6 +114,7 @@ private final class FrameRelayViewModel: ObservableObject {
     private let settingsStore: FrameRelaySettingsStore
     private let capturer = ScreenFrameCapturer()
     private let relayClient = SocketIORelayClient()
+    private let plantClassifier = try? PlantImageClassifier()
     private var automaticCaptureTask: Task<Void, Never>?
 
     init(settingsStore: FrameRelaySettingsStore = FrameRelaySettingsStore()) {
@@ -208,15 +209,37 @@ private final class FrameRelayViewModel: ObservableObject {
             )
             let targetLabel = selectedTarget?.label ?? "主螢幕"
             lastCaptureDescription = "\(targetLabel) · \(frame.width) x \(frame.height) · \(frame.capturedAt.formatted(date: .omitted, time: .standard))"
-            statusText = "已抽幀，正在透過 Socket.IO relay 回傳 Vision Pro..."
+            let classification = classify(frame)
+            statusText = relayStatusText(for: classification)
 
-            try relayClient.sendFrameResult(.successFrameCaptured(frame: frame))
-            statusText = "已送出 Socket.IO JSON：成功抽幀"
+            try relayClient.sendFrameResult(.successFrameCaptured(frame: frame, classification: classification))
+            statusText = sentStatusText(for: classification)
             return true
         } catch {
             statusText = error.localizedDescription
             showsPermissionAction = (error as? ScreenCaptureError) == .permissionDenied
             return !showsPermissionAction
+        }
+    }
+
+    private func classify(_ frame: CapturedFrame) -> PlantClassificationResult? {
+        guard let plantClassifier else { return nil }
+        return try? plantClassifier.classify(frame.cgImage)
+    }
+
+    private func relayStatusText(for classification: PlantClassificationResult?) -> String {
+        if let classification {
+            "已抽幀並辨識為 \(classification.label)，正在透過 Socket.IO relay 回傳 Vision Pro..."
+        } else {
+            "已抽幀，找不到可用模型或分類失敗，正在透過 Socket.IO relay 回傳 Vision Pro..."
+        }
+    }
+
+    private func sentStatusText(for classification: PlantClassificationResult?) -> String {
+        if let classification {
+            "已送出 Socket.IO JSON：\(classification.label) \(Int(classification.confidence * 100))%"
+        } else {
+            "已送出 Socket.IO JSON：成功抽幀，Vision Pro 將使用 demo 結果"
         }
     }
 

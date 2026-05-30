@@ -5,6 +5,8 @@ struct RelayFramePayload: Equatable {
     let type: String?
     let frameWidth: Int?
     let frameHeight: Int?
+    let plantID: String?
+    let confidence: Double?
 }
 
 enum RelayClientStatus: Equatable {
@@ -219,7 +221,9 @@ final class SocketIORelayClient {
             message: message,
             type: data["type"] as? String,
             frameWidth: data["frameWidth"] as? Int,
-            frameHeight: data["frameHeight"] as? Int
+            frameHeight: data["frameHeight"] as? Int,
+            plantID: data["plantID"] as? String,
+            confidence: data["confidence"] as? Double
         )
     }
 }

@@ -7,7 +7,7 @@ PlantVision 目前包含 visionOS app、Mac 抽幀 companion app，以及 Socket
 1. Vision Pro 將畫面鏡像到 Mac。
 2. Mac app 擷取 Mac 當前主螢幕 frame，並在 Mac app 中顯示抽出的 frame。
 3. Mac app 透過 Socket.IO relay 送出 JSON 給 Vision Pro。
-4. Vision Pro 端收到 `message: "成功抽幀"` 後再接續後續流程。
+4. Vision Pro 端收到 `message: "成功抽幀"` 後，使用 Mac 端模型回傳的 `plantID` 和 `confidence` 顯示辨識結果；如果沒有模型結果，則 fallback 到 demo 植物資料。
 
 ## 架構
 
@@ -218,7 +218,9 @@ payload 範例：
   "message": "成功抽幀",
   "timestamp": "2026-05-29T15:00:00Z",
   "frameWidth": 2560,
-  "frameHeight": 1664
+  "frameHeight": 1664,
+  "plantID": "monstera-deliciosa",
+  "confidence": 0.91
 }
 ```
 
@@ -238,9 +240,17 @@ payload 範例：
     "message": "成功抽幀",
     "timestamp": "2026-05-29T15:00:00Z",
     "frameWidth": 2560,
-    "frameHeight": 1664
+    "frameHeight": 1664,
+    "plantID": "monstera-deliciosa",
+    "confidence": 0.91
   }
 }
+```
+
+植物辨識模型教學與訓練流程見：
+
+```text
+docs/plant-classifier-model.md
 ```
 
 ## Mac 螢幕擷取權限
@@ -298,7 +308,7 @@ Vision Pro app 端已內建最小 Socket.IO v4 client，使用 `URLSessionWebSoc
 3. 按 `連線 Relay`。
 4. Vision Pro 會 emit `join`，payload 使用 `{ "role": "vision", "code": "<配對碼>" }`。
 5. Vision Pro 會 listen `plantVisionRelay`。
-6. 當 `payload.data.message == "成功抽幀"` 時，app 會更新辨識狀態並顯示 relay 來源的結果。
+6. 當 `payload.data.message == "成功抽幀"` 時，app 會讀取 `plantID` 和 `confidence`，對應本地 `PlantDatabase` 後顯示 relay 來源的結果。
 
 本機 simulator 測試時可用：
 
@@ -314,7 +324,7 @@ http://<Mac-IP>:8080
 
 專案的 `Info.plist` 已加入 `NSAllowsLocalNetworking`，方便本機或區網測試。跨校園網路或正式測試仍建議使用 HTTPS relay domain。
 
-Vision Pro 端接收成功抽幀後，目前會沿用本地植物資料顯示辨識結果，note 會標示這是從 Mac relay 收到「成功抽幀」；後續真正植物辨識結果可直接擴充 `frameResult` payload。
+Vision Pro 端接收成功抽幀後，若 payload 內有 `plantID`，會用該 id 對應本地植物資料；若缺少 `plantID` 或找不到對應資料，會沿用 demo 植物資料。
 
 ## 部署注意
 

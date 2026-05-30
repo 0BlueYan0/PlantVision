@@ -22,7 +22,10 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "MacFrameRelayCore"
+            name: "MacFrameRelayCore",
+            resources: [
+                .process("Resources")
+            ]
         ),
         .executableTarget(
             name: "MacFrameRelayApp",
