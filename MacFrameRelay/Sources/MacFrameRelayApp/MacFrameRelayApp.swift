@@ -109,10 +109,12 @@ private final class FrameRelayViewModel: ObservableObject {
     @Published var showsPermissionAction = false
     @Published var captureTargets: [CaptureTarget] = []
     @Published var selectedTargetID = ""
+    @Published var isAutomaticCaptureRunning = false
 
     private let settingsStore: FrameRelaySettingsStore
     private let capturer = ScreenFrameCapturer()
     private let relayClient = SocketIORelayClient()
+    private var automaticCaptureTask: Task<Void, Never>?
 
     init(settingsStore: FrameRelaySettingsStore = FrameRelaySettingsStore()) {
         self.settingsStore = settingsStore
@@ -124,6 +126,10 @@ private final class FrameRelayViewModel: ObservableObject {
         refreshCaptureTargets(requestPermissionIfNeeded: false)
     }
 
+    deinit {
+        automaticCaptureTask?.cancel()
+    }
+
     func connectRelay() {
         guard let url = URL(string: relayURL.trimmingCharacters(in: .whitespacesAndNewlines)) else {
             relayStatus = "Relay URL 無效"
@@ -131,6 +137,51 @@ private final class FrameRelayViewModel: ObservableObject {
         }
 
         relayClient.connect(relayURL: url, pairingCode: pairingCode)
+    }
+
+    func toggleAutomaticCapture() {
+        if isAutomaticCaptureRunning {
+            stopAutomaticCapture()
+        } else {
+            startAutomaticCapture()
+        }
+    }
+
+    func startAutomaticCapture() {
+        showsPermissionAction = false
+        guard capturer.hasScreenCaptureAccess || capturer.requestScreenCaptureAccess() else {
+            statusText = ScreenCaptureError.permissionDenied.localizedDescription
+            showsPermissionAction = true
+            return
+        }
+
+        automaticCaptureTask?.cancel()
+        isAutomaticCaptureRunning = true
+        statusText = "正在每 0.1 秒自動擷取 Mac 當前畫面..."
+        automaticCaptureTask = Task { @MainActor [weak self] in
+            guard let self else { return }
+            while !Task.isCancelled {
+                let shouldContinue = await captureAndRelayNow()
+                guard shouldContinue else { break }
+                do {
+                    try await Task.sleep(nanoseconds: FrameRelayCapturePolicy.automaticCaptureIntervalNanoseconds)
+                } catch {
+                    break
+                }
+            }
+
+            if !Task.isCancelled {
+                automaticCaptureTask = nil
+                isAutomaticCaptureRunning = false
+            }
+        }
+    }
+
+    func stopAutomaticCapture() {
+        automaticCaptureTask?.cancel()
+        automaticCaptureTask = nil
+        isAutomaticCaptureRunning = false
+        statusText = "已停止自動擷取"
     }
 
     func captureAndRelay() {
@@ -143,11 +194,11 @@ private final class FrameRelayViewModel: ObservableObject {
 
         statusText = "正在擷取 Mac 當前畫面..."
         Task {
-            await captureAndRelayNow()
+            _ = await captureAndRelayNow()
         }
     }
 
-    private func captureAndRelayNow() async {
+    private func captureAndRelayNow() async -> Bool {
         do {
             let selectedTarget = captureTargets.first { $0.stableID == selectedTargetID }
             let frame = try await capturer.captureFrame(target: selectedTarget)
@@ -161,9 +212,11 @@ private final class FrameRelayViewModel: ObservableObject {
 
             try relayClient.sendFrameResult(.successFrameCaptured(frame: frame))
             statusText = "已送出 Socket.IO JSON：成功抽幀"
+            return true
         } catch {
             statusText = error.localizedDescription
             showsPermissionAction = (error as? ScreenCaptureError) == .permissionDenied
+            return !showsPermissionAction
         }
     }
 
@@ -225,9 +278,12 @@ private struct FrameRelayView: View {
             Spacer()
 
             Button {
-                viewModel.captureAndRelay()
+                viewModel.toggleAutomaticCapture()
             } label: {
-                Label("擷取當前畫面", systemImage: "camera.viewfinder")
+                Label(
+                    viewModel.isAutomaticCaptureRunning ? "停止自動擷取" : "開始自動擷取",
+                    systemImage: viewModel.isAutomaticCaptureRunning ? "stop.circle" : "camera.viewfinder"
+                )
             }
             .buttonStyle(.borderedProminent)
             .controlSize(.large)
@@ -316,12 +372,14 @@ private struct FrameRelayView: View {
                     Text(target.label).tag(target.stableID)
                 }
             }
+            .disabled(viewModel.isAutomaticCaptureRunning)
 
             Button {
                 viewModel.refreshCaptureTargets(requestPermissionIfNeeded: true)
             } label: {
                 Label("重新整理目標", systemImage: "arrow.clockwise")
             }
+            .disabled(viewModel.isAutomaticCaptureRunning)
 
             Divider()
 

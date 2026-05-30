@@ -66,6 +66,12 @@ func targetRefreshRequestsAccessOnlyWhenUserInitiated() {
 }
 
 @Test
+func automaticCaptureIntervalIsOneTenthOfASecond() {
+    #expect(FrameRelayCapturePolicy.automaticCaptureIntervalSeconds == 0.1)
+    #expect(FrameRelayCapturePolicy.automaticCaptureIntervalNanoseconds == 100_000_000)
+}
+
+@Test
 func settingsStorePersistsRelayURLAndPairingCode() {
     let suiteName = "FrameRelaySettingsStoreTests-\(UUID().uuidString)"
     let defaults = UserDefaults(suiteName: suiteName)!

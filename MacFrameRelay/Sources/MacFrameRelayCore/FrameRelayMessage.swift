@@ -1,5 +1,10 @@
 import Foundation
 
+public enum FrameRelayCapturePolicy {
+    public static let automaticCaptureIntervalSeconds: TimeInterval = 0.1
+    public static let automaticCaptureIntervalNanoseconds: UInt64 = 100_000_000
+}
+
 public struct FrameRelayMessage: Equatable, Sendable {
     public let text: String
     public let type: String

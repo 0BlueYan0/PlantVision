@@ -199,7 +199,8 @@ Mac app 內要設定：
 - 按 `連線 Relay`
 - 按 `重新整理目標`
 - 在 `擷取目標` 選擇 Vision Pro 鏡像所在的螢幕或鏡像視窗
-- Vision Pro 鏡像畫面顯示在選取目標後，按 `擷取當前畫面`
+- Vision Pro 鏡像畫面顯示在選取目標後，按 `開始自動擷取`
+- Mac app 會每 0.1 秒擷取一幀並送出一次 `frameResult`，要停止時按 `停止自動擷取`
 
 如果 Vision Pro 鏡像輸出佔滿 Mac 主螢幕，建議選擇「鏡像視窗」或使用第二個螢幕放 Mac app。不要把 MacFrameRelayApp 疊在被擷取的畫面上，否則可能會把控制視窗一起截進 frame。
 
