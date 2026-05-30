@@ -22,7 +22,7 @@ struct PlantDetailView: View {
                     EmptyStateView(
                         systemImage: "info.circle",
                         title: "等待辨識資料",
-                        message: "先到 Scan 開始主鏡頭或 Demo 樣本辨識。"
+                        message: "先到 Scan 連線 Relay 或執行 Demo 樣本辨識。"
                     )
                 }
             }

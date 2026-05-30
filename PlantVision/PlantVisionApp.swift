@@ -9,8 +9,13 @@ struct PlantVisionApp: App {
             RootView()
                 .environmentObject(appModel)
         }
-        .windowStyle(.volumetric)
-        .defaultSize(width: 980, height: 720, depth: 80)
+        .defaultSize(width: 1320, height: 760)
+
+        WindowGroup(id: PlantVisionModel.plantDetailWindowID) {
+            PlantDetailView(result: appModel.currentResult)
+                .environmentObject(appModel)
+        }
+        .defaultSize(width: 560, height: 620)
 
         ImmersiveSpace(id: PlantVisionModel.immersiveSpaceID) {
             SpatialPlantSceneView()

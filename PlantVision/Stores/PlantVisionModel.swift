@@ -3,6 +3,7 @@ import Foundation
 @MainActor
 final class PlantVisionModel: ObservableObject {
     static let immersiveSpaceID = "PlantVisionImmersiveSpace"
+    static let plantDetailWindowID = "PlantVisionPlantDetailWindow"
 
     @Published var recognitionState: RecognitionProviderState = .idle
     @Published var currentResult: RecognitionResult?
@@ -14,7 +15,6 @@ final class PlantVisionModel: ObservableObject {
     @Published private(set) var history: [PlantHistoryRecord] = []
 
     private let demoProvider = DemoRecognitionProvider()
-    private let cameraProvider = CameraRecognitionProvider()
     private let relayClient = SocketIORelayClient()
     private let historyStore = HistoryStore()
     private var playbackTask: Task<Void, Never>?
@@ -29,20 +29,6 @@ final class PlantVisionModel: ObservableObject {
         relayClient.onFramePayload = { [weak self] payload in
             Task { @MainActor in
                 self?.handleRelayFramePayload(payload)
-            }
-        }
-    }
-
-    func scanWithCameraFirst() {
-        recognitionState = .requestingCamera
-        Task {
-            let attempt = await cameraProvider.recognize()
-            switch attempt {
-            case .recognized(let result, let state):
-                apply(result: result, state: state)
-            case .fallbackRequired(let state):
-                recognitionState = state
-                await runDemoRecognition()
             }
         }
     }

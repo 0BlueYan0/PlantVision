@@ -20,8 +20,6 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSMainCameraUsageDescription</key>
-	<string>PlantVision uses Apple Vision Pro main camera frames, when entitlement access is available, to recognize demo plants and place spatial labels.</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsLocalNetworking</key>
@@ -32,7 +30,7 @@
 		<key>UIApplicationSupportsMultipleScenes</key>
 		<true/>
 		<key>UIApplicationPreferredDefaultSceneSessionRole</key>
-		<string>UIWindowSceneSessionRoleVolumetricApplication</string>
+		<string>UIWindowSceneSessionRoleApplication</string>
 	</dict>
 </dict>
 </plist>

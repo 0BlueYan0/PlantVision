@@ -3,113 +3,203 @@ import SwiftUI
 struct ScanView: View {
     @EnvironmentObject private var appModel: PlantVisionModel
     @Environment(\.openImmersiveSpace) private var openImmersiveSpace
+    @Environment(\.openWindow) private var openWindow
 
     var body: some View {
         NavigationStack {
-            HStack(spacing: 24) {
-                scanPanel
-                resultPanel
+            GeometryReader { proxy in
+                contentLayout(size: proxy.size)
+                    .padding(28)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-            .padding(28)
-            .navigationTitle("植物辨識")
+            .navigationTitle("PlantVision")
+            .tint(ScanTheme.actionBlue)
         }
     }
 
-    private var scanPanel: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            Label("Vision Pro Demo", systemImage: "visionpro")
-                .font(.title2.weight(.semibold))
+    @ViewBuilder
+    private func contentLayout(size: CGSize) -> some View {
+        if size.width < 940 {
+            VStack(spacing: 16) {
+                heroPanel
+                resultPanel
+                relayUtilityPanel
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        } else {
+            HStack(alignment: .top, spacing: 24) {
+                heroPanel
+                resultPanel
+                relayUtilityPanel
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+    }
 
-            ZStack {
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(.green.opacity(0.12))
-                VStack(spacing: 18) {
-                    Image(systemName: "viewfinder.circle.fill")
-                        .font(.system(size: 86))
-                        .foregroundStyle(.green)
-                    Text(appModel.recognitionState.message)
-                        .font(.headline)
+    private var heroPanel: some View {
+        VStack(spacing: 18) {
+            HStack {
+                Label("Vision Pro Native Scan", systemImage: "visionpro")
+                    .font(.callout.weight(.semibold))
+                    .foregroundStyle(.secondary)
+                Spacer()
+                Text(statusCategory)
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(statusTint)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 7)
+                    .background(statusTint.opacity(0.12), in: Capsule())
+            }
+
+            Spacer(minLength: 0)
+
+            VStack(spacing: 16) {
+                Image(systemName: "viewfinder.circle")
+                    .font(.system(size: 78, weight: .light))
+                    .symbolRenderingMode(.hierarchical)
+                    .foregroundStyle(ScanTheme.actionBlue)
+                    .accessibilityHidden(true)
+
+                VStack(spacing: 8) {
+                    Text("植物辨識工作區")
+                        .font(.system(size: 34, weight: .semibold, design: .default))
                         .multilineTextAlignment(.center)
-                        .frame(maxWidth: 360)
-                    Text("第一優先嘗試主鏡頭 CameraFrameProvider；若 entitlement、裝置或模擬器不支援，會自動切到 Demo Mode。")
-                        .font(.callout)
+                        .lineLimit(2)
+                        .minimumScaleFactor(0.72)
+
+                    Text(appModel.recognitionState.message)
+                        .font(.title3)
                         .foregroundStyle(.secondary)
                         .multilineTextAlignment(.center)
-                        .frame(maxWidth: 460)
+                        .frame(maxWidth: 360)
+                        .lineLimit(3)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
-                .padding()
+
+                Text("Relay 是正式辨識入口，Demo 可用來快速檢查結果展示與空間標籤流程。")
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .frame(maxWidth: 360)
+                    .fixedSize(horizontal: false, vertical: true)
             }
-            .frame(minHeight: 330)
 
-            relayControls
+            Spacer(minLength: 0)
 
-            HStack(spacing: 12) {
-                Button {
-                    appModel.connectRelay()
-                } label: {
-                    Label("連線 Relay", systemImage: "link")
-                }
-                .buttonStyle(.borderedProminent)
-
-                Button {
-                    appModel.scanWithCameraFirst()
-                } label: {
-                    Label("主鏡頭 Demo", systemImage: "camera.viewfinder")
-                }
-
-                Button {
-                    Task {
-                        await appModel.runDemoRecognition()
-                    }
-                } label: {
-                    Label("Demo 樣本", systemImage: "photo")
-                }
-
-                Button {
-                    Task {
-                        _ = await openImmersiveSpace(id: PlantVisionModel.immersiveSpaceID)
-                    }
-                } label: {
-                    Label("開啟空間", systemImage: "cube.transparent")
-                }
-                .disabled(appModel.currentResult == nil)
-            }
+            actionRow
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(22)
+        .frame(minWidth: 280, maxWidth: 360, maxHeight: .infinity, alignment: .top)
+        .padding(24)
+        .background(ScanTheme.heroSurface, in: RoundedRectangle(cornerRadius: 28, style: .continuous))
         .glassBackgroundEffect()
     }
 
-    private var relayControls: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text("Socket.IO Relay")
-                .font(.headline)
+    private var actionRow: some View {
+        ViewThatFits(in: .horizontal) {
+            HStack(spacing: 12) {
+                scanActions
+            }
 
-            Text(appModel.relayStatus.message)
-                .font(.callout)
-                .foregroundStyle(.secondary)
-
-            TextField("Relay URL", text: $appModel.relayURLText)
-                .textFieldStyle(.roundedBorder)
-                .textInputAutocapitalization(.never)
-                .autocorrectionDisabled()
-
-            TextField("配對碼", text: $appModel.relayPairingCode)
-                .textFieldStyle(.roundedBorder)
-                .textInputAutocapitalization(.never)
-                .autocorrectionDisabled()
+            VStack(spacing: 12) {
+                scanActions
+            }
         }
+        .frame(maxWidth: .infinity)
+    }
+
+    @ViewBuilder
+    private var scanActions: some View {
+        Button {
+            appModel.connectRelay()
+        } label: {
+            Label("連線 Relay", systemImage: "link")
+                .frame(maxWidth: .infinity)
+        }
+        .buttonStyle(.borderedProminent)
+        .controlSize(.large)
+
+        Button {
+            Task {
+                await appModel.runDemoRecognition()
+            }
+        } label: {
+            Label("Demo 樣本", systemImage: "photo")
+                .frame(maxWidth: .infinity)
+        }
+        .buttonStyle(.bordered)
+        .controlSize(.large)
+
+        Button {
+            Task {
+                _ = await openImmersiveSpace(id: PlantVisionModel.immersiveSpaceID)
+            }
+        } label: {
+            Label("開啟空間", systemImage: "cube.transparent")
+                .frame(maxWidth: .infinity)
+        }
+        .buttonStyle(.bordered)
+        .controlSize(.large)
+        .disabled(appModel.currentResult == nil)
+    }
+
+    private var relayUtilityPanel: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            HStack(alignment: .firstTextBaseline) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Socket.IO Relay")
+                        .font(.headline)
+                    Text(appModel.relayStatus.message)
+                        .font(.callout)
+                        .foregroundStyle(.secondary)
+                }
+                Spacer()
+                relayStatusPill
+            }
+
+            VStack(spacing: 12) {
+                TextField("Relay URL", text: $appModel.relayURLText)
+                    .textFieldStyle(.roundedBorder)
+                    .textInputAutocapitalization(.never)
+                    .autocorrectionDisabled()
+
+                TextField("配對碼", text: $appModel.relayPairingCode)
+                    .textFieldStyle(.roundedBorder)
+                    .textInputAutocapitalization(.never)
+                    .autocorrectionDisabled()
+            }
+
+            Spacer(minLength: 0)
+
+            VStack(alignment: .leading, spacing: 8) {
+                Label("Mac 端抽幀與分類", systemImage: "macbook.and.visionpro")
+                Label("Vision Pro 顯示結果與空間標籤", systemImage: "cube.transparent")
+            }
+            .font(.caption)
+            .foregroundStyle(.secondary)
+        }
+        .padding(20)
+        .frame(minWidth: 240, maxWidth: 290, maxHeight: .infinity, alignment: .topLeading)
+        .background(ScanTheme.utilitySurface, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: 18, style: .continuous)
+                .strokeBorder(.primary.opacity(0.08), lineWidth: 1)
+        )
     }
 
     @ViewBuilder
     private var resultPanel: some View {
         if let result = appModel.currentResult {
-            VStack(alignment: .leading, spacing: 18) {
-                ResultHeader(result: result)
-                Divider()
-                InfoRows(plant: result.plant, confidence: result.confidence)
+            VStack(alignment: .leading, spacing: 20) {
+                ScanResultHeader(result: result)
+                ScanInfoRows(plant: result.plant, confidence: result.confidence)
 
-                HStack {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 150), spacing: 12)], alignment: .leading, spacing: 12) {
+                    Button {
+                        openWindow(id: PlantVisionModel.plantDetailWindowID)
+                    } label: {
+                        Label("分離資訊卡", systemImage: "rectangle.on.rectangle")
+                    }
+
                     Button {
                         appModel.addCurrentResultToHistory()
                     } label: {
@@ -124,26 +214,103 @@ struct ScanView: View {
                         Label("放置空間標籤", systemImage: "mappin.and.ellipse")
                     }
                 }
+                .buttonStyle(.bordered)
+                .controlSize(.large)
             }
-            .frame(width: 390, alignment: .leading)
-            .padding(22)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            .padding(24)
             .glassBackgroundEffect()
         } else {
-            VStack(spacing: 18) {
-                Image(systemName: "leaf.circle")
-                    .font(.system(size: 72))
-                    .foregroundStyle(.green)
-                Text("尚無辨識結果")
-                    .font(.title3.weight(.semibold))
-                Text("開始辨識後會顯示植物名稱、形態特徵、照護建議與信心分數。")
+            VStack(spacing: 16) {
+                Image(systemName: "leaf")
+                    .font(.system(size: 68, weight: .light))
+                    .symbolRenderingMode(.hierarchical)
+                    .foregroundStyle(.secondary)
+                    .accessibilityHidden(true)
+                Text("等待辨識結果")
+                    .font(.title2.weight(.semibold))
+                Text("辨識完成後會在這裡顯示植物名稱、來源、特徵與照護資訊。")
                     .font(.callout)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
             }
-            .frame(width: 390)
-            .frame(minHeight: 460)
-            .padding(22)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding(24)
             .glassBackgroundEffect()
+        }
+    }
+
+    private var statusCategory: String {
+        switch appModel.recognitionState {
+        case .idle:
+            "Ready"
+        case .relayConnecting:
+            "Scanning"
+        case .relayConnected, .relayResult:
+            "Result"
+        case .demoMode, .failed:
+            "Notice"
+        }
+    }
+
+    private var statusTint: Color {
+        switch appModel.recognitionState {
+        case .failed:
+            .red
+        case .demoMode:
+            .orange
+        case .relayConnected, .relayResult:
+            ScanTheme.actionBlue
+        default:
+            .secondary
+        }
+    }
+
+    private var relayStatusPill: some View {
+        Label(relayStatusTitle, systemImage: relayStatusIcon)
+            .font(.caption.weight(.semibold))
+            .foregroundStyle(relayStatusTint)
+            .lineLimit(1)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 7)
+            .background(relayStatusTint.opacity(0.12), in: Capsule())
+    }
+
+    private var relayStatusTitle: String {
+        switch appModel.relayStatus {
+        case .disconnected:
+            "Offline"
+        case .connecting:
+            "Connecting"
+        case .connected, .joined:
+            "Online"
+        case .failed:
+            "Failed"
+        }
+    }
+
+    private var relayStatusIcon: String {
+        switch appModel.relayStatus {
+        case .disconnected:
+            "circle"
+        case .connecting:
+            "arrow.triangle.2.circlepath"
+        case .connected, .joined:
+            "checkmark.circle.fill"
+        case .failed:
+            "exclamationmark.circle.fill"
+        }
+    }
+
+    private var relayStatusTint: Color {
+        switch appModel.relayStatus {
+        case .connected, .joined:
+            ScanTheme.actionBlue
+        case .failed:
+            .red
+        default:
+            .secondary
         }
     }
 }
@@ -156,6 +323,9 @@ struct ResultHeader: View {
             HStack {
                 Text(result.plant.chineseName)
                     .font(.largeTitle.weight(.bold))
+                    .lineLimit(2)
+                    .minimumScaleFactor(0.75)
+                    .layoutPriority(1)
                 Spacer()
                 Text("\(Int(result.confidence * 100))%")
                     .font(.title2.monospacedDigit().weight(.semibold))
@@ -164,7 +334,7 @@ struct ResultHeader: View {
             Text(result.plant.scientificName)
                 .font(.title3)
                 .italic()
-            Label(result.source.rawValue, systemImage: result.source == .camera ? "camera" : "photo")
+            Label(result.source.rawValue, systemImage: result.source == .relay ? "macbook.and.visionpro" : "photo")
                 .font(.callout)
                 .foregroundStyle(.secondary)
             Text(result.note)
@@ -220,4 +390,118 @@ struct ChipGrid: View {
             }
         }
     }
+}
+
+private struct ScanResultHeader: View {
+    let result: RecognitionResult
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            HStack(alignment: .top, spacing: 12) {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(result.plant.chineseName)
+                        .font(.system(size: 38, weight: .semibold, design: .default))
+                        .lineLimit(2)
+                        .minimumScaleFactor(0.72)
+                        .layoutPriority(1)
+                    Text(result.plant.scientificName)
+                        .font(.title3)
+                        .italic()
+                        .foregroundStyle(.secondary)
+                }
+                Spacer(minLength: 8)
+                ConfidencePill(confidence: result.confidence)
+            }
+
+            Label(result.source.rawValue, systemImage: sourceIcon)
+                .font(.callout.weight(.semibold))
+                .foregroundStyle(ScanTheme.actionBlue)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 7)
+                .background(ScanTheme.actionBlue.opacity(0.12), in: Capsule())
+
+            Text(result.note)
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+    }
+
+    private var sourceIcon: String {
+        switch result.source {
+        case .demo:
+            "photo"
+        case .relay:
+            "macbook.and.visionpro"
+        }
+    }
+}
+
+private struct ScanInfoRows: View {
+    let plant: Plant
+    let confidence: Double
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            LabeledContent("科屬", value: "\(plant.family) / \(plant.genus)")
+            LabeledContent("原產地", value: plant.origin)
+
+            VStack(alignment: .leading, spacing: 8) {
+                Text("形態特徵")
+                    .font(.headline)
+                ScanChipGrid(items: plant.morphology, systemImage: "leaf")
+            }
+
+            VStack(alignment: .leading, spacing: 8) {
+                Text("照護建議")
+                    .font(.headline)
+                ScanChipGrid(items: plant.careAdvice, systemImage: "drop")
+            }
+
+            Gauge(value: confidence) {
+                Text("辨識信心")
+            }
+            .gaugeStyle(.accessoryLinearCapacity)
+            .tint(ScanTheme.actionBlue)
+        }
+    }
+}
+
+private struct ScanChipGrid: View {
+    let items: [String]
+    let systemImage: String
+
+    var body: some View {
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 132), spacing: 8)], alignment: .leading, spacing: 8) {
+            ForEach(items, id: \.self) { item in
+                Label(item, systemImage: systemImage)
+                    .font(.caption)
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 7)
+                    .background(ScanTheme.actionBlue.opacity(0.10), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+            }
+        }
+    }
+}
+
+private struct ConfidencePill: View {
+    let confidence: Double
+
+    var body: some View {
+        Text("\(Int(confidence * 100))%")
+            .font(.title3.monospacedDigit().weight(.semibold))
+            .foregroundStyle(ScanTheme.actionBlue)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 9)
+            .background(ScanTheme.actionBlue.opacity(0.12), in: Capsule())
+            .accessibilityLabel("辨識信心 \(Int(confidence * 100))%")
+    }
+}
+
+private enum ScanTheme {
+    static let actionBlue = Color(red: 0.0, green: 0.40, blue: 0.80)
+    static let heroSurface = Color.white.opacity(0.72)
+    static let utilitySurface = Color.white.opacity(0.18)
 }
