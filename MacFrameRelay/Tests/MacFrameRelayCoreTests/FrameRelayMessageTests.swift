@@ -29,3 +29,55 @@ func captureTargetLabelsDistinguishDisplaysAndWindows() {
     #expect(display.stableID == "display-1")
     #expect(window.stableID == "window-42")
 }
+
+@Test
+func listableWindowDoesNotRequireZeroWindowLayer() {
+    #expect(CaptureTarget.isListableWindow(isOnScreen: true, title: "Vision Pro", ownerName: "QuickTime Player"))
+    #expect(CaptureTarget.isListableWindow(isOnScreen: true, title: "", ownerName: "QuickTime Player"))
+    #expect(CaptureTarget.isListableWindow(isOnScreen: true, title: "Vision Pro", ownerName: ""))
+    #expect(!CaptureTarget.isListableWindow(isOnScreen: false, title: "Vision Pro", ownerName: "QuickTime Player"))
+    #expect(!CaptureTarget.isListableWindow(isOnScreen: true, title: "", ownerName: ""))
+}
+
+@Test
+func targetRefreshRequestsAccessOnlyWhenUserInitiated() {
+    var requestCount = 0
+    let automaticRefreshAllowed = ScreenFrameCapturer.canReadTargets(
+        hasAccess: false,
+        requestPermissionIfNeeded: false
+    ) {
+        requestCount += 1
+        return true
+    }
+
+    #expect(!automaticRefreshAllowed)
+    #expect(requestCount == 0)
+
+    let userRefreshAllowed = ScreenFrameCapturer.canReadTargets(
+        hasAccess: false,
+        requestPermissionIfNeeded: true
+    ) {
+        requestCount += 1
+        return true
+    }
+
+    #expect(userRefreshAllowed)
+    #expect(requestCount == 1)
+}
+
+@Test
+func settingsStorePersistsRelayURLAndPairingCode() {
+    let suiteName = "FrameRelaySettingsStoreTests-\(UUID().uuidString)"
+    let defaults = UserDefaults(suiteName: suiteName)!
+    defer {
+        defaults.removePersistentDomain(forName: suiteName)
+    }
+
+    let store = FrameRelaySettingsStore(defaults: defaults)
+    store.relayURL = "https://relay.example.com"
+    store.pairingCode = "135790"
+
+    let reloadedStore = FrameRelaySettingsStore(defaults: defaults)
+    #expect(reloadedStore.relayURL == "https://relay.example.com")
+    #expect(reloadedStore.pairingCode == "135790")
+}

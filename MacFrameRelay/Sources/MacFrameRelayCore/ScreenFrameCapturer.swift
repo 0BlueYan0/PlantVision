@@ -36,6 +36,10 @@ public struct ScreenFrameCapturer: Sendable {
         CGRequestScreenCaptureAccess()
     }
 
+    public static func canReadTargets(hasAccess: Bool, requestPermissionIfNeeded: Bool, requestAccess: () -> Bool) -> Bool {
+        hasAccess || (requestPermissionIfNeeded && requestAccess())
+    }
+
     public func availableTargets() async throws -> [CaptureTarget] {
         let content = try await shareableContent()
         let displays = content.displays.map { display in
@@ -49,8 +53,13 @@ public struct ScreenFrameCapturer: Sendable {
         }
 
         let windows = content.windows
-            .filter { $0.isOnScreen && $0.windowLayer == 0 }
-            .filter { !($0.title ?? "").isEmpty || !($0.owningApplication?.applicationName ?? "").isEmpty }
+            .filter {
+                CaptureTarget.isListableWindow(
+                    isOnScreen: $0.isOnScreen,
+                    title: $0.title,
+                    ownerName: $0.owningApplication?.applicationName
+                )
+            }
             .map { window in
                 CaptureTarget.window(
                     id: window.windowID,
@@ -97,7 +106,7 @@ public struct ScreenFrameCapturer: Sendable {
         }
 
         do {
-            return try await SCShareableContent.current
+            return try await SCShareableContent.excludingDesktopWindows(false, onScreenWindowsOnly: true)
         } catch {
             let nsError = error as NSError
             if nsError.domain == SCStreamErrorDomain && nsError.code == -3801 {

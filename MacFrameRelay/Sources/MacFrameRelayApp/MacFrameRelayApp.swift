@@ -1,5 +1,7 @@
 import SwiftUI
+#if canImport(MacFrameRelayCore)
 import MacFrameRelayCore
+#endif
 import AppKit
 import SocketIO
 
@@ -24,7 +26,38 @@ private final class AppDelegate: NSObject, NSApplicationDelegate {
     private var window: NSWindow?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        installMainMenu()
         showWindow()
+    }
+
+    private func installMainMenu() {
+        let mainMenu = NSMenu()
+
+        let appMenuItem = NSMenuItem()
+        let appMenu = NSMenu(title: "MacFrameRelayApp")
+        let quitItem = NSMenuItem(
+            title: "Quit MacFrameRelayApp",
+            action: #selector(NSApplication.terminate(_:)),
+            keyEquivalent: "q"
+        )
+        quitItem.target = NSApp
+        appMenu.addItem(quitItem)
+        appMenuItem.submenu = appMenu
+        mainMenu.addItem(appMenuItem)
+
+        let editMenuItem = NSMenuItem()
+        let editMenu = NSMenu(title: "Edit")
+        editMenu.addItem(NSMenuItem(title: "Undo", action: Selector(("undo:")), keyEquivalent: "z"))
+        editMenu.addItem(NSMenuItem(title: "Redo", action: Selector(("redo:")), keyEquivalent: "Z"))
+        editMenu.addItem(.separator())
+        editMenu.addItem(NSMenuItem(title: "Cut", action: #selector(NSText.cut(_:)), keyEquivalent: "x"))
+        editMenu.addItem(NSMenuItem(title: "Copy", action: #selector(NSText.copy(_:)), keyEquivalent: "c"))
+        editMenu.addItem(NSMenuItem(title: "Paste", action: #selector(NSText.paste(_:)), keyEquivalent: "v"))
+        editMenu.addItem(NSMenuItem(title: "Select All", action: #selector(NSText.selectAll(_:)), keyEquivalent: "a"))
+        editMenuItem.submenu = editMenu
+        mainMenu.addItem(editMenuItem)
+
+        NSApp.mainMenu = mainMenu
     }
 
     func showWindow() {
@@ -61,22 +94,34 @@ private final class AppDelegate: NSObject, NSApplicationDelegate {
 private final class FrameRelayViewModel: ObservableObject {
     @Published var capturedImage: NSImage?
     @Published var statusText = "尚未抽幀"
-    @Published var relayURL = "http://127.0.0.1:8080"
-    @Published var pairingCode = "482913"
+    @Published var relayURL: String {
+        didSet {
+            settingsStore.relayURL = relayURL
+        }
+    }
+    @Published var pairingCode: String {
+        didSet {
+            settingsStore.pairingCode = pairingCode
+        }
+    }
     @Published var relayStatus = "Socket.IO 尚未連線"
     @Published var lastCaptureDescription = "等待 Vision Pro 鏡像畫面顯示於 Mac 螢幕"
     @Published var showsPermissionAction = false
     @Published var captureTargets: [CaptureTarget] = []
     @Published var selectedTargetID = ""
 
+    private let settingsStore: FrameRelaySettingsStore
     private let capturer = ScreenFrameCapturer()
     private let relayClient = SocketIORelayClient()
 
-    init() {
+    init(settingsStore: FrameRelaySettingsStore = FrameRelaySettingsStore()) {
+        self.settingsStore = settingsStore
+        self.relayURL = settingsStore.relayURL
+        self.pairingCode = settingsStore.pairingCode
         relayClient.onStatusChange = { [weak self] status in
             self?.relayStatus = status
         }
-        refreshCaptureTargets()
+        refreshCaptureTargets(requestPermissionIfNeeded: false)
     }
 
     func connectRelay() {
@@ -127,9 +172,13 @@ private final class FrameRelayViewModel: ObservableObject {
         NSWorkspace.shared.open(url)
     }
 
-    func refreshCaptureTargets() {
+    func refreshCaptureTargets(requestPermissionIfNeeded: Bool = true) {
         showsPermissionAction = false
-        guard capturer.hasScreenCaptureAccess || capturer.requestScreenCaptureAccess() else {
+        guard ScreenFrameCapturer.canReadTargets(
+            hasAccess: capturer.hasScreenCaptureAccess,
+            requestPermissionIfNeeded: requestPermissionIfNeeded,
+            requestAccess: capturer.requestScreenCaptureAccess
+        ) else {
             statusText = ScreenCaptureError.permissionDenied.localizedDescription
             showsPermissionAction = true
             return
@@ -269,7 +318,7 @@ private struct FrameRelayView: View {
             }
 
             Button {
-                viewModel.refreshCaptureTargets()
+                viewModel.refreshCaptureTargets(requestPermissionIfNeeded: true)
             } label: {
                 Label("重新整理目標", systemImage: "arrow.clockwise")
             }

@@ -50,6 +50,74 @@ http://127.0.0.1:8080
 PORT=8080 HOST=0.0.0.0 CORS_ORIGIN="*" npm start
 ```
 
+背景執行 relay：
+
+```bash
+cd /Users/0blueyan0/develop/PlantVision/SocketIORelayServer
+nohup npm start > relay.log 2>&1 &
+```
+
+如果已經在前景執行 `npm start`，可以先把它轉到背景：
+
+```bash
+# 按 Ctrl+Z 暫停
+bg
+disown
+```
+
+之後就可以關閉目前 terminal，relay 會繼續跑。
+
+查看背景 job：
+
+```bash
+jobs -l
+```
+
+查看 relay process：
+
+```bash
+ps aux | grep "node src/server.js"
+```
+
+查看 8080 是否正在 listen：
+
+```bash
+lsof -nP -iTCP:8080 -sTCP:LISTEN
+```
+
+看 relay log：
+
+```bash
+tail -f /Users/0blueyan0/develop/PlantVision/SocketIORelayServer/relay.log
+```
+
+停止目前 shell 的背景 job：
+
+```bash
+kill %1
+```
+
+其中 `%1` 是 `jobs -l` 顯示的 job 編號。
+
+停止已脫離 shell 的 relay process：
+
+```bash
+pkill -f "node src/server.js"
+```
+
+或先查 PID，再指定關閉：
+
+```bash
+lsof -nP -iTCP:8080 -sTCP:LISTEN
+kill <PID>
+```
+
+如果一般 `kill` 無法關閉，再用：
+
+```bash
+kill -9 <PID>
+```
+
 測試 relay：
 
 ```bash

@@ -19,6 +19,13 @@
 		8A10000A2C00000100000001 /* Views/HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A20000A2C00000100000001 /* Views/HistoryView.swift */; };
 		8A10000B2C00000100000001 /* Views/SpatialPlantSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A20000B2C00000100000001 /* Views/SpatialPlantSceneView.swift */; };
 		8A10000C2C00000100000001 /* Services/SocketIORelayClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A20000F2C00000100000001 /* Services/SocketIORelayClient.swift */; };
+		8A9100012C00000100000001 /* MacFrameRelayApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9200042C00000100000001 /* MacFrameRelayApp.swift */; };
+		8A9100022C00000100000001 /* CaptureTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9200052C00000100000001 /* CaptureTarget.swift */; };
+		8A9100032C00000100000001 /* CapturedFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9200062C00000100000001 /* CapturedFrame.swift */; };
+		8A9100042C00000100000001 /* FrameRelayMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9200072C00000100000001 /* FrameRelayMessage.swift */; };
+		8A9100052C00000100000001 /* ScreenFrameCapturer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9200082C00000100000001 /* ScreenFrameCapturer.swift */; };
+		8A9100062C00000100000001 /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = 8A9300012C00000100000001 /* SocketIO */; };
+		8A9100072C00000100000001 /* FrameRelaySettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A92000D2C00000100000001 /* FrameRelaySettingsStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +44,15 @@
 		8A20000D2C00000100000001 /* PlantVision.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PlantVision.entitlements; sourceTree = "<group>"; };
 		8A20000E2C00000100000001 /* PlantVision.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlantVision.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A20000F2C00000100000001 /* Services/SocketIORelayClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/SocketIORelayClient.swift; sourceTree = "<group>"; };
+		8A9200012C00000100000001 /* MacFrameRelayApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacFrameRelayApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8A9200022C00000100000001 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		8A9200032C00000100000001 /* AppBundleInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = AppBundleInfo.plist; sourceTree = "<group>"; };
+		8A9200042C00000100000001 /* MacFrameRelayApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/MacFrameRelayApp/MacFrameRelayApp.swift; sourceTree = "<group>"; };
+		8A9200052C00000100000001 /* CaptureTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/MacFrameRelayCore/CaptureTarget.swift; sourceTree = "<group>"; };
+		8A9200062C00000100000001 /* CapturedFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/MacFrameRelayCore/CapturedFrame.swift; sourceTree = "<group>"; };
+		8A9200072C00000100000001 /* FrameRelayMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/MacFrameRelayCore/FrameRelayMessage.swift; sourceTree = "<group>"; };
+		8A9200082C00000100000001 /* ScreenFrameCapturer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/MacFrameRelayCore/ScreenFrameCapturer.swift; sourceTree = "<group>"; };
+		8A92000D2C00000100000001 /* FrameRelaySettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/MacFrameRelayCore/FrameRelaySettingsStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +63,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8A9400022C00000100000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8A9100062C00000100000001 /* SocketIO in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -54,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				8A4000022C00000100000001 /* PlantVision */,
+				8A9200092C00000100000001 /* MacFrameRelay */,
 				8A4000032C00000100000001 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -83,8 +108,48 @@
 			isa = PBXGroup;
 			children = (
 				8A20000E2C00000100000001 /* PlantVision.app */,
+				8A9200012C00000100000001 /* MacFrameRelayApp.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		8A9200092C00000100000001 /* MacFrameRelay */ = {
+			isa = PBXGroup;
+			children = (
+				8A9200022C00000100000001 /* Package.swift */,
+				8A9200032C00000100000001 /* AppBundleInfo.plist */,
+				8A92000A2C00000100000001 /* Sources */,
+			);
+			path = MacFrameRelay;
+			sourceTree = "<group>";
+		};
+		8A92000A2C00000100000001 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				8A92000B2C00000100000001 /* MacFrameRelayApp */,
+				8A92000C2C00000100000001 /* MacFrameRelayCore */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+		8A92000B2C00000100000001 /* MacFrameRelayApp */ = {
+			isa = PBXGroup;
+			children = (
+				8A9200042C00000100000001 /* MacFrameRelayApp.swift */,
+			);
+			name = MacFrameRelayApp;
+			sourceTree = "<group>";
+		};
+		8A92000C2C00000100000001 /* MacFrameRelayCore */ = {
+			isa = PBXGroup;
+			children = (
+				8A9200052C00000100000001 /* CaptureTarget.swift */,
+				8A9200062C00000100000001 /* CapturedFrame.swift */,
+				8A9200072C00000100000001 /* FrameRelayMessage.swift */,
+				8A92000D2C00000100000001 /* FrameRelaySettingsStore.swift */,
+				8A9200082C00000100000001 /* ScreenFrameCapturer.swift */,
+			);
+			name = MacFrameRelayCore;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -107,6 +172,26 @@
 			productReference = 8A20000E2C00000100000001 /* PlantVision.app */;
 			productType = "com.apple.product-type.application";
 		};
+		8A9500012C00000100000001 /* MacFrameRelayApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8A9600012C00000100000001 /* Build configuration list for PBXNativeTarget "MacFrameRelayApp" */;
+			buildPhases = (
+				8A9400012C00000100000001 /* Sources */,
+				8A9400022C00000100000001 /* Frameworks */,
+				8A9400032C00000100000001 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MacFrameRelayApp;
+			packageProductDependencies = (
+				8A9300012C00000100000001 /* SocketIO */,
+			);
+			productName = MacFrameRelayApp;
+			productReference = 8A9200012C00000100000001 /* MacFrameRelayApp.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -118,6 +203,9 @@
 				LastUpgradeCheck = 2640;
 				TargetAttributes = {
 					8A5000012C00000100000001 = {
+						CreatedOnToolsVersion = 26.4;
+					};
+					8A9500012C00000100000001 = {
 						CreatedOnToolsVersion = 26.4;
 					};
 				};
@@ -132,17 +220,28 @@
 			);
 			mainGroup = 8A4000012C00000100000001;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				8A9700012C00000100000001 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */,
+			);
 			productRefGroup = 8A4000032C00000100000001 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				8A5000012C00000100000001 /* PlantVision */,
+				8A9500012C00000100000001 /* MacFrameRelayApp */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8A3000032C00000100000001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8A9400032C00000100000001 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -168,6 +267,19 @@
 				8A1000092C00000100000001 /* Views/GrowthView.swift in Sources */,
 				8A10000A2C00000100000001 /* Views/HistoryView.swift in Sources */,
 				8A10000B2C00000100000001 /* Views/SpatialPlantSceneView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8A9400012C00000100000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8A9100012C00000100000001 /* MacFrameRelayApp.swift in Sources */,
+				8A9100022C00000100000001 /* CaptureTarget.swift in Sources */,
+				8A9100032C00000100000001 /* CapturedFrame.swift in Sources */,
+				8A9100042C00000100000001 /* FrameRelayMessage.swift in Sources */,
+				8A9100072C00000100000001 /* FrameRelaySettingsStore.swift in Sources */,
+				8A9100052C00000100000001 /* ScreenFrameCapturer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -347,6 +459,59 @@
 			};
 			name = Release;
 		};
+		8A9600022C00000100000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3WMZ8937S4;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = MacFrameRelay/AppBundleInfo.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = tw.edu.demo.PlantVision.MacFrameRelay;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		8A9600032C00000100000001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3WMZ8937S4;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = MacFrameRelay/AppBundleInfo.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = tw.edu.demo.PlantVision.MacFrameRelay;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -368,7 +533,35 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		8A9600012C00000100000001 /* Build configuration list for PBXNativeTarget "MacFrameRelayApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8A9600022C00000100000001 /* Debug */,
+				8A9600032C00000100000001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		8A9700012C00000100000001 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/socketio/socket.io-client-swift";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 16.1.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		8A9300012C00000100000001 /* SocketIO */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8A9700012C00000100000001 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */;
+			productName = SocketIO;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8A7000012C00000100000001 /* Project object */;
 }

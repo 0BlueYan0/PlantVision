@@ -31,4 +31,11 @@ public enum CaptureTarget: Equatable, Identifiable, Sendable {
             }
         }
     }
+
+    public static func isListableWindow(isOnScreen: Bool, title: String?, ownerName: String?) -> Bool {
+        guard isOnScreen else { return false }
+        let hasTitle = !(title ?? "").trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        let hasOwnerName = !(ownerName ?? "").trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        return hasTitle || hasOwnerName
+    }
 }
