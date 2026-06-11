@@ -53,8 +53,8 @@ PORT=8080 HOST=0.0.0.0 CORS_ORIGIN="*" npm start
 背景執行 relay：
 
 ```bash
-cd /Users/0blueyan0/develop/PlantVision/SocketIORelayServer
-nohup npm start > relay.log 2>&1 &
+cd /path/to/PlantVision/SocketIORelayServer
+env PORT=8080 HOST=0.0.0.0 CORS_ORIGIN="*" nohup npm start > relay.log 2>&1 &
 ```
 
 如果已經在前景執行 `npm start`，可以先把它轉到背景：
@@ -88,7 +88,7 @@ lsof -nP -iTCP:8080 -sTCP:LISTEN
 看 relay log：
 
 ```bash
-tail -f /Users/0blueyan0/develop/PlantVision/SocketIORelayServer/relay.log
+tail -f relay.log
 ```
 
 停止目前 shell 的背景 job：
@@ -267,6 +267,25 @@ Mac app 使用 ScreenCaptureKit 擷取目前主螢幕 frame。
 
 Terminal probe 能抽幀不代表 `.app` 已授權，因為 macOS TCC 權限是依照 app bundle 分開管理。
 
+## Mac 全域快捷鍵權限
+
+Mac app 支援從任何 app 控制自動擷取：
+
+- 同時按下左邊和右邊的 Option 鍵，開始自動擷取。
+- 同時按下左 Option 和右 Command，停止自動擷取。
+
+因為這需要監聽其他 app 中的鍵盤 modifier 事件，macOS 需要輔助使用權限。
+
+app 內如果顯示全域快捷鍵權限提示，可以按 `開啟輔助使用權限`。也可以手動開啟：
+
+1. 打開系統設定。
+2. 到隱私權與安全性。
+3. 選擇輔助使用。
+4. 開啟 `MacFrameRelayApp`。
+5. 如果列表沒有此 app，按 `+` 加入正在執行或建置出的 `MacFrameRelayApp.app`，再重新開啟 app。
+
+如果重新 build 後全域快捷鍵又失效，請到同一個輔助使用列表移除舊的 `MacFrameRelayApp`，再用 `+` 加入新的 `.app`。
+
 ## 驗證指令
 
 Mac app / core 測試：
@@ -322,7 +341,7 @@ Vision Pro 實機連 Mac 上本機 relay 時可用：
 http://<Mac-IP>:8080
 ```
 
-專案的 `Info.plist` 已加入 `NSAllowsLocalNetworking`，方便本機或區網測試。跨校園網路或正式測試仍建議使用 HTTPS relay domain。
+專案的 `Info.plist` 已加入 demo 用的 `NSAllowsArbitraryLoads`，方便用 `http://` 或 `ws://` 連本機、區網或臨時遠端 relay。這裡刻意不加入 `NSAllowsLocalNetworking`，避免系統忽略全域 HTTP 例外。正式測試或上架前請改回 HTTPS relay domain，並移除全域 HTTP 例外。
 
 Vision Pro 端接收成功抽幀後，若 payload 內有 `plantID`，會用該 id 對應本地植物資料；若缺少 `plantID` 或找不到對應資料，會沿用 demo 植物資料。
 

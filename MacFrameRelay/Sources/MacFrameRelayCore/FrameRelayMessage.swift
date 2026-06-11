@@ -5,6 +5,22 @@ public enum FrameRelayCapturePolicy {
     public static let automaticCaptureIntervalNanoseconds: UInt64 = 100_000_000
 }
 
+public enum FrameRelayCaptureShortcut {
+    public static let rightCommandMask: UInt = 0x10
+    public static let leftOptionMask: UInt = 0x20
+    public static let rightOptionMask: UInt = 0x40
+
+    public static func shouldStartAutomaticCapture(modifierFlagsRawValue: UInt) -> Bool {
+        let requiredFlags = leftOptionMask | rightOptionMask
+        return (modifierFlagsRawValue & requiredFlags) == requiredFlags
+    }
+
+    public static func shouldStopAutomaticCapture(modifierFlagsRawValue: UInt) -> Bool {
+        let requiredFlags = leftOptionMask | rightCommandMask
+        return (modifierFlagsRawValue & requiredFlags) == requiredFlags
+    }
+}
+
 public struct PlantClassificationResult: Equatable, Sendable {
     public let label: String
     public let confidence: Double

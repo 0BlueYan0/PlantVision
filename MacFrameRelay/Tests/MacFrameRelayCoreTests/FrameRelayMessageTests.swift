@@ -83,6 +83,22 @@ func automaticCaptureIntervalIsOneTenthOfASecond() {
 }
 
 @Test
+func automaticCaptureShortcutRequiresBothOptionKeys() {
+    #expect(FrameRelayCaptureShortcut.shouldStartAutomaticCapture(modifierFlagsRawValue: 0x20 | 0x40))
+    #expect(!FrameRelayCaptureShortcut.shouldStartAutomaticCapture(modifierFlagsRawValue: 0x20))
+    #expect(!FrameRelayCaptureShortcut.shouldStartAutomaticCapture(modifierFlagsRawValue: 0x40))
+    #expect(!FrameRelayCaptureShortcut.shouldStartAutomaticCapture(modifierFlagsRawValue: 1 << 19))
+}
+
+@Test
+func automaticCaptureStopShortcutRequiresLeftOptionAndRightCommand() {
+    #expect(FrameRelayCaptureShortcut.shouldStopAutomaticCapture(modifierFlagsRawValue: 0x20 | 0x10))
+    #expect(!FrameRelayCaptureShortcut.shouldStopAutomaticCapture(modifierFlagsRawValue: 0x20))
+    #expect(!FrameRelayCaptureShortcut.shouldStopAutomaticCapture(modifierFlagsRawValue: 0x10))
+    #expect(!FrameRelayCaptureShortcut.shouldStopAutomaticCapture(modifierFlagsRawValue: 0x20 | 0x08))
+}
+
+@Test
 func settingsStorePersistsRelayURLAndPairingCode() {
     let suiteName = "FrameRelaySettingsStoreTests-\(UUID().uuidString)"
     let defaults = UserDefaults(suiteName: suiteName)!

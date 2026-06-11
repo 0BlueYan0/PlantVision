@@ -2,6 +2,7 @@ import SwiftUI
 #if canImport(MacFrameRelayCore)
 import MacFrameRelayCore
 #endif
+import ApplicationServices
 import AppKit
 import SocketIO
 
@@ -110,12 +111,17 @@ private final class FrameRelayViewModel: ObservableObject {
     @Published var captureTargets: [CaptureTarget] = []
     @Published var selectedTargetID = ""
     @Published var isAutomaticCaptureRunning = false
+    @Published var shortcutPermissionText = "全域快捷鍵尚未檢查權限"
+    @Published var showsAccessibilityAction = false
 
     private let settingsStore: FrameRelaySettingsStore
     private let capturer = ScreenFrameCapturer()
     private let relayClient = SocketIORelayClient()
     private let plantClassifier = try? PlantImageClassifier()
     private var automaticCaptureTask: Task<Void, Never>?
+    private var localModifierFlagsMonitor: Any?
+    private var globalModifierFlagsMonitor: Any?
+    private var activeCaptureShortcutAction: CaptureShortcutAction?
 
     init(settingsStore: FrameRelaySettingsStore = FrameRelaySettingsStore()) {
         self.settingsStore = settingsStore
@@ -124,6 +130,7 @@ private final class FrameRelayViewModel: ObservableObject {
         relayClient.onStatusChange = { [weak self] status in
             self?.relayStatus = status
         }
+        refreshShortcutAccessibilityStatus()
         refreshCaptureTargets(requestPermissionIfNeeded: false)
     }
 
@@ -149,6 +156,8 @@ private final class FrameRelayViewModel: ObservableObject {
     }
 
     func startAutomaticCapture() {
+        guard !isAutomaticCaptureRunning else { return }
+
         showsPermissionAction = false
         guard capturer.hasScreenCaptureAccess || capturer.requestScreenCaptureAccess() else {
             statusText = ScreenCaptureError.permissionDenied.localizedDescription
@@ -248,6 +257,15 @@ private final class FrameRelayViewModel: ObservableObject {
         NSWorkspace.shared.open(url)
     }
 
+    func openAccessibilitySettings() {
+        let options = [
+            "AXTrustedCheckOptionPrompt": true
+        ] as CFDictionary
+        _ = AXIsProcessTrustedWithOptions(options)
+        guard let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility") else { return }
+        NSWorkspace.shared.open(url)
+    }
+
     func refreshCaptureTargets(requestPermissionIfNeeded: Bool = true) {
         showsPermissionAction = false
         guard ScreenFrameCapturer.canReadTargets(
@@ -275,6 +293,76 @@ private final class FrameRelayViewModel: ObservableObject {
             }
         }
     }
+
+    func installAutomaticCaptureShortcutMonitor() {
+        refreshShortcutAccessibilityStatus()
+
+        if localModifierFlagsMonitor == nil {
+            localModifierFlagsMonitor = NSEvent.addLocalMonitorForEvents(matching: .flagsChanged) { [weak self] event in
+                Task { @MainActor in
+                    self?.handleModifierFlagsChanged(event.modifierFlags.rawValue)
+                }
+                return event
+            }
+        }
+
+        guard globalModifierFlagsMonitor == nil else { return }
+        globalModifierFlagsMonitor = NSEvent.addGlobalMonitorForEvents(matching: .flagsChanged) { [weak self] event in
+            Task { @MainActor in
+                self?.handleModifierFlagsChanged(event.modifierFlags.rawValue)
+            }
+        }
+    }
+
+    func removeAutomaticCaptureShortcutMonitor() {
+        if let localModifierFlagsMonitor {
+            NSEvent.removeMonitor(localModifierFlagsMonitor)
+            self.localModifierFlagsMonitor = nil
+        }
+        if let globalModifierFlagsMonitor {
+            NSEvent.removeMonitor(globalModifierFlagsMonitor)
+            self.globalModifierFlagsMonitor = nil
+        }
+        activeCaptureShortcutAction = nil
+    }
+
+    func refreshShortcutAccessibilityStatus() {
+        if AXIsProcessTrusted() {
+            shortcutPermissionText = "全域快捷鍵已啟用：左右 Option 開始，左 Option + 右 Command 停止"
+            showsAccessibilityAction = false
+        } else {
+            shortcutPermissionText = "全域快捷鍵需要在 macOS 輔助使用權限中允許 MacFrameRelayApp"
+            showsAccessibilityAction = true
+        }
+    }
+
+    private func handleModifierFlagsChanged(_ rawValue: UInt) {
+        let action: CaptureShortcutAction?
+        if FrameRelayCaptureShortcut.shouldStopAutomaticCapture(modifierFlagsRawValue: rawValue) {
+            action = .stop
+        } else if FrameRelayCaptureShortcut.shouldStartAutomaticCapture(modifierFlagsRawValue: rawValue) {
+            action = .start
+        } else {
+            action = nil
+        }
+
+        guard action != activeCaptureShortcutAction else { return }
+        activeCaptureShortcutAction = action
+
+        switch action {
+        case .start:
+            startAutomaticCapture()
+        case .stop:
+            stopAutomaticCapture()
+        case nil:
+            break
+        }
+    }
+
+    private enum CaptureShortcutAction {
+        case start
+        case stop
+    }
 }
 
 private struct FrameRelayView: View {
@@ -285,6 +373,12 @@ private struct FrameRelayView: View {
             header
             Divider()
             content
+        }
+        .onAppear {
+            viewModel.installAutomaticCaptureShortcutMonitor()
+        }
+        .onDisappear {
+            viewModel.removeAutomaticCaptureShortcutMonitor()
         }
     }
 
@@ -415,6 +509,18 @@ private struct FrameRelayView: View {
                     viewModel.openScreenCaptureSettings()
                 } label: {
                     Label("開啟螢幕錄製權限", systemImage: "gear")
+                }
+            }
+
+            Label(viewModel.shortcutPermissionText, systemImage: "keyboard")
+                .font(.callout)
+                .foregroundStyle(.secondary)
+
+            if viewModel.showsAccessibilityAction {
+                Button {
+                    viewModel.openAccessibilitySettings()
+                } label: {
+                    Label("開啟輔助使用權限", systemImage: "accessibility")
                 }
             }
 

@@ -9,17 +9,25 @@ final class PlantVisionModel: ObservableObject {
     @Published var currentResult: RecognitionResult?
     @Published var selectedStage: GrowthStage = .sprout
     @Published var isGrowthPlaying = false
-    @Published var relayURLText = "http://127.0.0.1:8080"
-    @Published var relayPairingCode = "482913"
+    @Published var relayURLText: String {
+        didSet { relaySettingsStore.relayURL = relayURLText }
+    }
+    @Published var relayPairingCode: String {
+        didSet { relaySettingsStore.pairingCode = relayPairingCode }
+    }
     @Published var relayStatus: RelayClientStatus = .disconnected
     @Published private(set) var history: [PlantHistoryRecord] = []
 
     private let demoProvider = DemoRecognitionProvider()
     private let relayClient = SocketIORelayClient()
     private let historyStore = HistoryStore()
+    private let relaySettingsStore: RelaySettingsStore
     private var playbackTask: Task<Void, Never>?
 
-    init() {
+    init(relaySettingsStore: RelaySettingsStore = RelaySettingsStore()) {
+        self.relaySettingsStore = relaySettingsStore
+        relayURLText = relaySettingsStore.relayURL
+        relayPairingCode = relaySettingsStore.pairingCode
         history = historyStore.load()
         relayClient.onStatusChange = { [weak self] status in
             Task { @MainActor in
@@ -175,5 +183,39 @@ private struct HistoryStore {
     func save(_ records: [PlantHistoryRecord]) {
         guard let data = try? JSONEncoder().encode(records) else { return }
         try? data.write(to: url, options: [.atomic])
+    }
+}
+
+final class RelaySettingsStore {
+    static let defaultRelayURL = "http://127.0.0.1:8080"
+    static let defaultPairingCode = "482913"
+
+    private enum Key {
+        static let relayURL = "PlantVision.relayURL"
+        static let pairingCode = "PlantVision.relayPairingCode"
+    }
+
+    private let defaults: UserDefaults
+
+    init(defaults: UserDefaults = .standard) {
+        self.defaults = defaults
+    }
+
+    var relayURL: String {
+        get {
+            defaults.string(forKey: Key.relayURL) ?? Self.defaultRelayURL
+        }
+        set {
+            defaults.set(newValue, forKey: Key.relayURL)
+        }
+    }
+
+    var pairingCode: String {
+        get {
+            defaults.string(forKey: Key.pairingCode) ?? Self.defaultPairingCode
+        }
+        set {
+            defaults.set(newValue, forKey: Key.pairingCode)
+        }
     }
 }
