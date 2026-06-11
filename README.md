@@ -219,7 +219,7 @@ payload 範例：
   "timestamp": "2026-05-29T15:00:00Z",
   "frameWidth": 2560,
   "frameHeight": 1664,
-  "plantID": "monstera-deliciosa",
+  "plantID": "lobelia-erinus",
   "confidence": 0.91
 }
 ```
@@ -241,7 +241,7 @@ payload 範例：
     "timestamp": "2026-05-29T15:00:00Z",
     "frameWidth": 2560,
     "frameHeight": 1664,
-    "plantID": "monstera-deliciosa",
+    "plantID": "lobelia-erinus",
     "confidence": 0.91
   }
 }

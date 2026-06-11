@@ -49,21 +49,17 @@ swift build --package-path MacFrameRelay
 
 目前內建 id：
 
-- `monstera-deliciosa`
-- `epipremnum-aureum`
-- `sansevieria-trifasciata`
+- `lobelia-erinus`（六倍利）
+- `catharanthus-roseus`（日日春）
 
 Create ML 的訓練資料夾名稱也要使用這些 id。範例：
 
 ```text
 TrainingData/
-  monstera-deliciosa/
+  lobelia-erinus/
     image-001.jpg
     image-002.jpg
-  epipremnum-aureum/
-    image-001.jpg
-    image-002.jpg
-  sansevieria-trifasciata/
+  catharanthus-roseus/
     image-001.jpg
     image-002.jpg
 ```
@@ -125,7 +121,7 @@ Apple 建議每個類別至少 10 張圖片，但真實專案應該準備更多�
 {
   "detections": [
     {
-      "plantID": "monstera-deliciosa",
+      "plantID": "lobelia-erinus",
       "confidence": 0.91,
       "boundingBox": { "x": 0.12, "y": 0.20, "width": 0.45, "height": 0.50 }
     }

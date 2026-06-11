@@ -3,37 +3,26 @@ import Foundation
 enum PlantDatabase {
     static let plants: [Plant] = [
         Plant(
-            id: "monstera-deliciosa",
-            chineseName: "龜背芋",
-            scientificName: "Monstera deliciosa",
-            family: "天南星科 Araceae",
-            genus: "Monstera",
-            origin: "墨西哥至中美洲熱帶雨林",
-            morphology: ["葉片具裂孔", "葉形寬大", "葉脈清楚", "攀附型氣生根"],
-            careAdvice: ["明亮散射光", "保持土壤微濕", "避免長時間積水", "提供攀附支架"],
-            demoConfidence: 0.95
+            id: "lobelia-erinus",
+            chineseName: "六倍利",
+            scientificName: "Lobelia erinus",
+            family: "桔梗科 Campanulaceae",
+            genus: "Lobelia",
+            origin: "南非",
+            morphology: ["株型低矮叢生", "葉片小而互生", "唇形花冠", "花色藍紫、粉或白"],
+            careAdvice: ["喜全日照至半日照", "涼爽季節生長旺盛", "保持介質濕潤", "花後修剪促進分枝"],
+            demoConfidence: 0.92
         ),
         Plant(
-            id: "epipremnum-aureum",
-            chineseName: "黃金葛",
-            scientificName: "Epipremnum aureum",
-            family: "天南星科 Araceae",
-            genus: "Epipremnum",
-            origin: "法屬玻里尼西亞",
-            morphology: ["心形葉", "黃綠斑紋", "蔓性生長", "節點易生根"],
-            careAdvice: ["耐半陰", "土表乾燥後澆水", "定期修剪蔓枝", "避免強烈直射光"],
+            id: "catharanthus-roseus",
+            chineseName: "日日春",
+            scientificName: "Catharanthus roseus",
+            family: "夾竹桃科 Apocynaceae",
+            genus: "Catharanthus",
+            origin: "馬達加斯加",
+            morphology: ["葉對生橢圓形", "葉面光亮深綠", "五瓣花全年開放", "花色粉紅、紫紅或白"],
+            careAdvice: ["喜高溫與充足日照", "耐旱不耐積水", "土表乾燥再澆水", "全株具毒性避免誤食"],
             demoConfidence: 0.9
-        ),
-        Plant(
-            id: "sansevieria-trifasciata",
-            chineseName: "虎尾蘭",
-            scientificName: "Dracaena trifasciata",
-            family: "天門冬科 Asparagaceae",
-            genus: "Dracaena",
-            origin: "西非熱帶地區",
-            morphology: ["直立劍形葉", "深淺綠橫紋", "厚實多肉質葉", "株型緊湊"],
-            careAdvice: ["少量澆水", "可接受低光", "使用排水良好介質", "冬季減少澆水"],
-            demoConfidence: 0.88
         )
     ]
 

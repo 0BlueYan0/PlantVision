@@ -14,11 +14,11 @@ func successMessagePayloadIsStable() throws {
 @Test
 func successMessagePayloadIncludesClassificationResult() throws {
     let message = FrameRelayMessage.successFrameCaptured(
-        classification: PlantClassificationResult(label: "monstera-deliciosa", confidence: 0.91)
+        classification: PlantClassificationResult(label: "lobelia-erinus", confidence: 0.91)
     )
     let payload = try JSONSerialization.jsonObject(with: message.jsonPayload) as? [String: Any]
 
-    #expect(payload?["plantID"] as? String == "monstera-deliciosa")
+    #expect(payload?["plantID"] as? String == "lobelia-erinus")
     #expect(payload?["confidence"] as? Double == 0.91)
 }
 
