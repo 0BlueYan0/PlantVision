@@ -1,0 +1,187 @@
+{
+  "activityEntities" : [
+    "dataSourceCreated",
+    [
+      {
+        "createdDate" : "2026-06-11T06:10:20Z",
+        "event" : "dataSourceCreated",
+        "id" : "3B912F94-F323-4DF8-BCBE-27BFA52D571F",
+        "subtitle" : "TestingData",
+        "title" : "Data Source Created"
+      }
+    ]
+  ],
+  "createdDate" : "2026-06-11T06:10:20Z",
+  "dataPathRelativeToProjectURL" : "../../PlantVisionTraining/TestingData/",
+  "dataResult" : {
+    "classesCount" : 2,
+    "createdDate" : "2026-06-11T06:10:20Z",
+    "dataAnalysis" : {
+      "classifierAnalysis" : {
+        "details" : [
+          "file:///Users/0blueyan0/develop/PlantVisionTraining/TestingData/lobelia-erinus/lobelia-erinus_testingdata_006_obs333378959_photo605226566.jpg",
+          [
+            "lobelia-erinus"
+          ],
+          "file:///Users/0blueyan0/develop/PlantVisionTraining/TestingData/catharanthus-roseus/catharanthus-roseus_testingdata_002_obs368936118_photo673881834.jpg",
+          [
+            "catharanthus-roseus"
+          ],
+          "file:///Users/0blueyan0/develop/PlantVisionTraining/TestingData/lobelia-erinus/lobelia-erinus_testingdata_007_obs333359162_photo605194959.jpg",
+          [
+            "lobelia-erinus"
+          ],
+          "file:///Users/0blueyan0/develop/PlantVisionTraining/TestingData/lobelia-erinus/A6F3694C-72C2-47F5-BB77-B0B96917F3DC.jpeg",
+          [
+            "lobelia-erinus"
+          ],
+          "file:///Users/0blueyan0/develop/PlantVisionTraining/TestingData/lobelia-erinus/lobelia-erinus_testingdata_002_obs368897941_photo673813797.jpg",
+          [
+            "lobelia-erinus"
+          ],
+          "file:///Users/0blueyan0/develop/PlantVisionTraining/TestingData/lobelia-erinus/lobelia-erinus_testingdata_001_obs333829069_photo606098073.jpg",
+          [
+            "lobelia-erinus"
+          ],
+          "file:///Users/0blueyan0/develop/PlantVisionTraining/TestingData/lobelia-erinus/lobelia-erinus_testingdata_005_obs357219800_photo651506019.jpg",
+          [
+            "lobelia-erinus"
+          ],
+          "file:///Users/0blueyan0/develop/PlantVisionTraining/TestingData/catharanthus-roseus/catharanthus-roseus_testingdata_009_obs368253704_photo672585757.jpg",
+          [
+            "catharanthus-roseus"
+          ],
+          "file:///Users/0blueyan0/develop/PlantVisionTraining/TestingData/catharanthus-roseus/catharanthus-roseus_testingdata_006_obs367965663_photo672031567.jpg",
+          [
+            "catharanthus-roseus"
+          ],
+          "file:///Users/0blueyan0/develop/PlantVisionTraining/TestingData/lobelia-erinus/lobelia-erinus_testingdata_008_obs336663612_photo611840269.jpg",
+          [
+            "lobelia-erinus"
+          ],
+          "file:///Users/0blueyan0/develop/PlantVisionTraining/TestingData/lobelia-erinus/DEBFF761-3FF3-48CE-B6AE-48CC29B31DC6.jpeg",
+          [
+            "lobelia-erinus"
+          ],
+          "file:///Users/0blueyan0/develop/PlantVisionTraining/TestingData/catharanthus-roseus/catharanthus-roseus_testingdata_005_obs369507215_photo674956324.jpg",
+          [
+            "catharanthus-roseus"
+          ],
+          "file:///Users/0blueyan0/develop/PlantVisionTraining/TestingData/lobelia-erinus/lobelia-erinus_testingdata_004_obs360446944_photo657717583.jpg",
+          [
+            "lobelia-erinus"
+          ],
+          "file:///Users/0blueyan0/develop/PlantVisionTraining/TestingData/catharanthus-roseus/catharanthus-roseus_testingdata_008_obs368025471_photo672147127.jpg",
+          [
+            "catharanthus-roseus"
+          ],
+          "file:///Users/0blueyan0/develop/PlantVisionTraining/TestingData/lobelia-erinus/lobelia-erinus_testingdata_009_obs358584119_photo654164678.jpg",
+          [
+            "lobelia-erinus"
+          ],
+          "file:///Users/0blueyan0/develop/PlantVisionTraining/TestingData/catharanthus-roseus/catharanthus-roseus_testingdata_007_obs368199001_photo672457435.jpg",
+          [
+            "catharanthus-roseus"
+          ],
+          "file:///Users/0blueyan0/develop/PlantVisionTraining/TestingData/lobelia-erinus/lobelia-erinus_testingdata_003_obs361780148_photo660272667.jpg",
+          [
+            "lobelia-erinus"
+          ],
+          "file:///Users/0blueyan0/develop/PlantVisionTraining/TestingData/catharanthus-roseus/catharanthus-roseus_testingdata_003_obs368278850_photo672634562.jpg",
+          [
+            "catharanthus-roseus"
+          ],
+          "file:///Users/0blueyan0/develop/PlantVisionTraining/TestingData/catharanthus-roseus/catharanthus-roseus_testingdata_010_obs367877413_photo671855870.jpg",
+          [
+            "catharanthus-roseus"
+          ],
+          "file:///Users/0blueyan0/develop/PlantVisionTraining/TestingData/catharanthus-roseus/6948A705-B4D0-443B-89C1-690E5E2AD6B3.jpeg",
+          [
+            "catharanthus-roseus"
+          ],
+          "file:///Users/0blueyan0/develop/PlantVisionTraining/TestingData/catharanthus-roseus/catharanthus-roseus_testingdata_004_obs368174269_photo672429095.jpg",
+          [
+            "catharanthus-roseus"
+          ],
+          "file:///Users/0blueyan0/develop/PlantVisionTraining/TestingData/catharanthus-roseus/AA0D685C-B12F-48EF-B5EC-7ED4C2573D77.jpeg",
+          [
+            "catharanthus-roseus"
+          ],
+          "file:///Users/0blueyan0/develop/PlantVisionTraining/TestingData/lobelia-erinus/1210C62D-C43A-404E-9E7B-E16A9933609E.jpeg",
+          [
+            "lobelia-erinus"
+          ],
+          "file:///Users/0blueyan0/develop/PlantVisionTraining/TestingData/lobelia-erinus/lobelia-erinus_testingdata_010_obs337590213_photo613732313.jpg",
+          [
+            "lobelia-erinus"
+          ],
+          "file:///Users/0blueyan0/develop/PlantVisionTraining/TestingData/lobelia-erinus/5708015A-CA48-45A7-BB08-C9BC0A8EA24A.jpeg",
+          [
+            "lobelia-erinus"
+          ],
+          "file:///Users/0blueyan0/develop/PlantVisionTraining/TestingData/catharanthus-roseus/A697A04E-6573-400B-B0A8-F5375C9687B7.jpeg",
+          [
+            "catharanthus-roseus"
+          ],
+          "file:///Users/0blueyan0/develop/PlantVisionTraining/TestingData/catharanthus-roseus/catharanthus-roseus_testingdata_001_obs368686160_photo673404600.jpg",
+          [
+            "catharanthus-roseus"
+          ],
+          "file:///Users/0blueyan0/develop/PlantVisionTraining/TestingData/catharanthus-roseus/B96138CC-F49D-4E62-8BF9-63E9C825F0B5.jpeg",
+          [
+            "catharanthus-roseus"
+          ],
+          "file:///Users/0blueyan0/develop/PlantVisionTraining/TestingData/catharanthus-roseus/FC523A33-EC38-4D0A-B486-069D28948F9B.jpeg",
+          [
+            "catharanthus-roseus"
+          ]
+        ],
+        "labelStats" : {
+          "catharanthus-roseus" : 15,
+          "lobelia-erinus" : 14
+        }
+      },
+      "issues" : [
+        {
+          "description" : "2 classes found, including catharanthus-roseus, lobelia-erinus",
+          "severity" : "debug"
+        },
+        {
+          "description" : "Less than 50 total images found - add more to improve model validation",
+          "severity" : "warning"
+        },
+        {
+          "description" : "Smallest class is \"lobelia-erinus\" with 14 images",
+          "severity" : "debug"
+        },
+        {
+          "description" : "Largest class is \"catharanthus-roseus\" with 15 images",
+          "severity" : "debug"
+        }
+      ],
+      "objectDetectorAnalysis" : {
+        "details" : {
+
+        }
+      },
+      "summary" : {
+        "canUseValidation" : 0,
+        "classCount" : 2,
+        "sampleCount" : 29
+      }
+    },
+    "dataSourceID" : "45F1FB88-3A77-479D-9336-81D928AC4DA8",
+    "dataURL" : "file:///Users/0blueyan0/develop/PlantVisionTraining/TestingData/",
+    "itemsCount" : 29
+  },
+  "dataURL" : "file:///Users/0blueyan0/develop/PlantVisionTraining/TestingData/",
+  "experimentIDs" : [
+    "85B14431-AB4E-49CA-BDFD-E7683DE1DD4A"
+  ],
+  "id" : "45F1FB88-3A77-479D-9336-81D928AC4DA8",
+  "modifiedDate" : "2026-06-11T06:13:53Z",
+  "pathType" : 0,
+  "preferredFilename" : "TestingData",
+  "title" : "TestingData",
+  "version" : "1.0"
+}

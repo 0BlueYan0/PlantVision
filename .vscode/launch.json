@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:PlantVision}/MacFrameRelay",
+            "name": "Debug MacFrameRelayApp (MacFrameRelay)",
+            "target": "MacFrameRelayApp",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug MacFrameRelayApp (MacFrameRelay)"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:PlantVision}/MacFrameRelay",
+            "name": "Release MacFrameRelayApp (MacFrameRelay)",
+            "target": "MacFrameRelayApp",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release MacFrameRelayApp (MacFrameRelay)"
+        }
+    ]
+}

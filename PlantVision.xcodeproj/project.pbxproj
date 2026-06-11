@@ -26,6 +26,8 @@
 		8A9100052C00000100000001 /* ScreenFrameCapturer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9200082C00000100000001 /* ScreenFrameCapturer.swift */; };
 		8A9100062C00000100000001 /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = 8A9300012C00000100000001 /* SocketIO */; };
 		8A9100072C00000100000001 /* FrameRelaySettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A92000D2C00000100000001 /* FrameRelaySettingsStore.swift */; };
+		8A9100082C00000100000001 /* PlantImageClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A92000E2C00000100000001 /* PlantImageClassifier.swift */; };
+		8A9100092C00000100000001 /* PlantClassifier.mlmodel in Resources */ = {isa = PBXBuildFile; fileRef = 8A9200102C00000100000001 /* PlantClassifier.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +55,8 @@
 		8A9200072C00000100000001 /* FrameRelayMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/MacFrameRelayCore/FrameRelayMessage.swift; sourceTree = "<group>"; };
 		8A9200082C00000100000001 /* ScreenFrameCapturer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/MacFrameRelayCore/ScreenFrameCapturer.swift; sourceTree = "<group>"; };
 		8A92000D2C00000100000001 /* FrameRelaySettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/MacFrameRelayCore/FrameRelaySettingsStore.swift; sourceTree = "<group>"; };
+		8A92000E2C00000100000001 /* PlantImageClassifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/MacFrameRelayCore/PlantImageClassifier.swift; sourceTree = "<group>"; };
+		8A9200102C00000100000001 /* PlantClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = PlantClassifier.mlmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,9 +151,19 @@
 				8A9200062C00000100000001 /* CapturedFrame.swift */,
 				8A9200072C00000100000001 /* FrameRelayMessage.swift */,
 				8A92000D2C00000100000001 /* FrameRelaySettingsStore.swift */,
+				8A92000E2C00000100000001 /* PlantImageClassifier.swift */,
 				8A9200082C00000100000001 /* ScreenFrameCapturer.swift */,
+				8A92000F2C00000100000001 /* Resources */,
 			);
 			name = MacFrameRelayCore;
+			sourceTree = "<group>";
+		};
+		8A92000F2C00000100000001 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8A9200102C00000100000001 /* PlantClassifier.mlmodel */,
+			);
+			path = Sources/MacFrameRelayCore/Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -245,6 +259,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8A9100092C00000100000001 /* PlantClassifier.mlmodel in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,6 +294,7 @@
 				8A9100032C00000100000001 /* CapturedFrame.swift in Sources */,
 				8A9100042C00000100000001 /* FrameRelayMessage.swift in Sources */,
 				8A9100072C00000100000001 /* FrameRelaySettingsStore.swift in Sources */,
+				8A9100082C00000100000001 /* PlantImageClassifier.swift in Sources */,
 				8A9100052C00000100000001 /* ScreenFrameCapturer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,0 +1,29 @@
+{
+  "activityEntities" : [
+    "projectCreated",
+    [
+      {
+        "createdDate" : "2026-06-11T06:08:15Z",
+        "event" : "projectCreated",
+        "id" : "27CDC9BC-AADF-4BBC-8058-4A4A2008B67F",
+        "subtitle" : "PlantVision",
+        "title" : "Project Created"
+      }
+    ]
+  ],
+  "authorName" : "口可口可 macbook air m4",
+  "createdDate" : "2026-06-11T06:08:15Z",
+  "description" : "",
+  "id" : "7245916B-1740-4922-997D-B87D7432A501",
+  "license" : "",
+  "location" : "",
+  "modifiedDate" : "2026-06-11T06:08:15Z",
+  "projectName" : "PlantVision",
+  "settingsEntity" : {
+    "snapshotOnExtendTraining" : true,
+    "snapshotOnResumeTraining" : false
+  },
+  "taskType" : "imageClassifier",
+  "title" : "Image Classification",
+  "version" : "1.1"
+}

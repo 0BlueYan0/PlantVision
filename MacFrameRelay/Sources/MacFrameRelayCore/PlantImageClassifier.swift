@@ -45,11 +45,19 @@ public final class PlantImageClassifier {
 
     private static func findModelURL(named modelName: String) throws -> URL {
         for fileExtension in ["mlmodelc", "mlpackage", "mlmodel"] {
-            if let url = Bundle.module.url(forResource: modelName, withExtension: fileExtension) {
+            if let url = modelBundle.url(forResource: modelName, withExtension: fileExtension) {
                 return url
             }
         }
         throw PlantImageClassifierError.modelNotFound(modelName)
+    }
+
+    private static var modelBundle: Bundle {
+        #if SWIFT_PACKAGE
+        Bundle.module
+        #else
+        Bundle.main
+        #endif
     }
 
     private static func compiledModelURL(from modelURL: URL) throws -> URL {
