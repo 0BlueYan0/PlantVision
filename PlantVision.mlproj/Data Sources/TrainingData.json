@@ -1,11 +1,21 @@
 {
   "activityEntities" : [
+    "dataSourceMetrics",
+    [
+      {
+        "createdDate" : "2026-06-12T09:51:36Z",
+        "event" : "dataSourceMetrics",
+        "id" : "81F37B04-AE86-4602-A0AF-54F10305B27E",
+        "subtitle" : "3 Classes, 163 Items",
+        "title" : "Data Summary"
+      }
+    ],
     "dataSourceCreated",
     [
       {
-        "createdDate" : "2026-06-11T06:10:07Z",
+        "createdDate" : "2026-06-12T09:50:02Z",
         "event" : "dataSourceCreated",
-        "id" : "B85E16A2-5B2E-47D2-823F-FBCB25675430",
+        "id" : "B6ABEA30-1AC7-41D0-8634-98156351B3B5",
         "subtitle" : "TrainingData",
         "title" : "Data Source Created"
       }
@@ -13,449 +23,27 @@
     "dataSourceTrainingStarted",
     [
       {
-        "createdDate" : "2026-06-11T06:13:38Z",
+        "createdDate" : "2026-06-12T09:51:36Z",
         "event" : "dataSourceTrainingStarted",
-        "id" : "2D06C7D1-B8FA-4D87-8247-40834BD78061",
+        "id" : "25A686C0-B519-4F26-8A42-D5A4841C27D2",
         "subtitle" : "PlantVision 1",
         "title" : "Used By"
       }
-    ],
-    "dataSourceMetrics",
-    [
-      {
-        "createdDate" : "2026-06-11T06:13:38Z",
-        "event" : "dataSourceMetrics",
-        "id" : "38929B39-D472-486C-B001-90305794B29C",
-        "subtitle" : "2 Classes, 93 Items",
-        "title" : "Data Summary"
-      }
     ]
   ],
-  "createdDate" : "2026-06-11T06:10:07Z",
+  "createdDate" : "2026-06-12T09:50:02Z",
   "dataPathRelativeToProjectURL" : "../../PlantVisionTraining/TrainingData/",
   "dataResult" : {
-    "classesCount" : 2,
-    "createdDate" : "2026-06-11T06:10:07Z",
-    "dataAnalysis" : {
-      "classifierAnalysis" : {
-        "details" : [
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/lobelia-erinus_trainingdata_028_obs334132921_photo606715762.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/catharanthus-roseus_trainingdata_021_obs369287095_photo674545698.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/catharanthus-roseus_trainingdata_011_obs368601428_photo673249799.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/lobelia-erinus_trainingdata_002_obs366904101_photo669990450.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/3F53FA17-24E3-4728-B747-7653054950AB.jpeg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/59AF434C-30B9-4D09-8E3D-8B5CD7ED5106.jpeg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/A8447453-70A1-4C0D-BBC3-37B1FED10F6E.jpeg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/33D22138-AC85-4363-B385-3A0BD938805A.jpeg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/catharanthus-roseus_trainingdata_005_obs370246507_photo676379528.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/3CCE5BDA-0CAC-475A-BC2C-88E849682B21.jpeg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/lobelia-erinus_trainingdata_025_obs354255071_photo646284564.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/catharanthus-roseus_trainingdata_017_obs368508288_photo673071754.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/lobelia-erinus_trainingdata_010_obs363980902_photo664442100.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/catharanthus-roseus_trainingdata_009_obs369732261_photo675388923.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/lobelia-erinus_trainingdata_004_obs355257105_photo647953091.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/lobelia-erinus_trainingdata_013_obs361900842_photo660504511.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/lobelia-erinus_trainingdata_014_obs342541285_photo623809921.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/B78271D3-FF44-4964-A4A0-58186342DEE1.jpeg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/4AC94B8A-EF8F-40B6-81E9-A9F7C9964F03.jpeg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/lobelia-erinus_trainingdata_018_obs368638096_photo673319378.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/lobelia-erinus_trainingdata_023_obs364606339_photo665624875.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/lobelia-erinus_trainingdata_029_obs361274565_photo659310269.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/AF0C8076-1367-41B2-B209-DB502CCF8766.jpeg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/A4521A17-E80D-4A05-A65A-18D583AF1D49.jpeg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/F74EF07E-B239-43ED-94E2-F4098A8F8AD1.jpeg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/5DA7D6B2-BE34-4C80-9276-CA928F4362DD.jpeg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/7FDBF412-0B5D-478A-A264-2C0A27D87AAA.jpeg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/catharanthus-roseus_trainingdata_025_obs368054901_photo672200724.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/catharanthus-roseus_trainingdata_018_obs368866969_photo673755370.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/lobelia-erinus_trainingdata_007_obs336904824_photo612328902.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/D4E020FA-F157-40CB-8B08-3703B51D8404.jpeg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/lobelia-erinus_trainingdata_006_obs340735073_photo620126941.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/D019D760-302F-438F-8257-D18BF71CA4D0.jpeg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/lobelia-erinus_trainingdata_020_obs343650376_photo626038119.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/9402F263-1799-4C1D-A33C-ABC993FEF913.jpeg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/catharanthus-roseus_trainingdata_001_obs368016798_photo672130945.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/6F70484F-2CD0-4BD8-AD76-10C886AFDEA5.jpeg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/2B96B18C-803F-4A59-A96C-FB11F2C471B9.jpeg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/catharanthus-roseus_trainingdata_007_obs369645846_photo675230310.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/catharanthus-roseus_trainingdata_015_obs369373132_photo674705212.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/F29A4C13-6A3E-41DE-ADFE-3A1CD00418EF.jpeg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/catharanthus-roseus_trainingdata_002_obs368797764_photo673621351.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/FECDA6CE-8AB1-40E8-B129-77E2BE602E3F.jpeg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/lobelia-erinus_trainingdata_003_obs367729204_photo671580233.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/catharanthus-roseus_trainingdata_019_obs369541526_photo675022457.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/lobelia-erinus_trainingdata_030_obs338500810_photo615604359.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/catharanthus-roseus_trainingdata_003_obs369987408_photo675878338.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/3228FB58-A7C2-4159-A72A-FC2B7AE995E6.jpeg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/catharanthus-roseus_trainingdata_030_obs369285235_photo674542189.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/catharanthus-roseus_trainingdata_029_obs369142003_photo674269163.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/catharanthus-roseus_trainingdata_028_obs368076397_photo672238143.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/92DFE66B-E6BC-4C9C-9DBA-36D226BC6158.jpeg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/catharanthus-roseus_trainingdata_020_obs368095496_photo672731571.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/lobelia-erinus_trainingdata_001_obs364693869_photo665782783.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/catharanthus-roseus_trainingdata_013_obs368618170_photo673281526.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/lobelia-erinus_trainingdata_021_obs367495219_photo671125630.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/22851BA2-672F-47A3-8ACE-468F99D7FFE0.jpeg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/lobelia-erinus_trainingdata_008_obs333468533_photo605415977.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/C943D689-2AB5-49D8-8D75-EA51907D211D.jpeg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/lobelia-erinus_trainingdata_027_obs362060725_photo660794203.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/0E61AE2B-189F-4B40-9A76-6298AA81771E.jpeg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/lobelia-erinus_trainingdata_019_obs359025525_photo655007551.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/catharanthus-roseus_trainingdata_010_obs370467563_photo676778342.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/D18F131B-78E7-4EF8-8511-DD7EDCE7BC5B.jpeg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/catharanthus-roseus_trainingdata_008_obs369233920_photo676466167.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/C98C75C1-ACEE-4AB9-AC58-C5F4CE36E810.jpeg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/8BB288D4-759B-4418-BC7E-4760920EC09C.jpeg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/catharanthus-roseus_trainingdata_023_obs368199003_photo672457463.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/13D12669-1CF6-4A52-9DD9-0EE19103D016.jpeg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/catharanthus-roseus_trainingdata_022_obs370274761_photo676431772.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/1106CA12-84F4-4706-8DB2-1C583F4E640D.jpeg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/lobelia-erinus_trainingdata_009_obs363006089_photo662599022.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/catharanthus-roseus_trainingdata_014_obs368385658_photo672832244.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/353CB5C0-6DE5-4F50-924A-DB09E3EB332C.jpeg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/catharanthus-roseus_trainingdata_004_obs369259392_photo674495608.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/lobelia-erinus_trainingdata_005_obs345117349_photo628899410.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/lobelia-erinus_trainingdata_011_obs343818543_photo626373963.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/lobelia-erinus_trainingdata_015_obs332532758_photo603506422.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/lobelia-erinus_trainingdata_017_obs355901881_photo649029972.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/lobelia-erinus_trainingdata_016_obs333233998_photo604941928.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/E282B208-54B9-4CC1-9E61-303EB29665C0.jpeg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/lobelia-erinus_trainingdata_022_obs356448865_photo650034773.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/catharanthus-roseus_trainingdata_012_obs369373144_photo674705215.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/catharanthus-roseus_trainingdata_016_obs368677869_photo673389235.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/lobelia-erinus_trainingdata_026_obs367140592_photo670447229.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/lobelia-erinus_trainingdata_024_obs335696338_photo609892479.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/catharanthus-roseus_trainingdata_006_obs369776906_photo675473250.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/D2BFFC99-B640-42D6-8E09-1462D1B3A262.jpeg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/01137474-1A9F-4DD8-A647-C522BAAF4C86.jpeg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/catharanthus-roseus_trainingdata_027_obs369848487_photo675608895.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/catharanthus-roseus_trainingdata_026_obs367969816_photo672040692.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/lobelia-erinus/lobelia-erinus_trainingdata_012_obs338777574_photo616153615.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/catharanthus-roseus/catharanthus-roseus_trainingdata_024_obs369177050_photo674337312.jpg",
-          [
-            "catharanthus-roseus"
-          ]
-        ],
-        "labelStats" : {
-          "catharanthus-roseus" : 49,
-          "lobelia-erinus" : 44
-        }
-      },
-      "issues" : [
-        {
-          "description" : "2 classes found, including catharanthus-roseus, lobelia-erinus",
-          "severity" : "debug"
-        },
-        {
-          "description" : "93 images found, automatically creating validation set",
-          "severity" : "good"
-        },
-        {
-          "description" : "Smallest class is \"lobelia-erinus\" with 44 images",
-          "severity" : "debug"
-        },
-        {
-          "description" : "Largest class is \"catharanthus-roseus\" with 49 images",
-          "severity" : "debug"
-        }
-      ],
-      "objectDetectorAnalysis" : {
-        "details" : {
-
-        }
-      },
-      "summary" : {
-        "canUseValidation" : 1,
-        "classCount" : 2,
-        "sampleCount" : 93
-      }
-    },
-    "dataSourceID" : "458F8457-25A5-46A4-AF1D-2F9E068B960B",
-    "dataURL" : "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/",
-    "itemsCount" : 93
+    "createdDate" : "2026-06-12T09:50:02Z",
+    "dataSourceID" : "67710EB0-B0CF-4C7D-BAC1-33CCB4E36E00",
+    "dataURL" : "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/"
   },
   "dataURL" : "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/",
   "experimentIDs" : [
-    "85B14431-AB4E-49CA-BDFD-E7683DE1DD4A"
+    "04121ED1-2738-4F9C-BDFC-62F3E53DAA30"
   ],
-  "id" : "458F8457-25A5-46A4-AF1D-2F9E068B960B",
-  "modifiedDate" : "2026-06-11T06:13:53Z",
+  "id" : "67710EB0-B0CF-4C7D-BAC1-33CCB4E36E00",
+  "modifiedDate" : "2026-06-12T09:51:36Z",
   "pathType" : 0,
   "preferredFilename" : "TrainingData",
   "title" : "TrainingData",

@@ -3,147 +3,27 @@
     "dataSourceCreated",
     [
       {
-        "createdDate" : "2026-06-11T06:12:38Z",
+        "createdDate" : "2026-06-12T09:50:07Z",
         "event" : "dataSourceCreated",
-        "id" : "C9E8CF63-0946-4583-AF1F-D4F418A94A02",
+        "id" : "94A421B0-2E95-4930-96B0-9D08F32B93DD",
         "subtitle" : "ValidationData",
         "title" : "Data Source Created"
       }
     ]
   ],
-  "createdDate" : "2026-06-11T06:12:38Z",
-  "dataPathRelativeToProjectURL" : "../../../Downloads/ValidationData/",
+  "createdDate" : "2026-06-12T09:50:07Z",
+  "dataPathRelativeToProjectURL" : "../../PlantVisionTraining/ValidationData/",
   "dataResult" : {
-    "classesCount" : 2,
-    "createdDate" : "2026-06-11T06:12:38Z",
-    "dataAnalysis" : {
-      "classifierAnalysis" : {
-        "details" : [
-          "file:///Users/0blueyan0/Downloads/ValidationData/lobelia-erinus/lobelia-erinus_validationdata_009_obs356193104_photo649558601.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/Downloads/ValidationData/lobelia-erinus/lobelia-erinus_validationdata_010_obs359336744_photo655602183.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/Downloads/ValidationData/catharanthus-roseus/catharanthus-roseus_validationdata_007_obs368844569_photo673710043.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/Downloads/ValidationData/lobelia-erinus/lobelia-erinus_validationdata_002_obs340111661_photo618863003.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/Downloads/ValidationData/lobelia-erinus/lobelia-erinus_validationdata_001_obs356884007_photo650850882.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/Downloads/ValidationData/lobelia-erinus/lobelia-erinus_validationdata_007_obs334184781_photo606822488.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/Downloads/ValidationData/catharanthus-roseus/catharanthus-roseus_validationdata_009_obs368025971_photo672147862.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/Downloads/ValidationData/lobelia-erinus/lobelia-erinus_validationdata_004_obs362293387_photo661244693.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/Downloads/ValidationData/lobelia-erinus/lobelia-erinus_validationdata_005_obs332979289_photo604423482.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/Downloads/ValidationData/catharanthus-roseus/catharanthus-roseus_validationdata_001_obs369229638_photo674440118.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/Downloads/ValidationData/catharanthus-roseus/catharanthus-roseus_validationdata_005_obs368054866_photo672200668.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/Downloads/ValidationData/catharanthus-roseus/catharanthus-roseus_validationdata_002_obs368576674_photo673204028.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/Downloads/ValidationData/catharanthus-roseus/catharanthus-roseus_validationdata_003_obs370333836_photo676540735.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/Downloads/ValidationData/lobelia-erinus/lobelia-erinus_validationdata_006_obs349400491_photo637366391.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/Downloads/ValidationData/lobelia-erinus/lobelia-erinus_validationdata_008_obs338876309_photo616348865.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/Downloads/ValidationData/catharanthus-roseus/catharanthus-roseus_validationdata_004_obs368279098_photo672635046.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/Downloads/ValidationData/lobelia-erinus/lobelia-erinus_validationdata_003_obs365355029_photo667048017.jpg",
-          [
-            "lobelia-erinus"
-          ],
-          "file:///Users/0blueyan0/Downloads/ValidationData/catharanthus-roseus/catharanthus-roseus_validationdata_008_obs368601423_photo673249782.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/Downloads/ValidationData/catharanthus-roseus/catharanthus-roseus_validationdata_010_obs369676296_photo675284720.jpg",
-          [
-            "catharanthus-roseus"
-          ],
-          "file:///Users/0blueyan0/Downloads/ValidationData/catharanthus-roseus/catharanthus-roseus_validationdata_006_obs369729320_photo675383899.jpg",
-          [
-            "catharanthus-roseus"
-          ]
-        ],
-        "labelStats" : {
-          "catharanthus-roseus" : 10,
-          "lobelia-erinus" : 10
-        }
-      },
-      "issues" : [
-        {
-          "description" : "2 classes found, including lobelia-erinus, catharanthus-roseus",
-          "severity" : "debug"
-        },
-        {
-          "description" : "Less than 50 total images found - add more to improve model validation",
-          "severity" : "warning"
-        },
-        {
-          "description" : "Smallest class is \"catharanthus-roseus\" with 10 images",
-          "severity" : "debug"
-        },
-        {
-          "description" : "Largest class is \"lobelia-erinus\" with 10 images",
-          "severity" : "debug"
-        }
-      ],
-      "objectDetectorAnalysis" : {
-        "details" : {
-
-        }
-      },
-      "summary" : {
-        "canUseValidation" : 0,
-        "classCount" : 2,
-        "sampleCount" : 20
-      }
-    },
-    "dataSourceID" : "860D811B-49FA-4596-AB94-BC89627E13E9",
-    "dataURL" : "file:///Users/0blueyan0/Downloads/ValidationData/",
-    "itemsCount" : 20
+    "createdDate" : "2026-06-12T09:50:07Z",
+    "dataSourceID" : "8EFEBCE3-3BD3-4E2F-AC73-069C5FBFFD3D",
+    "dataURL" : "file:///Users/0blueyan0/develop/PlantVisionTraining/ValidationData/"
   },
-  "dataURL" : "file:///Users/0blueyan0/Downloads/ValidationData/",
+  "dataURL" : "file:///Users/0blueyan0/develop/PlantVisionTraining/ValidationData/",
   "experimentIDs" : [
-    "85B14431-AB4E-49CA-BDFD-E7683DE1DD4A"
+    "04121ED1-2738-4F9C-BDFC-62F3E53DAA30"
   ],
-  "id" : "860D811B-49FA-4596-AB94-BC89627E13E9",
-  "modifiedDate" : "2026-06-11T06:13:54Z",
+  "id" : "8EFEBCE3-3BD3-4E2F-AC73-069C5FBFFD3D",
+  "modifiedDate" : "2026-06-12T09:50:07Z",
   "pathType" : 0,
   "preferredFilename" : "ValidationData",
   "title" : "ValidationData",
