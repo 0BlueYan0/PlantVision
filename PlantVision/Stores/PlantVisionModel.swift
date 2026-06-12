@@ -128,7 +128,16 @@ final class PlantVisionModel: ObservableObject {
             return
         }
 
-        let plant = payload.plantID.flatMap { PlantDatabase.plant(id: $0) } ?? PlantDatabase.primaryPlant
+        guard let plantID = payload.plantID, let plant = PlantDatabase.plant(id: plantID) else {
+            currentResult = nil
+            if let plantID = payload.plantID {
+                recognitionState = .relayResult("Mac 已抽幀，畫面中未偵測到植物（模型分類：\(plantID)）")
+            } else {
+                recognitionState = .relayResult("Mac 已抽幀，但未收到模型分類結果")
+            }
+            return
+        }
+
         let confidence = payload.confidence ?? plant.demoConfidence
         let sizeDescription: String
         if let width = payload.frameWidth, let height = payload.frameHeight {
@@ -136,19 +145,13 @@ final class PlantVisionModel: ObservableObject {
         } else {
             sizeDescription = "未提供 frame 尺寸"
         }
-        let modelDescription: String
-        if let plantID = payload.plantID {
-            modelDescription = "模型回傳 \(plantID)"
-        } else {
-            modelDescription = "未收到模型分類，沿用本地植物資料"
-        }
 
         let result = RecognitionResult(
             plant: plant,
             confidence: confidence,
             source: .relay,
             detectedAt: Date(),
-            note: "已從 Mac relay 收到「成功抽幀」；\(sizeDescription)。\(modelDescription)。"
+            note: "已從 Mac relay 收到「成功抽幀」；\(sizeDescription)。模型回傳 \(plantID)。"
         )
         apply(result: result, state: .relayResult("Mac 已成功抽幀並回傳 Vision Pro"))
     }
