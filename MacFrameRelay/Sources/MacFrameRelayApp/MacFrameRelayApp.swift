@@ -122,6 +122,10 @@ private final class FrameRelayViewModel: ObservableObject {
     private var localModifierFlagsMonitor: Any?
     private var globalModifierFlagsMonitor: Any?
     private var activeCaptureShortcutAction: CaptureShortcutAction?
+    private var lastPlantClassification: (result: PlantClassificationResult, detectedAt: Date)?
+
+    /// 偵測短暫中斷（移動造成的模糊幀）時，沿用前一個植物結果的時間
+    private static let plantResultHoldInterval: TimeInterval = 1.0
 
     init(settingsStore: FrameRelaySettingsStore = FrameRelaySettingsStore()) {
         self.settingsStore = settingsStore
@@ -233,7 +237,19 @@ private final class FrameRelayViewModel: ObservableObject {
 
     private func classify(_ frame: CapturedFrame) -> PlantClassificationResult? {
         guard let plantClassifier else { return nil }
-        return try? plantClassifier.classify(frame.cgImage)
+        let classification = try? plantClassifier.classifyScene(frame.cgImage)
+
+        if let classification, classification.label != PlantImageClassifier.backgroundLabel {
+            lastPlantClassification = (classification, Date())
+            return classification
+        }
+
+        if let last = lastPlantClassification,
+           Date().timeIntervalSince(last.detectedAt) <= Self.plantResultHoldInterval {
+            return last.result
+        }
+
+        return classification
     }
 
     private func relayStatusText(for classification: PlantClassificationResult?) -> String {

@@ -36,7 +36,13 @@ let package = Package(
         ),
         .testTarget(
             name: "MacFrameRelayCoreTests",
-            dependencies: ["MacFrameRelayCore"]
+            dependencies: ["MacFrameRelayCore"],
+            resources: [
+                .copy("Resources/TestPlantClassifier.mlmodel"),
+                .copy("Resources/lobelia-sample.jpeg"),
+                .copy("Resources/background-sample.jpg"),
+                .copy("Resources/mars-sample.jpg")
+            ]
         )
     ]
 )
