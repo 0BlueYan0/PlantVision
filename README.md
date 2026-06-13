@@ -173,24 +173,14 @@ payload: { "role": "...", "code": "482913" }
 MacFrameRelay/
 ```
 
-建置 `.app`：
+建置與執行（只透過 Xcode 的 `MacFrameRelayApp` target）：
 
-```bash
-cd /Users/0blueyan0/develop/PlantVision
-MacFrameRelay/Scripts/build_app_bundle.sh
-```
+1. 用 Xcode 開啟 `PlantVision.xcodeproj`。
+2. scheme 選 `MacFrameRelayApp`，執行目標選「My Mac」。
+3. 按 Run（⌘R）即可建置並啟動。
 
-輸出位置：
-
-```text
-/Users/0blueyan0/develop/PlantVision/MacFrameRelay/.build/MacFrameRelayApp.app
-```
-
-開啟 app：
-
-```bash
-open /Users/0blueyan0/develop/PlantVision/MacFrameRelay/.build/MacFrameRelayApp.app
-```
+> Mac app 只由 Xcode 的 `MacFrameRelayApp` target 建置，輸出在 Xcode 預設 DerivedData。
+> 舊的 `Scripts/build_app_bundle.sh`（SwiftPM 打包成 `.build/MacFrameRelayApp.app`）已移除——它會產生第二個同 bundle ID 的 `.app`，導致誤開到舊的那個。
 
 Mac app 內要設定：
 
@@ -295,11 +285,11 @@ cd /Users/0blueyan0/develop/PlantVision/MacFrameRelay
 swift test
 ```
 
-Mac app bundle 建置：
+Mac app 建置（透過 Xcode target）：
 
 ```bash
 cd /Users/0blueyan0/develop/PlantVision
-MacFrameRelay/Scripts/build_app_bundle.sh
+xcodebuild -project PlantVision.xcodeproj -scheme MacFrameRelayApp -destination 'platform=macOS' build
 ```
 
 ScreenCaptureKit 實際抽幀 probe：
