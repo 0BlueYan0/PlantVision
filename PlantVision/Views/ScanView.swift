@@ -190,8 +190,15 @@ struct ScanView: View {
     private var resultPanel: some View {
         if let result = appModel.currentResult {
             VStack(alignment: .leading, spacing: 20) {
-                ScanResultHeader(result: result)
+                ScanResultHeader(result: result, isHolding: appModel.isHolding)
+                    .contentShape(Rectangle())
+                    .onTapGesture { appModel.toggleHold() }
                 ScanInfoRows(plant: result.plant, confidence: result.confidence)
+
+                Text(appModel.isHolding ? "已鎖定：捏合結果卡即可解鎖。" : "提示：捏合結果卡可鎖定，看資訊卡 / App 視窗時不會被判成背景而消失。")
+                    .font(.caption)
+                    .foregroundStyle(appModel.isHolding ? .orange : .secondary)
+                    .fixedSize(horizontal: false, vertical: true)
 
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 150), spacing: 12)], alignment: .leading, spacing: 12) {
                     Button {
@@ -394,6 +401,7 @@ struct ChipGrid: View {
 
 private struct ScanResultHeader: View {
     let result: RecognitionResult
+    var isHolding: Bool = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
@@ -413,12 +421,24 @@ private struct ScanResultHeader: View {
                 ConfidencePill(confidence: result.confidence)
             }
 
-            Label(result.source.rawValue, systemImage: sourceIcon)
-                .font(.callout.weight(.semibold))
-                .foregroundStyle(ScanTheme.actionBlue)
-                .padding(.horizontal, 12)
-                .padding(.vertical, 7)
-                .background(ScanTheme.actionBlue.opacity(0.12), in: Capsule())
+            HStack(spacing: 8) {
+                Label(result.source.rawValue, systemImage: sourceIcon)
+                    .font(.callout.weight(.semibold))
+                    .foregroundStyle(ScanTheme.actionBlue)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 7)
+                    .background(ScanTheme.actionBlue.opacity(0.12), in: Capsule())
+
+                if isHolding {
+                    Label("已鎖定", systemImage: "lock.fill")
+                        .font(.callout.weight(.semibold))
+                        .foregroundStyle(.orange)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 7)
+                        .background(.orange.opacity(0.14), in: Capsule())
+                        .accessibilityLabel("結果已鎖定")
+                }
+            }
 
             Text(result.note)
                 .font(.footnote)

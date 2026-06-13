@@ -24,9 +24,14 @@ struct SpatialPlantSceneView: View {
             }
         } attachments: {
             Attachment(id: "plant-label") {
-                SpatialPlantLabel(result: appModel.currentResult)
+                SpatialPlantLabel(
+                    result: appModel.currentResult,
+                    isHolding: appModel.isHolding,
+                    onToggleHold: { appModel.toggleHold() }
+                )
             }
         }
+        // 捏合 3D 植物模型 → 播放/暫停生長動畫(維持原有行為)。捏合資訊標籤 → 鎖定/解鎖(見 SpatialPlantLabel)。
         .gesture(TapGesture().targetedToAnyEntity().onEnded { _ in
             appModel.toggleGrowthPlayback()
         })
@@ -35,17 +40,30 @@ struct SpatialPlantSceneView: View {
 
 struct SpatialPlantLabel: View {
     let result: RecognitionResult?
+    var isHolding: Bool = false
+    var onToggleHold: () -> Void = {}
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             if let result {
-                Text(result.plant.chineseName)
-                    .font(.title3.weight(.bold))
+                HStack(spacing: 8) {
+                    Text(result.plant.chineseName)
+                        .font(.title3.weight(.bold))
+                    if isHolding {
+                        Image(systemName: "lock.fill")
+                            .font(.callout)
+                            .foregroundStyle(.orange)
+                            .accessibilityLabel("已鎖定")
+                    }
+                }
                 Text(result.plant.scientificName)
                     .font(.callout)
                     .italic()
                 Text("信心 \(Int(result.confidence * 100))% · \(result.source.rawValue)")
                     .font(.caption)
+                    .foregroundStyle(.secondary)
+                Text(isHolding ? "已鎖定，捏合解鎖" : "捏合鎖定，看資訊時不消失")
+                    .font(.caption2)
                     .foregroundStyle(.secondary)
             } else {
                 Text("PlantVision")
@@ -58,6 +76,8 @@ struct SpatialPlantLabel: View {
         .padding(14)
         .frame(width: 260, alignment: .leading)
         .glassBackgroundEffect()
+        .contentShape(Rectangle())
+        .onTapGesture { onToggleHold() }
     }
 }
 

@@ -7,6 +7,8 @@ final class PlantVisionModel: ObservableObject {
 
     @Published var recognitionState: RecognitionProviderState = .idle
     @Published var currentResult: RecognitionResult?
+    /// 鎖定後完全凍結目前顯示:即使收到 background 或不同植物也不更動,讓使用者能安心看資訊卡 / App 視窗。
+    @Published private(set) var isHolding: Bool = false
     @Published var selectedStage: GrowthStage = .sprout
     @Published var isGrowthPlaying = false
     @Published var relayURLText: String {
@@ -87,6 +89,20 @@ final class PlantVisionModel: ObservableObject {
         historyStore.save(history)
     }
 
+    /// 捏合手勢切換鎖定:鎖定時暫停自動切換與背景判定,維持目前資訊卡;解鎖後恢復即時辨識。
+    func toggleHold() {
+        isHolding.toggle()
+        if isHolding {
+            if let name = currentResult?.plant.chineseName {
+                recognitionState = .relayResult("🔒 已鎖定「\(name)」，暫停自動切換。再捏合一次可解鎖。")
+            } else {
+                recognitionState = .relayResult("🔒 已鎖定，暫停自動切換。再捏合一次可解鎖。")
+            }
+        } else {
+            recognitionState = .relayResult("🔓 已解鎖，恢復即時辨識與自動切換。")
+        }
+    }
+
     func toggleGrowthPlayback() {
         isGrowthPlaying.toggle()
         if isGrowthPlaying {
@@ -122,21 +138,65 @@ final class PlantVisionModel: ObservableObject {
         }
     }
 
+    /// 收到一幀 relay 結果後該怎麼處理顯示。抽成純函式方便單元測試(對齊 Mac 端 resolveScene 慣例)。
+    enum DisplayDecision: Equatable {
+        case ignore                    // 已鎖定:維持目前顯示
+        case keep                      // 背景 / 未知:不清除,維持上次辨識
+        case refresh                   // 同一株植物:維持穩定顯示,不重設生長階段
+        case switchTo(plantID: String) // 換成不同的、已知的植物
+    }
+
+    static func decideDisplay(incomingKnownPlantID: String?,
+                              currentPlantID: String?,
+                              isHolding: Bool) -> DisplayDecision {
+        if isHolding { return .ignore }
+        guard let incomingKnownPlantID else { return .keep }
+        if incomingKnownPlantID == currentPlantID { return .refresh }
+        return .switchTo(plantID: incomingKnownPlantID)
+    }
+
     private func handleRelayFramePayload(_ payload: RelayFramePayload) {
         guard payload.message == "成功抽幀" else {
-            recognitionState = .relayResult("收到 Relay 訊息：\(payload.message)")
+            updateState(.relayResult("收到 Relay 訊息：\(payload.message)"))
             return
         }
 
-        guard let plantID = payload.plantID, let plant = PlantDatabase.plant(id: plantID) else {
-            currentResult = nil
-            if let plantID = payload.plantID {
-                recognitionState = .relayResult("Mac 已抽幀，畫面中未偵測到植物（模型分類：\(plantID)）")
-            } else {
-                recognitionState = .relayResult("Mac 已抽幀，但未收到模型分類結果")
-            }
-            return
+        // 僅當 plantID 對應到資料庫中的植物時才視為「已知植物」;background / 未知 / nil 一律視為非植物。
+        let knownPlantID: String? = {
+            guard let plantID = payload.plantID, PlantDatabase.plant(id: plantID) != nil else { return nil }
+            return plantID
+        }()
+
+        switch Self.decideDisplay(incomingKnownPlantID: knownPlantID,
+                                  currentPlantID: currentResult?.plant.id,
+                                  isHolding: isHolding) {
+        case .ignore:
+            break // 已鎖定,維持目前顯示
+        case .keep:
+            updateBackgroundStatus(rawPlantID: payload.plantID)
+        case .refresh:
+            break // 同一株植物,維持穩定顯示,不重設生長階段
+        case .switchTo(let plantID):
+            applyRelayPlant(plantID: plantID, payload: payload)
         }
+    }
+
+    /// 背景 / 未知幀:不清除 currentResult,只更新狀態文字。原本就沒有結果時維持空狀態。
+    private func updateBackgroundStatus(rawPlantID: String?) {
+        let detail: String
+        if let current = currentResult {
+            let reason = rawPlantID.map { "模型分類：\($0)" } ?? "未收到模型分類"
+            detail = "畫面為背景（\(reason)），維持顯示上次辨識的「\(current.plant.chineseName)」。"
+        } else if let rawPlantID {
+            detail = "Mac 已抽幀，畫面中未偵測到植物（模型分類：\(rawPlantID)）"
+        } else {
+            detail = "Mac 已抽幀，但未收到模型分類結果"
+        }
+        updateState(.relayResult(detail))
+    }
+
+    private func applyRelayPlant(plantID: String, payload: RelayFramePayload) {
+        guard let plant = PlantDatabase.plant(id: plantID) else { return }
 
         let confidence = payload.confidence ?? plant.demoConfidence
         let sizeDescription: String
@@ -154,6 +214,12 @@ final class PlantVisionModel: ObservableObject {
             note: "已從 Mac relay 收到「成功抽幀」；\(sizeDescription)。模型回傳 \(plantID)。"
         )
         apply(result: result, state: .relayResult("Mac 已成功抽幀並回傳 Vision Pro"))
+    }
+
+    /// 避免 10 FPS relay 串流對同一狀態反覆賦值造成不必要的重繪。
+    private func updateState(_ state: RecognitionProviderState) {
+        guard recognitionState != state else { return }
+        recognitionState = state
     }
 
     private func startGrowthPlayback() {
