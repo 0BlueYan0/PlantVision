@@ -24,6 +24,11 @@ public final class PlantImageClassifier {
     private static let tileConfidenceThreshold: Float = 0.9
     /// 同一植物需在幾個重疊區塊同時過門檻才算偵測到，用來濾掉單一區塊的偶發誤判
     private static let minimumCorroboratingTiles = 2
+    /// 當「兩種以上植物類同時達標」時，領先者需在高信心區塊數上至少多出這個差距，
+    /// 否則視為兩類拉鋸、回報不確定（落到 background）。用實機 held-out 資料校過：
+    /// 設 3 能把「15 vs 14」「6 vs 4」這種瀕臨翻轉的畫面擋成不確定，避免實機在兩類間跳，
+    /// 同時不影響「單一植物」或「明確領先（如 23 vs 5）」的判定。
+    static let minimumVoteMargin = 3
 
     private let visionModel: VNCoreMLModel
 
@@ -68,16 +73,32 @@ public final class PlantImageClassifier {
             }
         }
 
-        let detectedPlant = confidentTileCounts
-            .filter { $0.key != Self.backgroundLabel && $0.value >= Self.minimumCorroboratingTiles }
-            .keys
-            .max { (bestConfidence[$0] ?? 0) < (bestConfidence[$1] ?? 0) }
+        return Self.resolveScene(bestConfidence: bestConfidence, confidentTileCounts: confidentTileCounts)
+    }
 
-        if let detectedPlant {
-            return PlantClassificationResult(
-                label: detectedPlant,
-                confidence: Double(bestConfidence[detectedPlant] ?? 0)
-            )
+    /// 由各區塊彙整出的「高信心區塊數」與「各類最高信心」決定整個畫面的判定。
+    /// 抽成純函式以便用真實票數做單元測試。規則：
+    /// 1. 取高信心區塊數達 `minimumCorroboratingTiles` 的非背景植物類。
+    /// 2. 若有兩種以上植物類同時達標，領先者須多出亞軍 `minimumVoteMargin` 個區塊，
+    ///    否則視為兩類拉鋸 → 不確定，落到 background。單一植物則直接接受（不傷小佔比偵測）。
+    /// 3. 沒有明確植物時回報 background；連 background 都沒有才回 nil。
+    static func resolveScene(
+        bestConfidence: [String: Float],
+        confidentTileCounts: [String: Int]
+    ) -> PlantClassificationResult? {
+        let plants = confidentTileCounts
+            .filter { $0.key != Self.backgroundLabel && $0.value >= Self.minimumCorroboratingTiles }
+            .sorted { $0.value > $1.value }
+
+        if let top = plants.first {
+            let ambiguous = plants.count >= 2 && top.value < plants[1].value + Self.minimumVoteMargin
+            if !ambiguous {
+                return PlantClassificationResult(
+                    label: top.key,
+                    confidence: Double(bestConfidence[top.key] ?? 0)
+                )
+            }
+            // 兩植物類拉鋸 → 不確定，往下落到 background fallback
         }
 
         if let backgroundConfidence = bestConfidence[Self.backgroundLabel] {

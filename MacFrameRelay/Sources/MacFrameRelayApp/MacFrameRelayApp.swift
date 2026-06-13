@@ -122,10 +122,10 @@ private final class FrameRelayViewModel: ObservableObject {
     private var localModifierFlagsMonitor: Any?
     private var globalModifierFlagsMonitor: Any?
     private var activeCaptureShortcutAction: CaptureShortcutAction?
-    private var lastPlantClassification: (result: PlantClassificationResult, detectedAt: Date)?
 
-    /// 偵測短暫中斷（移動造成的模糊幀）時，沿用前一個植物結果的時間
-    private static let plantResultHoldInterval: TimeInterval = 1.0
+    /// 跨幀穩定器：對最近幾幀的逐幀判定做多數決，濾掉決策邊界附近的抖動。
+    /// 取代原本「保留上一個非背景結果 1 秒」的 hold（那會延續錯標）。
+    private var labelSmoother = TemporalLabelSmoother()
 
     init(settingsStore: FrameRelaySettingsStore = FrameRelaySettingsStore()) {
         self.settingsStore = settingsStore
@@ -237,19 +237,10 @@ private final class FrameRelayViewModel: ObservableObject {
 
     private func classify(_ frame: CapturedFrame) -> PlantClassificationResult? {
         guard let plantClassifier else { return nil }
-        let classification = try? plantClassifier.classifyScene(frame.cgImage)
-
-        if let classification, classification.label != PlantImageClassifier.backgroundLabel {
-            lastPlantClassification = (classification, Date())
-            return classification
-        }
-
-        if let last = lastPlantClassification,
-           Date().timeIntervalSince(last.detectedAt) <= Self.plantResultHoldInterval {
-            return last.result
-        }
-
-        return classification
+        let perFrame = try? plantClassifier.classifyScene(frame.cgImage)
+        // 逐幀判定交給跨幀穩定器做多數決：自動串流時需近期多幀一致才改變輸出，
+        // 兩類拉鋸時回 nil（不確定），避免在 catharanthus / lobelia 之間跳。
+        return labelSmoother.record(perFrame, at: Date())
     }
 
     private func relayStatusText(for classification: PlantClassificationResult?) -> String {

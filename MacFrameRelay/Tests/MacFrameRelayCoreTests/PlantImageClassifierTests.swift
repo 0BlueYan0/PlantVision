@@ -83,3 +83,58 @@ func classifySceneRejectsSingleTileFalsePositive() throws {
 
     #expect(result.label == PlantImageClassifier.backgroundLabel)
 }
+
+// MARK: - resolveScene 決策規則（用實機 held-out 觀察到的真實票數）
+
+private let bg = PlantImageClassifier.backgroundLabel
+
+@Test
+func resolveScenePicksClearWinnerEvenWhenBothPlantsFireSomeTiles() {
+    // held-out cath_test_002：兩類都有 ≥0.9 的塊，但 catharanthus 大幅領先 → 應判 catharanthus
+    let result = PlantImageClassifier.resolveScene(
+        bestConfidence: ["catharanthus-roseus": 1.0, "lobelia-erinus": 1.0, bg: 0.04],
+        confidentTileCounts: ["catharanthus-roseus": 23, "lobelia-erinus": 5]
+    )
+    #expect(result?.label == "catharanthus-roseus")
+}
+
+@Test
+func resolveSceneReportsUncertainOnNearTie() {
+    // held-out cath_val_003：lob×14 vs cath×15，差距只有 1 → 兩類拉鋸，不該硬選
+    let result = PlantImageClassifier.resolveScene(
+        bestConfidence: ["catharanthus-roseus": 1.0, "lobelia-erinus": 1.0, bg: 0.02],
+        confidentTileCounts: ["catharanthus-roseus": 15, "lobelia-erinus": 14]
+    )
+    #expect(result?.label == bg)  // 不確定 → 落到 background
+}
+
+@Test
+func resolveSceneReportsUncertainOnTheRealHeldOutMisclassification() {
+    // held-out lobelia_test_002：cath×6 vs lob×4 原本被硬判成 catharanthus（真實誤判）
+    // 差距 2 < margin 3 → 應改判為不確定，而非錯誤的 catharanthus
+    let result = PlantImageClassifier.resolveScene(
+        bestConfidence: ["catharanthus-roseus": 1.0, "lobelia-erinus": 0.99, bg: 0.71],
+        confidentTileCounts: ["catharanthus-roseus": 6, "lobelia-erinus": 4]
+    )
+    #expect(result?.label != "catharanthus-roseus")
+    #expect(result?.label == bg)
+}
+
+@Test
+func resolveSceneAcceptsLoneSmallPlantWithFewTiles() {
+    // 只有一種植物達標（無競爭者）→ 不套 margin gate，保留小佔比植物偵測
+    let result = PlantImageClassifier.resolveScene(
+        bestConfidence: ["catharanthus-roseus": 1.0, bg: 0.30],
+        confidentTileCounts: ["catharanthus-roseus": 2]
+    )
+    #expect(result?.label == "catharanthus-roseus")
+}
+
+@Test
+func resolveSceneFallsBackToBackgroundWhenNoPlantQualifies() {
+    let result = PlantImageClassifier.resolveScene(
+        bestConfidence: ["catharanthus-roseus": 0.4, bg: 1.0],
+        confidentTileCounts: [bg: 16]
+    )
+    #expect(result?.label == bg)
+}
