@@ -10,7 +10,7 @@
 
 def Xform "Root"
 {
-    reorder nameChildren = ["_2026_6_13", "anchor_flower"]
+    reorder nameChildren = ["_2026_6_13", "anchor_flower", "anchor_flower_1", "anchor_flower_2", "anchor_flower_3", "anchor_flower_4", "anchor_flower_5", "anchor_flower_6", "anchor_flower_7", "anchor_flower_8", "anchor_flower_9", "anchor_flower_10", "anchor_flower_11", "anchor_flower_12", "anchor_flower_13", "anchor_flower_14", "anchor_flower_15", "anchor_flower_16", "anchor_flower_17", "anchor_flower_18", "anchor_flower_19", "anchor_flower_20", "anchor_flower_21", "anchor_flower_22", "anchor_flower_23", "anchor_flower_24", "anchor_leaf", "anchor_leaf_1", "anchor_leaf_2", "anchor_leaf_3", "anchor_leaf_4", "anchor_leaf_5", "anchor_leaf_6", "anchor_leaf_7", "anchor_leaf_8", "anchor_leaf_9"]
     def "_2026_6_13" (
         active = true
         references = @2026_6_13.usdz@</object>
@@ -87,5 +87,352 @@ def Xform "Root"
         float3 xformOp:translate = (0.27608836, 1.1232164, -0.07126166)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
     }
-}
 
+    def Xform "anchor_flower_6" (
+        active = true
+    )
+    {
+        float2 ui:nodegraph:node:pos = (60, 60)
+        int ui:nodegraph:node:stackingOrder = 3
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (-0.031, 1.274, -0.1563)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def Xform "anchor_flower_7" (
+        active = true
+    )
+    {
+        float2 ui:nodegraph:node:pos = (80, 80)
+        int ui:nodegraph:node:stackingOrder = 4
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0.0477, 1.2654, -0.105)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def Xform "anchor_flower_8" (
+        active = true
+    )
+    {
+        float2 ui:nodegraph:node:pos = (100, 100)
+        int ui:nodegraph:node:stackingOrder = 5
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (-0.0871, 1.25, -0.165)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def Xform "anchor_flower_9" (
+        active = true
+    )
+    {
+        float2 ui:nodegraph:node:pos = (120, 120)
+        int ui:nodegraph:node:stackingOrder = 6
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (-0.0209, 1.2394, -0.0244)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def Xform "anchor_flower_10" (
+        active = true
+    )
+    {
+        float2 ui:nodegraph:node:pos = (140, 140)
+        int ui:nodegraph:node:stackingOrder = 7
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0.2188, 1.231, -0.1615)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def Xform "anchor_flower_11" (
+        active = true
+    )
+    {
+        float2 ui:nodegraph:node:pos = (160, 160)
+        int ui:nodegraph:node:stackingOrder = 8
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0.0635, 1.2134, -0.0966)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def Xform "anchor_flower_12" (
+        active = true
+    )
+    {
+        float2 ui:nodegraph:node:pos = (180, 180)
+        int ui:nodegraph:node:stackingOrder = 9
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0.1281, 1.2006, -0.1613)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def Xform "anchor_flower_13" (
+        active = true
+    )
+    {
+        float2 ui:nodegraph:node:pos = (200, 200)
+        int ui:nodegraph:node:stackingOrder = 10
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0.0492, 1.1792, -0.13)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def Xform "anchor_flower_14" (
+        active = true
+    )
+    {
+        float2 ui:nodegraph:node:pos = (220, 220)
+        int ui:nodegraph:node:stackingOrder = 11
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (-0.085, 1.1753, -0.1435)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def Xform "anchor_flower_15" (
+        active = true
+    )
+    {
+        float2 ui:nodegraph:node:pos = (240, 240)
+        int ui:nodegraph:node:stackingOrder = 12
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0.0163, 1.1488, 0.0663)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def Xform "anchor_flower_16" (
+        active = true
+    )
+    {
+        float2 ui:nodegraph:node:pos = (260, 260)
+        int ui:nodegraph:node:stackingOrder = 13
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0.2049, 1.1437, -0.1493)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def Xform "anchor_flower_17" (
+        active = true
+    )
+    {
+        float2 ui:nodegraph:node:pos = (280, 280)
+        int ui:nodegraph:node:stackingOrder = 14
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (-0.0573, 1.1312, -0.1459)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def Xform "anchor_flower_18" (
+        active = true
+    )
+    {
+        float2 ui:nodegraph:node:pos = (300, 300)
+        int ui:nodegraph:node:stackingOrder = 15
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0.0677, 1.1287, 0.0115)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def Xform "anchor_flower_19" (
+        active = true
+    )
+    {
+        float2 ui:nodegraph:node:pos = (320, 320)
+        int ui:nodegraph:node:stackingOrder = 16
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (-0.0134, 1.1286, -0.0802)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def Xform "anchor_flower_20" (
+        active = true
+    )
+    {
+        float2 ui:nodegraph:node:pos = (340, 340)
+        int ui:nodegraph:node:stackingOrder = 17
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0.1781, 1.113, -0.0942)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def Xform "anchor_flower_21" (
+        active = true
+    )
+    {
+        float2 ui:nodegraph:node:pos = (360, 360)
+        int ui:nodegraph:node:stackingOrder = 18
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0.0702, 1.1057, -0.1114)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def Xform "anchor_flower_22" (
+        active = true
+    )
+    {
+        float2 ui:nodegraph:node:pos = (380, 380)
+        int ui:nodegraph:node:stackingOrder = 19
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0.2351, 1.0937, -0.1613)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def Xform "anchor_flower_23" (
+        active = true
+    )
+    {
+        float2 ui:nodegraph:node:pos = (400, 400)
+        int ui:nodegraph:node:stackingOrder = 20
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0.1458, 1.0845, -0.0431)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def Xform "anchor_flower_24" (
+        active = true
+    )
+    {
+        float2 ui:nodegraph:node:pos = (420, 420)
+        int ui:nodegraph:node:stackingOrder = 21
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (-0.0963, 1.0735, -0.0927)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def Xform "anchor_leaf" (
+        active = true
+    )
+    {
+        float2 ui:nodegraph:node:pos = (440, 440)
+        int ui:nodegraph:node:stackingOrder = 22
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (-0.114, 1.1615, -0.1199)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def Xform "anchor_leaf_1" (
+        active = true
+    )
+    {
+        float2 ui:nodegraph:node:pos = (460, 460)
+        int ui:nodegraph:node:stackingOrder = 23
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0.0583, 1.1268, -0.1767)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def Xform "anchor_leaf_2" (
+        active = true
+    )
+    {
+        float2 ui:nodegraph:node:pos = (480, 480)
+        int ui:nodegraph:node:stackingOrder = 24
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0.2618, 1.1867, -0.159)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def Xform "anchor_leaf_3" (
+        active = true
+    )
+    {
+        float2 ui:nodegraph:node:pos = (500, 500)
+        int ui:nodegraph:node:stackingOrder = 25
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0.2345, 1.1343, -0.0255)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def Xform "anchor_leaf_4" (
+        active = true
+    )
+    {
+        float2 ui:nodegraph:node:pos = (520, 520)
+        int ui:nodegraph:node:stackingOrder = 26
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0.0017, 1.1456, 0.0789)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def Xform "anchor_leaf_5" (
+        active = true
+    )
+    {
+        float2 ui:nodegraph:node:pos = (540, 540)
+        int ui:nodegraph:node:stackingOrder = 27
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (-0.0968, 1.1232, -0.1614)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def Xform "anchor_leaf_6" (
+        active = true
+    )
+    {
+        float2 ui:nodegraph:node:pos = (560, 560)
+        int ui:nodegraph:node:stackingOrder = 28
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0.1763, 1.1754, -0.1765)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def Xform "anchor_leaf_7" (
+        active = true
+    )
+    {
+        float2 ui:nodegraph:node:pos = (580, 580)
+        int ui:nodegraph:node:stackingOrder = 29
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0.1623, 1.156, 0.0342)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def Xform "anchor_leaf_8" (
+        active = true
+    )
+    {
+        float2 ui:nodegraph:node:pos = (600, 600)
+        int ui:nodegraph:node:stackingOrder = 30
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (-0.0583, 1.1706, -0.0059)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def Xform "anchor_leaf_9" (
+        active = true
+    )
+    {
+        float2 ui:nodegraph:node:pos = (620, 620)
+        int ui:nodegraph:node:stackingOrder = 31
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0.107, 1.1638, -0.1784)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+}

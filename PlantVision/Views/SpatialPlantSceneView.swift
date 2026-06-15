@@ -21,26 +21,42 @@ struct RealPlantTrackingView: View {
     @EnvironmentObject private var appModel: PlantVisionModel
     @StateObject private var controller = ObjectTrackingController()
 
-    private var parts: [PartAnchor] { SpatialLabelCatalog.profiles.first?.parts ?? [] }
+    /// 攤平成「每株 × 每部位」一個標籤格,給 attachments 用。id 跨植物唯一。
+    private struct LabelSlot: Identifiable {
+        let id: String
+        let part: PlantPart
+        let plant: Plant
+    }
 
-    private func plantForLabel() -> Plant {
-        PlantDatabase.plant(id: controller.activePlantID ?? "") ?? PlantDatabase.primaryPlant
+    private var labelSlots: [LabelSlot] {
+        SpatialLabelCatalog.profiles.flatMap { profile -> [LabelSlot] in
+            let plant = PlantDatabase.plant(id: profile.plantID) ?? PlantDatabase.primaryPlant
+            return profile.parts.map { anchor in
+                LabelSlot(id: "label-\(profile.referenceObjectID)-\(anchor.part.rawValue)", part: anchor.part, plant: plant)
+            }
+        }
     }
 
     var body: some View {
         RealityView { content, attachments in
-            let root = Entity()
-            root.name = "PlantVisionTrackedRoot"
-            content.add(root)
+            // 每株植物一個 root;部位錨點掛在 frameCorrection 容器下(整株一致微調用)。
+            var roots: [String: Entity] = [:]
+            for profile in SpatialLabelCatalog.profiles {
+                let root = Entity()
+                root.name = "tracked-\(profile.referenceObjectID)"
 
-            var groups: [PlantPart: Entity] = [:]
-            for part in parts {
-                let label = attachments.entity(for: "label-\(part.part.rawValue)")
-                let group = SpatialLabelBuilder.makePartGroup(part, label: label)
-                root.addChild(group)
-                groups[part.part] = group
+                let correction = Entity()
+                correction.position = profile.frameCorrection
+                root.addChild(correction)
+
+                for anchor in profile.parts {
+                    let label = attachments.entity(for: "label-\(profile.referenceObjectID)-\(anchor.part.rawValue)")
+                    correction.addChild(SpatialLabelBuilder.makePartGroup(anchor, label: label))
+                }
+                content.add(root)
+                roots[profile.referenceObjectID] = root
             }
-            controller.bind(trackedRoot: root, partGroups: groups)
+            controller.bind(roots: roots)
 
             if let status = attachments.entity(for: "tracking-status") {
                 status.name = "tracking-status"
@@ -53,9 +69,9 @@ struct RealPlantTrackingView: View {
                 status.isEnabled = (controller.phase != .tracking)
             }
         } attachments: {
-            ForEach(parts, id: \.part) { part in
-                Attachment(id: "label-\(part.part.rawValue)") {
-                    SpatialPartLabel(part: part.part, plant: plantForLabel())
+            ForEach(labelSlots) { slot in
+                Attachment(id: slot.id) {
+                    SpatialPartLabel(part: slot.part, plant: slot.plant)
                 }
             }
             Attachment(id: "tracking-status") {

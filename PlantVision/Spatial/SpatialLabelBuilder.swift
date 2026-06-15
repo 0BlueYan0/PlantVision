@@ -8,13 +8,6 @@ enum SpatialLabelBuilder {
 
     // MARK: - 純數學(可獨立測試)
 
-    /// 由 bounding box 的最小角 + 範圍,換算正規化座標(0...1)對應的 local 座標點。
-    static func localPoint(boundingBoxMin min: SIMD3<Float>,
-                           extent: SIMD3<Float>,
-                           normalized: SIMD3<Float>) -> SIMD3<Float> {
-        min + normalized * extent
-    }
-
     /// 對剛體 transform 做指數平滑(translation 線性內插、rotation 球面內插),降低追蹤抖動。
     /// `alpha` 0...1,越大越跟手、越小越穩。ObjectTracking 回傳的是剛體 pose,這裡固定 scale = 1。
     static func smoothed(current: Transform, target: Transform, alpha: Float) -> Transform {
@@ -67,14 +60,25 @@ enum SpatialLabelBuilder {
         return cylinder
     }
 
-    /// 組好「一個部位」的子樹:標記球(在 group 原點)+ 指引線 + 標籤(在 labelOffset,面向使用者)。
-    /// group 本身的位置之後由 `ObjectTrackingController` 依 bounding box 設定。
+    /// 組好「一個部位」的子樹,並把 group 放到點群重心:
+    /// 每個標註點一顆小圓點(實機核對用)+ 從重心指到標籤的指引線 + 面向使用者的標籤。
+    /// group 已是 trackedRoot 的子節點,因此整株被追到後這些內容會一起跟著動。
     static func makePartGroup(_ anchor: PartAnchor, label: Entity?) -> Entity {
         let group = Entity()
         group.name = "part-group-\(anchor.part.rawValue)"
+        group.position = anchor.centroid
 
-        group.addChild(makeMarker(radius: anchor.zoneRadius, color: UIColor(anchor.part.markerColor)))
-        group.addChild(makeLeader(from: .zero, to: anchor.labelOffset))
+        let color = UIColor(anchor.part.markerColor)
+
+        // 每個 RCP 標註點 → 一顆小圓點(相對重心擺放)
+        for point in anchor.points {
+            let dot = makeMarker(radius: anchor.dotRadius, color: color)
+            dot.position = point - anchor.centroid
+            group.addChild(dot)
+        }
+
+        // 指引線:重心(group 原點)→ 標籤位置
+        group.addChild(makeLeader(from: .zero, to: anchor.labelOffset, color: color))
 
         if let label {
             label.position = anchor.labelOffset
