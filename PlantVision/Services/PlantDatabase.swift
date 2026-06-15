@@ -11,6 +11,8 @@ enum PlantDatabase {
             origin: "南非",
             morphology: ["株型低矮叢生", "葉片小而互生", "唇形花冠", "花色藍紫、粉或白"],
             careAdvice: ["喜全日照至半日照", "涼爽季節生長旺盛", "保持介質濕潤", "花後修剪促進分枝"],
+            flowerNote: "唇形花冠，花色藍紫、粉或白",
+            leafNote: "葉片小而互生，株型低矮叢生",
             demoConfidence: 0.92
         ),
         Plant(
@@ -22,6 +24,8 @@ enum PlantDatabase {
             origin: "馬達加斯加",
             morphology: ["葉對生橢圓形", "葉面光亮深綠", "五瓣花全年開放", "花色粉紅、紫紅或白"],
             careAdvice: ["喜高溫與充足日照", "耐旱不耐積水", "土表乾燥再澆水", "全株具毒性避免誤食"],
+            flowerNote: "五瓣花全年開放，花色粉紅、紫紅或白",
+            leafNote: "葉對生橢圓形，葉面光亮深綠",
             demoConfidence: 0.9
         )
     ]

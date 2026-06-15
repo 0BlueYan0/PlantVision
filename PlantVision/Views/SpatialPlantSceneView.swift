@@ -1,7 +1,79 @@
+import ARKit
 import RealityKit
 import SwiftUI
 
+/// Immersive 場景的入口。實機(支援 Object Tracking)走「真實植物追蹤」;
+/// 模擬器/不支援的裝置 fallback 到原本的合成植物示意場景,讓 app 仍可操作。
 struct SpatialPlantSceneView: View {
+    var body: some View {
+        if ObjectTrackingProvider.isSupported {
+            RealPlantTrackingView()
+        } else {
+            SyntheticPlantSceneView()
+        }
+    }
+}
+
+// MARK: - 真實植物追蹤(部位級空間標籤)
+
+/// 用 ObjectTracking 對齊真實盆栽,並把花/葉標籤錨在對應部位。需實機 Vision Pro。
+struct RealPlantTrackingView: View {
+    @EnvironmentObject private var appModel: PlantVisionModel
+    @StateObject private var controller = ObjectTrackingController()
+
+    private var parts: [PartAnchor] { SpatialLabelCatalog.profiles.first?.parts ?? [] }
+
+    private func plantForLabel() -> Plant {
+        PlantDatabase.plant(id: controller.activePlantID ?? "") ?? PlantDatabase.primaryPlant
+    }
+
+    var body: some View {
+        RealityView { content, attachments in
+            let root = Entity()
+            root.name = "PlantVisionTrackedRoot"
+            content.add(root)
+
+            var groups: [PlantPart: Entity] = [:]
+            for part in parts {
+                let label = attachments.entity(for: "label-\(part.part.rawValue)")
+                let group = SpatialLabelBuilder.makePartGroup(part, label: label)
+                root.addChild(group)
+                groups[part.part] = group
+            }
+            controller.bind(trackedRoot: root, partGroups: groups)
+
+            if let status = attachments.entity(for: "tracking-status") {
+                status.name = "tracking-status"
+                status.position = [0, 1.4, -1.2]
+                content.add(status)
+            }
+        } update: { content, _ in
+            // 追蹤穩定後就把狀態提示收起來。
+            if let status = content.entities.first(where: { $0.name == "tracking-status" }) {
+                status.isEnabled = (controller.phase != .tracking)
+            }
+        } attachments: {
+            ForEach(parts, id: \.part) { part in
+                Attachment(id: "label-\(part.part.rawValue)") {
+                    SpatialPartLabel(part: part.part, plant: plantForLabel())
+                }
+            }
+            Attachment(id: "tracking-status") {
+                SpatialTrackingStatusLabel(phase: controller.phase)
+            }
+        }
+        .task {
+            await controller.start(holdProvider: { appModel.isHolding })
+        }
+        .onDisappear {
+            controller.stop()
+        }
+    }
+}
+
+// MARK: - 合成植物示意場景(fallback / 模擬器)
+
+struct SyntheticPlantSceneView: View {
     @EnvironmentObject private var appModel: PlantVisionModel
 
     var body: some View {

@@ -9,6 +9,10 @@ struct Plant: Identifiable, Equatable, Hashable {
     let origin: String
     let morphology: [String]
     let careAdvice: [String]
+    /// 花部位的精簡說明,供空間標籤指向花時顯示(刻意比 morphology 短)。
+    let flowerNote: String
+    /// 葉部位的精簡說明,供空間標籤指向葉叢時顯示。
+    let leafNote: String
     let demoConfidence: Double
 }
 

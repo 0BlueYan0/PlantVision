@@ -19,6 +19,10 @@
 		8A10000A2C00000100000001 /* Views/HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A20000A2C00000100000001 /* Views/HistoryView.swift */; };
 		8A10000B2C00000100000001 /* Views/SpatialPlantSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A20000B2C00000100000001 /* Views/SpatialPlantSceneView.swift */; };
 		8A10000C2C00000100000001 /* Services/SocketIORelayClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A20000F2C00000100000001 /* Services/SocketIORelayClient.swift */; };
+		8A10000D2C00000100000001 /* Spatial/PartAnchor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000102C00000100000001 /* Spatial/PartAnchor.swift */; };
+		8A10000E2C00000100000001 /* Spatial/SpatialLabelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000112C00000100000001 /* Spatial/SpatialLabelBuilder.swift */; };
+		8A10000F2C00000100000001 /* Spatial/ObjectTrackingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000122C00000100000001 /* Spatial/ObjectTrackingController.swift */; };
+		8A1000102C00000100000001 /* Views/SpatialPartLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000132C00000100000001 /* Views/SpatialPartLabel.swift */; };
 		8A9100012C00000100000001 /* MacFrameRelayApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9200042C00000100000001 /* MacFrameRelayApp.swift */; };
 		8A9100022C00000100000001 /* CaptureTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9200052C00000100000001 /* CaptureTarget.swift */; };
 		8A9100032C00000100000001 /* CapturedFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9200062C00000100000001 /* CapturedFrame.swift */; };
@@ -29,6 +33,7 @@
 		8A9100082C00000100000001 /* PlantImageClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A92000E2C00000100000001 /* PlantImageClassifier.swift */; };
 		8A91000A2C00000100000001 /* TemporalLabelSmoother.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9200112C00000100000001 /* TemporalLabelSmoother.swift */; };
 		8A9100092C00000100000001 /* PlantClassifier.mlmodel in Resources */ = {isa = PBXBuildFile; fileRef = 8A9200102C00000100000001 /* PlantClassifier.mlmodel */; };
+		8A1000112C00000100000001 /* Resources/PlantPot.referenceobject in Resources */ = {isa = PBXBuildFile; fileRef = 8A2000142C00000100000001 /* Resources/PlantPot.referenceobject */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +64,11 @@
 		8A92000E2C00000100000001 /* PlantImageClassifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/MacFrameRelayCore/PlantImageClassifier.swift; sourceTree = "<group>"; };
 		8A9200112C00000100000001 /* TemporalLabelSmoother.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/MacFrameRelayCore/TemporalLabelSmoother.swift; sourceTree = "<group>"; };
 		8A9200102C00000100000001 /* PlantClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = PlantClassifier.mlmodel; sourceTree = "<group>"; };
+		8A2000102C00000100000001 /* Spatial/PartAnchor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spatial/PartAnchor.swift; sourceTree = "<group>"; };
+		8A2000112C00000100000001 /* Spatial/SpatialLabelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spatial/SpatialLabelBuilder.swift; sourceTree = "<group>"; };
+		8A2000122C00000100000001 /* Spatial/ObjectTrackingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spatial/ObjectTrackingController.swift; sourceTree = "<group>"; };
+		8A2000132C00000100000001 /* Views/SpatialPartLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/SpatialPartLabel.swift; sourceTree = "<group>"; };
+		8A2000142C00000100000001 /* Resources/PlantPot.referenceobject */ = {isa = PBXFileReference; lastKnownFileType = file; path = Resources/PlantPot.referenceobject; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +114,11 @@
 				8A2000092C00000100000001 /* Views/GrowthView.swift */,
 				8A20000A2C00000100000001 /* Views/HistoryView.swift */,
 				8A20000B2C00000100000001 /* Views/SpatialPlantSceneView.swift */,
+				8A2000102C00000100000001 /* Spatial/PartAnchor.swift */,
+				8A2000112C00000100000001 /* Spatial/SpatialLabelBuilder.swift */,
+				8A2000122C00000100000001 /* Spatial/ObjectTrackingController.swift */,
+				8A2000132C00000100000001 /* Views/SpatialPartLabel.swift */,
+				8A2000142C00000100000001 /* Resources/PlantPot.referenceobject */,
 				8A20000C2C00000100000001 /* Info.plist */,
 				8A20000D2C00000100000001 /* PlantVision.entitlements */,
 			);
@@ -255,6 +270,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8A1000112C00000100000001 /* Resources/PlantPot.referenceobject in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,6 +301,10 @@
 				8A1000092C00000100000001 /* Views/GrowthView.swift in Sources */,
 				8A10000A2C00000100000001 /* Views/HistoryView.swift in Sources */,
 				8A10000B2C00000100000001 /* Views/SpatialPlantSceneView.swift in Sources */,
+				8A10000D2C00000100000001 /* Spatial/PartAnchor.swift in Sources */,
+				8A10000E2C00000100000001 /* Spatial/SpatialLabelBuilder.swift in Sources */,
+				8A10000F2C00000100000001 /* Spatial/ObjectTrackingController.swift in Sources */,
+				8A1000102C00000100000001 /* Views/SpatialPartLabel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

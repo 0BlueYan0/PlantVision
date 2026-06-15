@@ -25,6 +25,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSWorldSensingUsageDescription</key>
+	<string>PlantVision 需要空間感測來辨識並追蹤眼前的真實植物，將花、葉等部位標籤對齊到實體植物的對應位置。</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
