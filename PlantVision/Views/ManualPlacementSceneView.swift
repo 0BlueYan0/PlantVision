@@ -38,6 +38,8 @@ struct ManualPlacementSceneView: View {
             root.name = "placement-root"
 
             // 載入植物模型,加為 root 子節點,並算出底部偏移(讓底部踩地)。
+            // TODO: 模型檔名目前硬編碼,與 catalog 的單一 profile 隱性耦合;
+            // 若日後 catalog 換成別的植物,應改由 profile 提供模型資產名(新增欄位),讓模型與花/葉錨點一致。
             var baseOffset: Float = 0
             if let model = try? await Entity(named: "馬纓丹_已原點", in: plantAnchorBundle) {
                 root.addChild(model)
@@ -64,6 +66,8 @@ struct ManualPlacementSceneView: View {
             }
 
             // 讓 root 可被拖曳:加碰撞形狀 + 輸入目標。
+            // visualBounds(relativeTo: root) 以 root-local 空間計算,只依賴已加入的子節點,
+            // 不需要 root 先進入場景,因此在 content.add(root) 之前算是安全的。
             let bounds = root.visualBounds(relativeTo: root)
             let shape = ShapeResource.generateBox(size: bounds.extents).offsetBy(translation: bounds.center)
             root.components.set(CollisionComponent(shapes: [shape]))
@@ -77,6 +81,10 @@ struct ManualPlacementSceneView: View {
                     binding: .init(flowerPoints: flowerPoints, leafPoints: leafPoints,
                                    flowerCallout: f, leafCallout: l),
                     baseOffset: baseOffset)
+            } else {
+                // profile 必須同時含 flower 與 leaf 部位;否則 bind 不會發生、植物不會被放置/可拖曳。
+                // 目前 catalog 固定兩者皆有;此斷言只在 debug 觸發,提醒未來改 catalog 的人。
+                assertionFailure("ManualPlacement: profile 缺少 flower 或 leaf 部位,callout 無法綁定")
             }
 
             controller.updateSubscription = content.subscribe(to: SceneEvents.Update.self) { _ in
