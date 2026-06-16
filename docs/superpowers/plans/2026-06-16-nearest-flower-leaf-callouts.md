@@ -491,9 +491,9 @@ git commit -m "feat(spatial): 新增 makeCallout/載入模板/播放動畫（暫
             }
             let m = root.transform.matrix
             func world(_ pts: [SIMD3<Float>]) -> [SIMD3<Float>] {
-                pts.map { p in let w = m * SIMD4<Float>(p, 1); return SIMD3<Float>(w.x, w.y, w.z) }
+                pts.map { p in let w = m * SIMD4<Float>(p.x, p.y, p.z, 1); return SIMD3<Float>(w.x, w.y, w.z) }
             }
-            var sel = selection[id] ?? (nil, nil)
+            let sel = selection[id] ?? (nil, nil)
             let f = NearestPartSelector.select(candidatesWorld: world(b.flowerPoints),
                                                headWorld: headWorld, current: sel.flower, switchMargin: switchMargin)
             let l = NearestPartSelector.select(candidatesWorld: world(b.leafPoints),

@@ -1,6 +1,7 @@
 import ARKit
 import Foundation
 import RealityKit
+import QuartzCore
 
 /// 負責「位置」這一半:用 ARKit ObjectTracking 同時載入多株植物的 reference object,
 /// 找到哪一株就把那株的標籤子樹 root 對齊到它的 pose(部位錨點已由 builder 依 RCP 座標擺好)。
@@ -37,10 +38,33 @@ final class ObjectTrackingController: ObservableObject {
     private var loggedBoxes: Set<String> = []
     private let smoothingAlpha: Float = 0.25
 
+    // MARK: - 動態最近 callout
+
+    /// 一株植物的候選點與對應 callout 實體。
+    struct PlantCalloutBinding {
+        let flowerPoints: [SIMD3<Float>]
+        let leafPoints: [SIMD3<Float>]
+        let flowerCallout: Entity
+        let leafCallout: Entity
+    }
+
+    private let worldTracking = WorldTrackingProvider()
+    private var callouts: [String: PlantCalloutBinding] = [:]
+    private var selection: [String: (flower: Int?, leaf: Int?)] = [:]
+    private let switchMargin: Float = 0.05
+    /// 保留 RealityView scene-update 訂閱，避免被釋放。
+    var updateSubscription: EventSubscription?
+
     /// View 把每株的 root 交給 controller(key = referenceObjectID)。
     func bind(roots: [String: Entity]) {
         self.roots = roots
         roots.values.forEach { $0.isEnabled = false } // 找到目標前先隱藏
+    }
+
+    /// View 注入每株的候選點 + callout 實體（key = referenceObjectID）。
+    func bindCallouts(_ bindings: [String: PlantCalloutBinding]) {
+        self.callouts = bindings
+        self.selection = [:]
     }
 
     /// 啟動追蹤。`holdProvider` 讓 controller 即時讀取鎖定狀態(鎖定時凍結 pose)。
@@ -72,7 +96,8 @@ final class ObjectTrackingController: ObservableObject {
             return
         }
 
-        let status = await session.requestAuthorization(for: ObjectTrackingProvider.requiredAuthorizations)
+        let auths = ObjectTrackingProvider.requiredAuthorizations + WorldTrackingProvider.requiredAuthorizations
+        let status = await session.requestAuthorization(for: auths)
         guard status.values.allSatisfy({ $0 == .allowed }) else {
             phase = .needsAuthorization
             return
@@ -80,7 +105,7 @@ final class ObjectTrackingController: ObservableObject {
 
         let provider = ObjectTrackingProvider(referenceObjects: loaded.map(\.reference))
         do {
-            try await session.run([provider])
+            try await session.run([provider, worldTracking])
         } catch {
             phase = .failed("啟動 ARKit session 失敗:\(error.localizedDescription)")
             return
@@ -147,5 +172,38 @@ final class ObjectTrackingController: ObservableObject {
         } ?? target
         smoothed[id] = next
         root.transform = next
+    }
+
+    /// 依當下頭部位置，把每株的花/葉 callout 移到最近候選（帶遲滯）。
+    /// 由 View 的 SceneEvents.Update 每幀呼叫。
+    func refreshCallouts() {
+        guard let device = worldTracking.queryDeviceAnchor(atTimestamp: CACurrentMediaTime()) else { return }
+        let h = device.originFromAnchorTransform.columns.3
+        let headWorld = SIMD3<Float>(h.x, h.y, h.z)
+
+        for (id, b) in callouts {
+            guard let root = roots[id], root.isEnabled else {
+                b.flowerCallout.isEnabled = false
+                b.leafCallout.isEnabled = false
+                continue
+            }
+            let m = root.transform.matrix
+            func world(_ pts: [SIMD3<Float>]) -> [SIMD3<Float>] {
+                pts.map { p in
+                    let w = m * SIMD4<Float>(p.x, p.y, p.z, 1)
+                    return SIMD3<Float>(w.x, w.y, w.z)
+                }
+            }
+            let sel = selection[id] ?? (nil, nil)
+            let f = NearestPartSelector.select(candidatesWorld: world(b.flowerPoints),
+                                               headWorld: headWorld, current: sel.flower, switchMargin: switchMargin)
+            let l = NearestPartSelector.select(candidatesWorld: world(b.leafPoints),
+                                               headWorld: headWorld, current: sel.leaf, switchMargin: switchMargin)
+            selection[id] = (f, l)
+            if let f { b.flowerCallout.position = b.flowerPoints[f]; b.flowerCallout.isEnabled = true }
+            else { b.flowerCallout.isEnabled = false }
+            if let l { b.leafCallout.position = b.leafPoints[l]; b.leafCallout.isEnabled = true }
+            else { b.leafCallout.isEnabled = false }
+        }
     }
 }
