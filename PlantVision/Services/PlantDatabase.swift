@@ -27,6 +27,19 @@ enum PlantDatabase {
             flowerNote: "五瓣花全年開放，花色粉紅、紫紅或白",
             leafNote: "葉對生橢圓形，葉面光亮深綠",
             demoConfidence: 0.9
+        ),
+        Plant(
+            id: "lantana-camara",
+            chineseName: "馬纓丹",
+            scientificName: "Lantana camara",
+            family: "馬鞭草科 Verbenaceae",
+            genus: "Lantana",
+            origin: "熱帶美洲",
+            morphology: ["莖方形常具逆刺", "葉對生卵形表面粗糙", "密集繖形花序", "花色由黃橙轉紅粉同序多色"],
+            careAdvice: ["喜全日照與高溫", "耐旱排水需良好", "花後修剪促進開花", "全株含毒未熟果尤甚避免誤食"],
+            flowerNote: "密集繖形花序，花色由黃橙轉紅粉、同一花序多色",
+            leafNote: "葉對生卵形、表面粗糙具氣味，莖具逆刺",
+            demoConfidence: 0.9
         )
     ]
 

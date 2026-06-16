@@ -67,7 +67,7 @@ enum SpatialLabelCatalog {
         ReferenceObjectProfile(
             referenceObjectID: "plantpot",
             referenceFileName: "PlantPot",
-            plantID: "catharanthus-roseus",
+            plantID: "lantana-camara",
             parts: [
                 PartAnchor(
                     part: .flower,
