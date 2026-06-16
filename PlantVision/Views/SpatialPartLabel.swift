@@ -43,7 +43,7 @@ struct SpatialTrackingStatusLabel: View {
         case .idle: "準備中…"
         case .unsupported: "此裝置/模擬器不支援 Object Tracking(需實機 Vision Pro)。"
         case .needsAuthorization: "需要「世界感測」權限才能追蹤植物,請到設定開啟。"
-        case .missingAsset: "找不到 PlantPot.referenceobject。"
+        case .missingAsset: "找不到對應的 .referenceobject(請確認已加入 app bundle)。"
         case .searching: "正在尋找植物…請把視線對準掃描過的那株盆栽。"
         case .tracking: "已鎖定植物。"
         case .failed(let reason): "追蹤失敗:\(reason)"

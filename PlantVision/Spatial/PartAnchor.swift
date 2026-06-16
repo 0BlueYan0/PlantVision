@@ -53,13 +53,13 @@ struct ReferenceObjectProfile: Sendable {
 
 /// 已掃描 reference object 的設定清單。
 enum SpatialLabelCatalog {
-    /// 花/葉的座標由 RCP 的 Scene.usda 解析而來(花 25 點、葉 14 點)。
+    /// 花/葉的座標由 RCP 的 Scene.usda 解析而來(花 22 點、葉 14 點)。
     /// `plantID` = lantana-camara(馬纓丹,使用者掃描的植物)。
     /// 若實機上整片標籤位置一致地偏移,通常是追蹤框與模型框差一個常數,調 `labelOffset` 或回報我即可。
     static let profiles: [ReferenceObjectProfile] = [
         ReferenceObjectProfile(
-            referenceObjectID: "plantpot",
-            referenceFileName: "PlantPot",
+            referenceObjectID: "lantana-camara",
+            referenceFileName: "PlantTracker",
             plantID: "lantana-camara",
             parts: [
                 PartAnchor(
@@ -70,9 +70,6 @@ enum SpatialLabelCatalog {
                         SIMD3<Float>(-0.10362, 0.31044, -0.05745),
                         SIMD3<Float>(-0.09382, 0.30899, 0.07372),
                         SIMD3<Float>(-0.13492, 0.29778, -0.00455),
-                        SIMD3<Float>(-0.11803, 0.29667, 0.03154),
-                        SIMD3<Float>(0.07871, 0.29567, -0.11467),
-                        SIMD3<Float>(0.11675, 0.29511, 0.04670),
                         SIMD3<Float>(-0.06215, 0.28653, -0.10640),
                         SIMD3<Float>(-0.08530, 0.28519, 0.09251),
                         SIMD3<Float>(-0.09563, 0.28500, -0.09317),
