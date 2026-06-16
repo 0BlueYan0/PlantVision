@@ -23,6 +23,34 @@ func successMessagePayloadIncludesClassificationResult() throws {
 }
 
 @Test
+func successMessagePayloadIncludesWitherFields() throws {
+    let message = FrameRelayMessage.successFrameCaptured(
+        classification: PlantClassificationResult(label: "lantana-camara", confidence: 0.8),
+        wither: WitherSummary(ratio: 0.42, level: 2)
+    )
+    let payload = try JSONSerialization.jsonObject(with: message.jsonPayload) as? [String: Any]
+
+    #expect(payload?["witherRatio"] as? Double == 0.42)
+    #expect(payload?["witherLevel"] as? Int == 2)
+}
+
+@Test
+func witherSummaryDerivesLevelFromRatio() {
+    // 只給比例時，等級用 WitherLevel 的預設閾值自動推出（0.5 → 中度=2）
+    let summary = WitherSummary(ratio: 0.5)
+    #expect(summary.level == WitherLevel.moderate)
+}
+
+@Test
+func successMessagePayloadOmitsWitherFieldsWhenAbsent() throws {
+    // 向後相容：沒有枯萎資料時，payload 不應出現這兩個 key，舊端解析才不會壞
+    let json = String(data: FrameRelayMessage.successFrameCaptured().jsonPayload, encoding: .utf8) ?? ""
+
+    #expect(!json.contains("witherRatio"))
+    #expect(!json.contains("witherLevel"))
+}
+
+@Test
 func capturedFrameStoresImageDimensions() throws {
     let frame = try CapturedFrame.makePlaceholder(width: 320, height: 180)
 

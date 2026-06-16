@@ -54,6 +54,40 @@ test("relays Mac frame JSON to Vision client in the same pairing room", async ()
   }
 });
 
+test("relays the optional witherRatio / witherLevel fields through to Vision", async () => {
+  const mac = connectClient(relayURL, { transports: ["websocket"] });
+  const vision = connectClient(relayURL, { transports: ["websocket"] });
+
+  try {
+    await Promise.all([waitForConnect(mac), waitForConnect(vision)]);
+
+    mac.emit("join", { role: "mac", code: "482913" });
+    vision.emit("join", { role: "vision", code: "482913" });
+    await Promise.all([
+      waitForEvent(mac, "joined"),
+      waitForEvent(vision, "joined")
+    ]);
+
+    const receivedPromise = waitForEvent(vision, "plantVisionRelay");
+    mac.emit("frameResult", {
+      type: "frameCaptured",
+      message: "成功抽幀",
+      plantID: "lantana-camara",
+      confidence: 0.8,
+      witherRatio: 0.42,
+      witherLevel: 2
+    });
+
+    const received = await receivedPromise;
+    // relay 整包轉發，枯萎欄位應原封不動傳到 vision
+    assert.equal(received.data.witherRatio, 0.42);
+    assert.equal(received.data.witherLevel, 2);
+  } finally {
+    mac.disconnect();
+    vision.disconnect();
+  }
+});
+
 test("does not relay Mac frame JSON to a different pairing room", async () => {
   const mac = connectClient(relayURL, { transports: ["websocket"] });
   const vision = connectClient(relayURL, { transports: ["websocket"] });
