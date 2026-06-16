@@ -29,19 +29,12 @@ enum PlantPart: String, CaseIterable, Hashable, Sendable {
 /// 追到後,這些點就是相對追蹤框的固定位移。
 struct PartAnchor: Sendable {
     let part: PlantPart
-    /// 該部位所有標註點(物件 local 座標,公尺)。會各畫一顆小圓點,方便實機核對。
+    /// 該部位的候選點:每個點 = 一朵花/一片葉的獨立位置(物件 local 座標,公尺)。
+    /// runtime 只顯示離使用者最近的一個(見 NearestPartSelector)。
     let points: [SIMD3<Float>]
-    /// 標籤相對「點群重心」浮出的位移(公尺,物件 local)。
-    /// 花/葉重心很近(本例僅約 2.3cm),靠這個位移把兩張標籤分開、各自拉指引線。
+    /// 標籤相對「選中候選點」浮出的位移(公尺,物件 local)。
+    /// 花/葉可能相鄰,靠這個位移把兩張標籤分開、各自拉指引線。
     let labelOffset: SIMD3<Float>
-    /// 每個標註點顯示的小圓點半徑(公尺)。
-    let dotRadius: Float
-
-    /// 點群重心 = 指引線指向的目標點。
-    var centroid: SIMD3<Float> {
-        guard !points.isEmpty else { return .zero }
-        return points.reduce(.zero, +) / Float(points.count)
-    }
 }
 
 /// 一個 `.referenceobject` 對應的設定。新增一株植物 = 在 `SpatialLabelCatalog.profiles` 加一筆,
@@ -98,8 +91,7 @@ enum SpatialLabelCatalog {
                         SIMD3<Float>(0.14580, 1.08450, -0.04310),
                         SIMD3<Float>(-0.09630, 1.07350, -0.09270)
                     ],
-                    labelOffset: SIMD3<Float>(0.24, 0.17, 0.0),
-                    dotRadius: 0.008
+                    labelOffset: SIMD3<Float>(0.24, 0.17, 0.0)
                 ),
                 PartAnchor(
                     part: .leaf,
@@ -115,8 +107,7 @@ enum SpatialLabelCatalog {
                         SIMD3<Float>(-0.05830, 1.17060, -0.00590),
                         SIMD3<Float>(0.10700, 1.16380, -0.17840)
                     ],
-                    labelOffset: SIMD3<Float>(-0.26, -0.12, 0.0),
-                    dotRadius: 0.008
+                    labelOffset: SIMD3<Float>(-0.26, -0.12, 0.0)
                 )
             ],
             frameCorrection: .zero

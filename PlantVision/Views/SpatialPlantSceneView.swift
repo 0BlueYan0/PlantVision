@@ -39,8 +39,11 @@ struct RealPlantTrackingView: View {
 
     var body: some View {
         RealityView { content, attachments in
-            // 每株植物一個 root;部位錨點掛在 frameCorrection 容器下(整株一致微調用)。
+            // 載入 marker 模板(一次);每株建花/葉兩個 callout group,掛在 frameCorrection 下。
+            let templates = await SpatialLabelBuilder.loadMarkerTemplates()
             var roots: [String: Entity] = [:]
+            var bindings: [String: ObjectTrackingController.PlantCalloutBinding] = [:]
+
             for profile in SpatialLabelCatalog.profiles {
                 let root = Entity()
                 root.name = "tracked-\(profile.referenceObjectID)"
@@ -49,14 +52,40 @@ struct RealPlantTrackingView: View {
                 correction.position = profile.frameCorrection
                 root.addChild(correction)
 
+                var flowerCallout: Entity?
+                var leafCallout: Entity?
+                var flowerPoints: [SIMD3<Float>] = []
+                var leafPoints: [SIMD3<Float>] = []
+
                 for anchor in profile.parts {
                     let label = attachments.entity(for: "label-\(profile.referenceObjectID)-\(anchor.part.rawValue)")
-                    correction.addChild(SpatialLabelBuilder.makePartGroup(anchor, label: label))
+                    let callout = SpatialLabelBuilder.makeCallout(
+                        part: anchor.part,
+                        template: anchor.part == .flower ? templates.flower : templates.leaf,
+                        label: label,
+                        labelOffset: anchor.labelOffset)
+                    correction.addChild(callout)
+                    switch anchor.part {
+                    case .flower: flowerCallout = callout; flowerPoints = anchor.points
+                    case .leaf:   leafCallout = callout;   leafPoints = anchor.points
+                    }
                 }
+
                 content.add(root)
                 roots[profile.referenceObjectID] = root
+                if let f = flowerCallout, let l = leafCallout {
+                    bindings[profile.referenceObjectID] = .init(
+                        flowerPoints: flowerPoints, leafPoints: leafPoints,
+                        flowerCallout: f, leafCallout: l)
+                }
             }
             controller.bind(roots: roots)
+            controller.bindCallouts(bindings)
+
+            // 每幀依頭部位置重選最近花/葉 callout。
+            controller.updateSubscription = content.subscribe(to: SceneEvents.Update.self) { _ in
+                controller.refreshCallouts()
+            }
 
             if let status = attachments.entity(for: "tracking-status") {
                 status.name = "tracking-status"

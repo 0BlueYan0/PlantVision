@@ -61,33 +61,6 @@ enum SpatialLabelBuilder {
         return cylinder
     }
 
-    /// 組好「一個部位」的子樹,並把 group 放到點群重心:
-    /// 每個標註點一顆小圓點(實機核對用)+ 從重心指到標籤的指引線 + 面向使用者的標籤。
-    /// group 已是 trackedRoot 的子節點,因此整株被追到後這些內容會一起跟著動。
-    static func makePartGroup(_ anchor: PartAnchor, label: Entity?) -> Entity {
-        let group = Entity()
-        group.name = "part-group-\(anchor.part.rawValue)"
-        group.position = anchor.centroid
-
-        let color = UIColor(anchor.part.markerColor)
-
-        // 每個 RCP 標註點 → 一顆小圓點(相對重心擺放)
-        for point in anchor.points {
-            let dot = makeMarker(radius: anchor.dotRadius, color: color)
-            dot.position = point - anchor.centroid
-            group.addChild(dot)
-        }
-
-        // 指引線:重心(group 原點)→ 標籤位置
-        group.addChild(makeLeader(from: .zero, to: anchor.labelOffset, color: color))
-
-        if let label {
-            label.position = anchor.labelOffset
-            label.components.set(BillboardComponent())
-            group.addChild(label)
-        }
-        return group
-    }
 }
 
 extension SpatialLabelBuilder {
