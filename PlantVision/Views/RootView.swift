@@ -82,8 +82,8 @@ struct RootView: View {
             ScanView()
         case .detail:
             PlantDetailView(result: appModel.currentResult)
-        case .growth:
-            GrowthView()
+        case .place:
+            ManualPlacementView()
         case .history:
             HistoryView()
         }
@@ -93,7 +93,7 @@ struct RootView: View {
 private enum WorkbenchSection: String, CaseIterable, Identifiable {
     case scan
     case detail
-    case growth
+    case place
     case history
 
     var id: String { rawValue }
@@ -102,7 +102,7 @@ private enum WorkbenchSection: String, CaseIterable, Identifiable {
         switch self {
         case .scan: "Scan"
         case .detail: "Detail"
-        case .growth: "Growth"
+        case .place: "Place"
         case .history: "History"
         }
     }
@@ -111,7 +111,7 @@ private enum WorkbenchSection: String, CaseIterable, Identifiable {
         switch self {
         case .scan: "viewfinder"
         case .detail: "leaf"
-        case .growth: "cube"
+        case .place: "move.3d"
         case .history: "clock.arrow.circlepath"
         }
     }
@@ -120,7 +120,7 @@ private enum WorkbenchSection: String, CaseIterable, Identifiable {
         switch self {
         case .scan: "開啟掃描工作區"
         case .detail: "開啟植物資訊"
-        case .growth: "開啟生長動畫"
+        case .place: "開啟手動擺放工作區"
         case .history: "開啟歷史紀錄"
         }
     }
