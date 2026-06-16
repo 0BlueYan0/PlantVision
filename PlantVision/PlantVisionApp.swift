@@ -21,5 +21,10 @@ struct PlantVisionApp: App {
             SpatialPlantSceneView()
                 .environmentObject(appModel)
         }
+
+        ImmersiveSpace(id: PlantVisionModel.placementImmersiveSpaceID) {
+            ManualPlacementSceneView()
+                .environmentObject(appModel)
+        }
     }
 }
