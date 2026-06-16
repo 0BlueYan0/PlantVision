@@ -17,7 +17,6 @@
 		8A1000062C00000100000001 /* Views/RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000062C00000100000001 /* Views/RootView.swift */; };
 		8A1000072C00000100000001 /* Views/ScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000072C00000100000001 /* Views/ScanView.swift */; };
 		8A1000082C00000100000001 /* Views/PlantDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000082C00000100000001 /* Views/PlantDetailView.swift */; };
-		8A1000092C00000100000001 /* Views/GrowthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000092C00000100000001 /* Views/GrowthView.swift */; };
 		8A10000A2C00000100000001 /* Views/HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A20000A2C00000100000001 /* Views/HistoryView.swift */; };
 		8A10000B2C00000100000001 /* Views/SpatialPlantSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A20000B2C00000100000001 /* Views/SpatialPlantSceneView.swift */; };
 		8A10000C2C00000100000001 /* Services/SocketIORelayClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A20000F2C00000100000001 /* Services/SocketIORelayClient.swift */; };
@@ -51,7 +50,6 @@
 		8A2000062C00000100000001 /* Views/RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/RootView.swift; sourceTree = "<group>"; };
 		8A2000072C00000100000001 /* Views/ScanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/ScanView.swift; sourceTree = "<group>"; };
 		8A2000082C00000100000001 /* Views/PlantDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/PlantDetailView.swift; sourceTree = "<group>"; };
-		8A2000092C00000100000001 /* Views/GrowthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/GrowthView.swift; sourceTree = "<group>"; };
 		8A20000A2C00000100000001 /* Views/HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/HistoryView.swift; sourceTree = "<group>"; };
 		8A20000B2C00000100000001 /* Views/SpatialPlantSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/SpatialPlantSceneView.swift; sourceTree = "<group>"; };
 		8A20000C2C00000100000001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -121,7 +119,6 @@
 				8A2000062C00000100000001 /* Views/RootView.swift */,
 				8A2000072C00000100000001 /* Views/ScanView.swift */,
 				8A2000082C00000100000001 /* Views/PlantDetailView.swift */,
-				8A2000092C00000100000001 /* Views/GrowthView.swift */,
 				8A20000A2C00000100000001 /* Views/HistoryView.swift */,
 				8A20000B2C00000100000001 /* Views/SpatialPlantSceneView.swift */,
 				8A2000102C00000100000001 /* Spatial/PartAnchor.swift */,
@@ -313,7 +310,6 @@
 				8A1000062C00000100000001 /* Views/RootView.swift in Sources */,
 				8A1000072C00000100000001 /* Views/ScanView.swift in Sources */,
 				8A1000082C00000100000001 /* Views/PlantDetailView.swift in Sources */,
-				8A1000092C00000100000001 /* Views/GrowthView.swift in Sources */,
 				8A10000A2C00000100000001 /* Views/HistoryView.swift in Sources */,
 				8A10000B2C00000100000001 /* Views/SpatialPlantSceneView.swift in Sources */,
 				8A10000D2C00000100000001 /* Spatial/PartAnchor.swift in Sources */,
