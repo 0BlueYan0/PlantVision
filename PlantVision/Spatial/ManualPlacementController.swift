@@ -117,6 +117,8 @@ final class ManualPlacementController: ObservableObject {
               let device = worldTracking.queryDeviceAnchor(atTimestamp: CACurrentMediaTime()) else { return }
         let h = device.originFromAnchorTransform.columns.3
         let headWorld = SIMD3<Float>(h.x, h.y, h.z)
+        // 不變式:root 直接掛在場景 content 下(無被變換的父節點),故 root.transform.matrix 即 root→world。
+        // 若日後把 root 巢狀在另一個有 transform 的實體下,這裡的世界投影會失準,需改用 root 的世界矩陣。
         let m = root.transform.matrix
         func world(_ pts: [SIMD3<Float>]) -> [SIMD3<Float>] {
             pts.map { p in
