@@ -13,33 +13,37 @@ struct SpatialPartLabel: View {
     }
 
     var body: some View {
-        HStack(spacing: 12) {
-            // 左側部位色直條(取代原本的小圓點),作為視覺點綴。
+        VStack(alignment: .leading, spacing: 5) {
+            HStack(spacing: 6) {
+                Image(systemName: part.symbolName)
+                    .font(.footnote.weight(.bold))
+                    .foregroundStyle(part.markerColor)
+                Text(part.displayName)
+                    .font(.headline)
+            }
+            Text(note)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+            Text(plant.chineseName)
+                .font(.caption2)
+                .foregroundStyle(.tertiary)
+        }
+        .padding(.vertical, 12)
+        .padding(.leading, 18)   // 留給左側部位色直條
+        .padding(.trailing, 14)
+        // 固定寬、並讓高度貼齊內容,避免被 RealityView attachment 的大尺寸提案撐高。
+        .frame(width: 210, alignment: .leading)
+        .fixedSize(horizontal: false, vertical: true)
+        .glassBackgroundEffect()
+        // 部位色直條改用 overlay:只填滿卡片(內容決定)的高度,不會反過來把卡片撐高。
+        .overlay(alignment: .leading) {
             Capsule()
                 .fill(part.markerColor)
                 .frame(width: 4)
-
-            VStack(alignment: .leading, spacing: 6) {
-                HStack(spacing: 6) {
-                    Image(systemName: part.symbolName)
-                        .font(.footnote.weight(.bold))
-                        .foregroundStyle(part.markerColor)
-                    Text(part.displayName)
-                        .font(.title3.weight(.semibold))
-                }
-                Text(note)
-                    .font(.callout)
-                    .foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
-                Text(plant.chineseName)
-                    .font(.caption)
-                    .foregroundStyle(.tertiary)
-            }
+                .padding(.vertical, 10)
+                .padding(.leading, 7)
         }
-        .padding(.vertical, 14)
-        .padding(.horizontal, 16)
-        .frame(maxWidth: 250, alignment: .leading)
-        .glassBackgroundEffect()
     }
 }
 
