@@ -157,6 +157,7 @@ git commit -m "feat(tools): 新增 Scene.usda anchor 座標 parser 與測試"
 建 `Scripts/test_nearest_selector.swift`：
 ```swift
 import simd
+import Foundation
 
 @main
 enum NearestPartSelectorTests {
