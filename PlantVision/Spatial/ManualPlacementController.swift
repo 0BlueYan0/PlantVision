@@ -1,7 +1,6 @@
 import ARKit
 import RealityKit
 import QuartzCore
-import simd
 
 /// 「手動擺放」場景的位置邏輯:用 PlaneDetection 找地板、把模型貼地放在使用者面前,
 /// 並用 WorldTracking 的頭部位置每幀重選最近花/葉 callout。完全不依賴 ObjectTracking。
@@ -51,11 +50,15 @@ final class ManualPlacementController: ObservableObject {
     var updateSubscription: EventSubscription?
 
     /// View 在建好場景後注入 draggable root、callout binding、貼地偏移。
+    /// 注意契約:`binding` 的 flowerCallout / leafCallout 必須是 `root` 的子節點
+    /// (候選點與 callout 位置都是 root-local 座標),否則 refreshCallouts 會把標籤定位到錯的地方。
     func bind(root: Entity, binding: CalloutBinding, baseOffset: Float) {
         self.root = root
         self.binding = binding
         self.baseOffset = baseOffset
-        root.isEnabled = false   // 地板/位置確定前先隱藏
+        // 立刻以目前已知(可能是 fallback)地板高度放好,確保不論 bind()/start() 誰先呼叫植物都會出現;
+        // start() 取得頭部位置、setFloor() 取得真實地板後會再校正。
+        placeInFront()
     }
 
     /// 拖曳手勢用:植物 root 應鎖定的世界 Y(地板高度扣掉貼地偏移)。
@@ -63,6 +66,9 @@ final class ManualPlacementController: ObservableObject {
         (floorHeight ?? fallbackFloor) - baseOffset
     }
 
+    /// 啟動世界/平面追蹤並開始放置。**呼叫契約**:必須由 View 的結構化 `.task { await start() }`
+    /// 驅動(View 消失時會自動取消,結束 anchorUpdates 迴圈),並在 `.onDisappear` 呼叫 `stop()`。
+    /// 不要用 fire-and-forget 的 `Task {}`,否則重新進場時可能重複 run session。
     func start() async {
         let auths = WorldTrackingProvider.requiredAuthorizations + PlaneDetectionProvider.requiredAuthorizations
         let status = await session.requestAuthorization(for: auths)
@@ -133,6 +139,8 @@ final class ManualPlacementController: ObservableObject {
     // MARK: - Private
 
     private func handlePlane(_ update: AnchorUpdate<PlaneAnchor>) {
+        // 已知限制:若鎖定的地板平面之後被 .removed(換房間/追蹤丟失),這裡不會解除 floorLocked,
+        // 會沿用最後的地板高度。對「站在原地擺放」的使用情境可接受,暫不處理。
         guard update.event != .removed else { return }
         let anchor = update.anchor
         guard anchor.alignment == .horizontal else { return }
