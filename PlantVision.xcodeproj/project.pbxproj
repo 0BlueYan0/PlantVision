@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		1E8CA0242FE1092600A3D3C5 /* PlantAnchor in Frameworks */ = {isa = PBXBuildFile; productRef = 1E8CA0232FE1092600A3D3C5 /* PlantAnchor */; };
 		1E8CA02F2FE116CA00A3D3C5 /* NearestPartSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8CA02E2FE116CA00A3D3C5 /* NearestPartSelector.swift */; };
+		379D08AD405E2459CD9EF68A /* WitherAdviceCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8443F880774BC6973C61D9 /* WitherAdviceCatalog.swift */; };
+		5E6BA76B470FCB4D492C116F /* WitherLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925CEB6635F2451C0B04616E /* WitherLevel.swift */; };
 		8A1000012C00000100000001 /* PlantVisionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000012C00000100000001 /* PlantVisionApp.swift */; };
 		8A1000022C00000100000001 /* Models/PlantModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000022C00000100000001 /* Models/PlantModels.swift */; };
 		8A1000032C00000100000001 /* Services/PlantDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000032C00000100000001 /* Services/PlantDatabase.swift */; };
@@ -84,10 +86,12 @@
 		8A9200112C00000100000001 /* Sources/MacFrameRelayCore/TemporalLabelSmoother.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/MacFrameRelayCore/TemporalLabelSmoother.swift; sourceTree = "<group>"; };
 		2F4C880CEA09FED8616EA017 /* WitherScoreResolver.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Sources/MacFrameRelayCore/WitherScoreResolver.swift; sourceTree = "<group>"; };
 		6C083BB8D8EB1B78A4278704 /* TemporalWitherSmoother.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Sources/MacFrameRelayCore/TemporalWitherSmoother.swift; sourceTree = "<group>"; };
+		925CEB6635F2451C0B04616E /* WitherLevel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Services/WitherLevel.swift; sourceTree = "<group>"; };
 		97C24A26B8DA3686247E80ED /* CoreMLModelLocator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Sources/MacFrameRelayCore/CoreMLModelLocator.swift; sourceTree = "<group>"; };
 		A33E51D95650983A1E990190 /* WitherImageClassifier.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Sources/MacFrameRelayCore/WitherImageClassifier.swift; sourceTree = "<group>"; };
 		BEA05C19A50CF44167E1B17F /* WitherClassifier.mlmodel */ = {isa = PBXFileReference; includeInIndex = 1; path = WitherClassifier.mlmodel; sourceTree = "<group>"; };
 		CE512E0F34697281F412B28B /* WitherLevel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Sources/MacFrameRelayCore/WitherLevel.swift; sourceTree = "<group>"; };
+		FB8443F880774BC6973C61D9 /* WitherAdviceCatalog.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Services/WitherAdviceCatalog.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +148,8 @@
 				8A2000152C00000100000001 /* Resources/PlantTracker.referenceobject */,
 				8A20000C2C00000100000001 /* Info.plist */,
 				8A20000D2C00000100000001 /* PlantVision.entitlements */,
+				925CEB6635F2451C0B04616E /* WitherLevel.swift */,
+				FB8443F880774BC6973C61D9 /* WitherAdviceCatalog.swift */,
 			);
 			path = PlantVision;
 			sourceTree = "<group>";
@@ -339,6 +345,8 @@
 				8A1000132C00000100000001 /* Spatial/ManualPlacementController.swift in Sources */,
 				8A1000142C00000100000001 /* Views/ManualPlacementSceneView.swift in Sources */,
 				8A1000152C00000100000001 /* Views/ManualPlacementView.swift in Sources */,
+				5E6BA76B470FCB4D492C116F /* WitherLevel.swift in Sources */,
+				379D08AD405E2459CD9EF68A /* WitherAdviceCatalog.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

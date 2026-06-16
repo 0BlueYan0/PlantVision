@@ -22,6 +22,8 @@ final class PlantVisionModel: ObservableObject {
     }
     @Published var relayStatus: RelayClientStatus = .disconnected
     @Published private(set) var history: [PlantHistoryRecord] = []
+    /// 最新的枯萎程度（來自 Mac relay，與植物辨識獨立）。nil 代表本幀沒有枯萎資料,2D 視窗即不顯示。
+    @Published private(set) var witherStatus: WitherStatus?
 
     private let demoProvider = DemoRecognitionProvider()
     private let relayClient = SocketIORelayClient()
@@ -167,6 +169,14 @@ final class PlantVisionModel: ObservableObject {
         guard payload.message == "成功抽幀" else {
             updateState(.relayResult("收到 Relay 訊息：\(payload.message)"))
             return
+        }
+
+        // 枯萎程度與植物辨識是兩條獨立訊號:直接依當前幀更新(缺 witherRatio 則隱藏,向後相容)。
+        // 鎖定時凍結,與資訊卡一致;不耦合到 decideDisplay 的辨識決策。
+        if !isHolding {
+            witherStatus = payload.witherRatio.map { ratio in
+                WitherStatus(ratio: ratio, level: payload.witherLevel ?? WitherLevel.level(forRatio: ratio))
+            }
         }
 
         // 僅當 plantID 對應到資料庫中的植物時才視為「已知植物」;background / 未知 / nil 一律視為非植物。

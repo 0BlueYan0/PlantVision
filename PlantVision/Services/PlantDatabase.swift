@@ -27,6 +27,19 @@ enum PlantDatabase {
             flowerNote: "密集繖形花序，花色由黃橙轉紅粉、同一花序多色",
             leafNote: "葉對生卵形、表面粗糙具氣味，莖具逆刺",
             demoConfidence: 0.9
+        ),
+        Plant(
+            id: "lantana-camara",
+            chineseName: "馬纓丹",
+            scientificName: "Lantana camara",
+            family: "馬鞭草科 Verbenaceae",
+            genus: "Lantana",
+            origin: "熱帶美洲",
+            morphology: ["枝條具四稜、常帶逆刺", "葉對生、表面粗糙有皺", "繖形花序小花密集成團", "花色多變，黃橙紅粉常並存"],
+            careAdvice: ["喜全日照、耐高溫", "耐旱忌長期積水，土表乾再澆水", "花後修剪促進分枝開花", "全株具微毒，未熟果實尤需避免誤食"],
+            flowerNote: "繖形花序小花成團，花色黃橙紅粉常並存且隨開放變色",
+            leafNote: "葉對生、表面粗糙具皺紋，搓揉有特殊氣味",
+            demoConfidence: 0.9
         )
     ]
 

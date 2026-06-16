@@ -7,6 +7,9 @@ struct RelayFramePayload: Equatable {
     let frameHeight: Int?
     let plantID: String?
     let confidence: Double?
+    /// 枯萎面積比例（0–1）與等級。皆為可選——舊版 Mac 不會帶這兩個欄位，缺值不可崩潰。
+    let witherRatio: Double?
+    let witherLevel: Int?
 }
 
 enum RelayClientStatus: Equatable {
@@ -223,7 +226,10 @@ final class SocketIORelayClient {
             frameWidth: data["frameWidth"] as? Int,
             frameHeight: data["frameHeight"] as? Int,
             plantID: data["plantID"] as? String,
-            confidence: data["confidence"] as? Double
+            confidence: data["confidence"] as? Double,
+            // 可選欄位：舊端不帶時為 nil，不影響既有解析。
+            witherRatio: data["witherRatio"] as? Double,
+            witherLevel: data["witherLevel"] as? Int
         )
     }
 }
