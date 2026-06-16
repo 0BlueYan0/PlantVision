@@ -239,7 +239,7 @@ private final class FrameRelayViewModel: ObservableObject {
         guard let plantClassifier else { return nil }
         let perFrame = try? plantClassifier.classifyScene(frame.cgImage)
         // 逐幀判定交給跨幀穩定器做多數決：自動串流時需近期多幀一致才改變輸出，
-        // 兩類拉鋸時回 nil（不確定），避免在 catharanthus / lobelia 之間跳。
+        // 兩類拉鋸時回 nil（不確定），避免在 天竺葵 / 馬纓丹 之間跳。
         return labelSmoother.record(perFrame, at: Date())
     }
 

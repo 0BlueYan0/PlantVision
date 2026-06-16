@@ -1,0 +1,51 @@
+{
+  "activityEntities" : [
+    "dataSourceCreated",
+    [
+      {
+        "createdDate" : "2026-06-16T06:45:41Z",
+        "event" : "dataSourceCreated",
+        "id" : "F8069DD7-0B3F-47A5-B878-8221C822694B",
+        "subtitle" : "TrainingData",
+        "title" : "Data Source Created"
+      }
+    ],
+    "dataSourceTrainingStarted",
+    [
+      {
+        "createdDate" : "2026-06-16T06:46:01Z",
+        "event" : "dataSourceTrainingStarted",
+        "id" : "64734E35-A2B5-4DF9-B0C7-076A1D7D585D",
+        "subtitle" : "PlantClassifier 1",
+        "title" : "Used By"
+      }
+    ],
+    "dataSourceMetrics",
+    [
+      {
+        "createdDate" : "2026-06-16T06:46:01Z",
+        "event" : "dataSourceMetrics",
+        "id" : "4044112E-86A3-4700-8EF9-991EE1F8B638",
+        "subtitle" : "3 Classes, 339 Items",
+        "title" : "Data Summary"
+      }
+    ]
+  ],
+  "createdDate" : "2026-06-16T06:45:41Z",
+  "dataPathRelativeToProjectURL" : "../../PlantVisionTraining/TrainingData/",
+  "dataResult" : {
+    "createdDate" : "2026-06-16T06:45:41Z",
+    "dataSourceID" : "AD8983BC-3ED5-42E6-962C-FD5BA0AA902A",
+    "dataURL" : "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/"
+  },
+  "dataURL" : "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/",
+  "experimentIDs" : [
+    "D0966609-934E-4FCB-A7ED-95C7311B10BD"
+  ],
+  "id" : "AD8983BC-3ED5-42E6-962C-FD5BA0AA902A",
+  "modifiedDate" : "2026-06-16T06:46:01Z",
+  "pathType" : 0,
+  "preferredFilename" : "TrainingData",
+  "title" : "TrainingData",
+  "version" : "1.0"
+}

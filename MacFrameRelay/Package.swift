@@ -25,7 +25,8 @@ let package = Package(
             dependencies: ["MacFrameRelayCore"],
             resources: [
                 .copy("Resources/TestPlantClassifier.mlmodel"),
-                .copy("Resources/lobelia-sample.jpeg"),
+                .copy("Resources/pelargonium-sample.jpeg"),
+                .copy("Resources/lantana-sample.jpeg"),
                 .copy("Resources/background-sample.jpg"),
                 .copy("Resources/mars-sample.jpg")
             ]

@@ -1,0 +1,31 @@
+{
+  "activityEntities" : [
+    "dataSourceCreated",
+    [
+      {
+        "createdDate" : "2026-06-16T06:45:56Z",
+        "event" : "dataSourceCreated",
+        "id" : "DF1D8324-62B4-4785-89C2-5C9F5D3A6861",
+        "subtitle" : "TestingData",
+        "title" : "Data Source Created"
+      }
+    ]
+  ],
+  "createdDate" : "2026-06-16T06:45:56Z",
+  "dataPathRelativeToProjectURL" : "../../PlantVisionTraining/TestingData/",
+  "dataResult" : {
+    "createdDate" : "2026-06-16T06:45:56Z",
+    "dataSourceID" : "E63CE544-2482-4AED-BDE3-B1ED366A2A55",
+    "dataURL" : "file:///Users/0blueyan0/develop/PlantVisionTraining/TestingData/"
+  },
+  "dataURL" : "file:///Users/0blueyan0/develop/PlantVisionTraining/TestingData/",
+  "experimentIDs" : [
+    "D0966609-934E-4FCB-A7ED-95C7311B10BD"
+  ],
+  "id" : "E63CE544-2482-4AED-BDE3-B1ED366A2A55",
+  "modifiedDate" : "2026-06-16T06:45:56Z",
+  "pathType" : 0,
+  "preferredFilename" : "TestingData",
+  "title" : "TestingData",
+  "version" : "1.0"
+}

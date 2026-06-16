@@ -3,30 +3,17 @@ import Foundation
 enum PlantDatabase {
     static let plants: [Plant] = [
         Plant(
-            id: "lobelia-erinus",
-            chineseName: "六倍利",
-            scientificName: "Lobelia erinus",
-            family: "桔梗科 Campanulaceae",
-            genus: "Lobelia",
+            id: "pelargonium-hortorum",
+            chineseName: "天竺葵",
+            scientificName: "Pelargonium × hortorum",
+            family: "牻牛兒苗科 Geraniaceae",
+            genus: "Pelargonium",
             origin: "南非",
-            morphology: ["株型低矮叢生", "葉片小而互生", "唇形花冠", "花色藍紫、粉或白"],
-            careAdvice: ["喜全日照至半日照", "涼爽季節生長旺盛", "保持介質濕潤", "花後修剪促進分枝"],
-            flowerNote: "唇形花冠，花色藍紫、粉或白",
-            leafNote: "葉片小而互生，株型低矮叢生",
+            morphology: ["莖肉質、基部漸木質化", "葉互生圓腎形、常具暗色環狀斑紋", "葉緣鈍鋸齒、揉之有特殊氣味", "繖形花序、花色紅粉白或雙色"],
+            careAdvice: ["喜全日照至半日照、光線足花量多", "喜涼爽乾燥、忌高溫高濕悶熱", "土表乾再澆水、避免積水爛根", "花後摘除殘花並修剪徒長枝"],
+            flowerNote: "繖形花序聚生於長梗頂端，花色紅、粉、白或雙色",
+            leafNote: "葉圓腎形、互生，葉面常具暗色環狀斑紋，揉之有特殊氣味",
             demoConfidence: 0.92
-        ),
-        Plant(
-            id: "catharanthus-roseus",
-            chineseName: "日日春",
-            scientificName: "Catharanthus roseus",
-            family: "夾竹桃科 Apocynaceae",
-            genus: "Catharanthus",
-            origin: "馬達加斯加",
-            morphology: ["葉對生橢圓形", "葉面光亮深綠", "五瓣花全年開放", "花色粉紅、紫紅或白"],
-            careAdvice: ["喜高溫與充足日照", "耐旱不耐積水", "土表乾燥再澆水", "全株具毒性避免誤食"],
-            flowerNote: "五瓣花全年開放，花色粉紅、紫紅或白",
-            leafNote: "葉對生橢圓形，葉面光亮深綠",
-            demoConfidence: 0.9
         ),
         Plant(
             id: "lantana-camara",

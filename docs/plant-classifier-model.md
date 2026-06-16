@@ -49,17 +49,17 @@ swift build --package-path MacFrameRelay
 
 目前內建 id：
 
-- `lobelia-erinus`（六倍利）
-- `catharanthus-roseus`（日日春）
+- `pelargonium-hortorum`（天竺葵）
+- `lantana-camara`（馬纓丹）
 
 Create ML 的訓練資料夾名稱也要使用這些 id。範例：
 
 ```text
 TrainingData/
-  lobelia-erinus/
+  pelargonium-hortorum/
     image-001.jpg
     image-002.jpg
-  catharanthus-roseus/
+  lantana-camara/
     image-001.jpg
     image-002.jpg
 ```
@@ -121,7 +121,7 @@ Apple 建議每個類別至少 10 張圖片，但真實專案應該準備更多�
 {
   "detections": [
     {
-      "plantID": "lobelia-erinus",
+      "plantID": "pelargonium-hortorum",
       "confidence": 0.91,
       "boundingBox": { "x": 0.12, "y": 0.20, "width": 0.45, "height": 0.50 }
     }

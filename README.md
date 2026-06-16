@@ -209,7 +209,7 @@ payload 範例：
   "timestamp": "2026-05-29T15:00:00Z",
   "frameWidth": 2560,
   "frameHeight": 1664,
-  "plantID": "lobelia-erinus",
+  "plantID": "pelargonium-hortorum",
   "confidence": 0.91
 }
 ```
@@ -231,7 +231,7 @@ payload 範例：
     "timestamp": "2026-05-29T15:00:00Z",
     "frameWidth": 2560,
     "frameHeight": 1664,
-    "plantID": "lobelia-erinus",
+    "plantID": "pelargonium-hortorum",
     "confidence": 0.91
   }
 }

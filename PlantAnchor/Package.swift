@@ -6,10 +6,9 @@ import PackageDescription
 let package = Package(
     name: "PlantAnchor",
     platforms: [
-        .visionOS(.v26),
-        .macOS(.v26),
-        .iOS(.v26),
-        .tvOS(.v26)
+        .visionOS(.v2),
+        .macOS(.v15),
+        .iOS(.v18)
     ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.

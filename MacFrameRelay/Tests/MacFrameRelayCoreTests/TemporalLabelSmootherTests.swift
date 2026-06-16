@@ -18,22 +18,22 @@ func smootherReturnsSingleManualCaptureImmediately() {
     var smoother = TemporalLabelSmoother()
     let base = Date(timeIntervalSince1970: 1_000)
     // 單張手動擷取只有一幀，門檻取 min(minimumVotes, 幀數)=1 → 直接回該幀
-    let result = smoother.record(plant("catharanthus-roseus"), at: base)
-    #expect(result?.label == "catharanthus-roseus")
+    let result = smoother.record(plant("lantana-camara"), at: base)
+    #expect(result?.label == "lantana-camara")
 }
 
 @Test
 func smootherStabilizesToMajorityInStream() {
     var smoother = TemporalLabelSmoother()
     let base = Date(timeIntervalSince1970: 2_000)
-    let seq = ["catharanthus-roseus", "catharanthus-roseus", "lobelia-erinus",
-               "catharanthus-roseus", "catharanthus-roseus"]
+    let seq = ["lantana-camara", "lantana-camara", "pelargonium-hortorum",
+               "lantana-camara", "lantana-camara"]
     var last: PlantClassificationResult?
     for (i, label) in seq.enumerated() {
         last = smoother.record(plant(label), at: tick(base, i))
     }
-    // 窗內 cath×4 lob×1 → 穩定輸出 catharanthus，單幀 lobelia 雜訊被濾掉
-    #expect(last?.label == "catharanthus-roseus")
+    // 窗內 馬纓丹×4 天竺葵×1 → 穩定輸出 馬纓丹，單幀 天竺葵 雜訊被濾掉
+    #expect(last?.label == "lantana-camara")
 }
 
 @Test
@@ -41,8 +41,8 @@ func smootherReportsUncertainOnFiftyFiftyFlicker() {
     var smoother = TemporalLabelSmoother()
     let base = Date(timeIntervalSince1970: 3_000)
     // 兩類交替抖動 → 窗內打平 → 回 nil（不確定），不在兩類間跳
-    let seq = ["catharanthus-roseus", "lobelia-erinus", "catharanthus-roseus",
-               "lobelia-erinus", "catharanthus-roseus", "lobelia-erinus"]
+    let seq = ["lantana-camara", "pelargonium-hortorum", "lantana-camara",
+               "pelargonium-hortorum", "lantana-camara", "pelargonium-hortorum"]
     var last: PlantClassificationResult?
     for (i, label) in seq.enumerated() {
         last = smoother.record(plant(label), at: tick(base, i))
@@ -54,27 +54,27 @@ func smootherReportsUncertainOnFiftyFiftyFlicker() {
 func smootherIgnoresSingleFrameBlip() {
     var smoother = TemporalLabelSmoother()
     let base = Date(timeIntervalSince1970: 4_000)
-    _ = smoother.record(plant("lobelia-erinus"), at: tick(base, 0))
-    _ = smoother.record(plant("lobelia-erinus"), at: tick(base, 1))
-    _ = smoother.record(plant("catharanthus-roseus"), at: tick(base, 2)) // blip
-    let last = smoother.record(plant("lobelia-erinus"), at: tick(base, 3))
-    // lob×3 cath×1 → lobelia 維持穩定，單幀 catharanthus blip 不翻面
-    #expect(last?.label == "lobelia-erinus")
+    _ = smoother.record(plant("pelargonium-hortorum"), at: tick(base, 0))
+    _ = smoother.record(plant("pelargonium-hortorum"), at: tick(base, 1))
+    _ = smoother.record(plant("lantana-camara"), at: tick(base, 2)) // blip
+    let last = smoother.record(plant("pelargonium-hortorum"), at: tick(base, 3))
+    // 天竺葵×3 馬纓丹×1 → 天竺葵 維持穩定，單幀 馬纓丹 blip 不翻面
+    #expect(last?.label == "pelargonium-hortorum")
 }
 
 @Test
 func smootherPrunesFramesOutsideWindow() {
     var smoother = TemporalLabelSmoother(windowSeconds: 0.7, minimumVotes: 3)
     let base = Date(timeIntervalSince1970: 5_000)
-    // 舊的 catharanthus 幀
-    _ = smoother.record(plant("catharanthus-roseus"), at: base)
-    _ = smoother.record(plant("catharanthus-roseus"), at: base.addingTimeInterval(0.1))
-    // 1 秒後（超出 0.7 秒窗）連續 lobelia → 舊 cath 已被丟棄
+    // 舊的 馬纓丹 幀
+    _ = smoother.record(plant("lantana-camara"), at: base)
+    _ = smoother.record(plant("lantana-camara"), at: base.addingTimeInterval(0.1))
+    // 1 秒後（超出 0.7 秒窗）連續 天竺葵 → 舊 馬纓丹 已被丟棄
     var last: PlantClassificationResult?
     for i in 0..<3 {
-        last = smoother.record(plant("lobelia-erinus"), at: base.addingTimeInterval(1.0 + 0.1 * Double(i)))
+        last = smoother.record(plant("pelargonium-hortorum"), at: base.addingTimeInterval(1.0 + 0.1 * Double(i)))
     }
-    #expect(last?.label == "lobelia-erinus")
+    #expect(last?.label == "pelargonium-hortorum")
 }
 
 @Test
