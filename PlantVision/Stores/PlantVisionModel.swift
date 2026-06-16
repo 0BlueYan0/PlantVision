@@ -3,6 +3,7 @@ import Foundation
 @MainActor
 final class PlantVisionModel: ObservableObject {
     static let immersiveSpaceID = "PlantVisionImmersiveSpace"
+    static let placementImmersiveSpaceID = "PlantVisionPlacementImmersiveSpace"
     static let plantDetailWindowID = "PlantVisionPlantDetailWindow"
 
     @Published var recognitionState: RecognitionProviderState = .idle
@@ -11,6 +12,8 @@ final class PlantVisionModel: ObservableObject {
     @Published private(set) var isHolding: Bool = false
     @Published var selectedStage: GrowthStage = .sprout
     @Published var isGrowthPlaying = false
+    /// 「擺放」面板 → 場景的重置訊號;遞增即要求把植物拉回使用者面前的地板。
+    @Published private(set) var placementResetToken: Int = 0
     @Published var relayURLText: String {
         didSet { relaySettingsStore.relayURL = relayURLText }
     }
@@ -101,6 +104,11 @@ final class PlantVisionModel: ObservableObject {
         } else {
             recognitionState = .relayResult("🔓 已解鎖，恢復即時辨識與自動切換。")
         }
+    }
+
+    /// 「擺放」分頁按「拉回面前」時呼叫;場景以 onChange 觀察 token 變化後重新放置。
+    func requestPlacementReset() {
+        placementResetToken += 1
     }
 
     func toggleGrowthPlayback() {
