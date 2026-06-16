@@ -13,23 +13,32 @@ struct SpatialPartLabel: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            HStack(spacing: 6) {
-                Circle()
-                    .fill(part.markerColor)
-                    .frame(width: 10, height: 10)
-                Text(part.displayName)
-                    .font(.headline)
+        HStack(spacing: 12) {
+            // 左側部位色直條(取代原本的小圓點),作為視覺點綴。
+            Capsule()
+                .fill(part.markerColor)
+                .frame(width: 4)
+
+            VStack(alignment: .leading, spacing: 6) {
+                HStack(spacing: 6) {
+                    Image(systemName: part.symbolName)
+                        .font(.footnote.weight(.bold))
+                        .foregroundStyle(part.markerColor)
+                    Text(part.displayName)
+                        .font(.title3.weight(.semibold))
+                }
+                Text(note)
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+                Text(plant.chineseName)
+                    .font(.caption)
+                    .foregroundStyle(.tertiary)
             }
-            Text(note)
-                .font(.caption)
-                .foregroundStyle(.secondary)
-            Text(plant.chineseName)
-                .font(.caption2)
-                .foregroundStyle(.tertiary)
         }
-        .padding(12)
-        .frame(maxWidth: 220, alignment: .leading)
+        .padding(.vertical, 14)
+        .padding(.horizontal, 16)
+        .frame(maxWidth: 250, alignment: .leading)
         .glassBackgroundEffect()
     }
 }

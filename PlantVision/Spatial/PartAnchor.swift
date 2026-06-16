@@ -20,6 +20,14 @@ enum PlantPart: String, CaseIterable, Hashable, Sendable {
         case .leaf: .green
         }
     }
+
+    /// 部位圖示(SF Symbol),用在空間標籤上。
+    var symbolName: String {
+        switch self {
+        case .flower: "camera.macro"
+        case .leaf: "leaf.fill"
+        }
+    }
 }
 
 /// 某個部位「烘焙」進被追蹤物件座標系的所有標註點。

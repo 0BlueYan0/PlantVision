@@ -39,8 +39,7 @@ struct RealPlantTrackingView: View {
 
     var body: some View {
         RealityView { content, attachments in
-            // 載入 marker 模板(一次);每株建花/葉兩個 callout group,掛在 frameCorrection 下。
-            let templates = await SpatialLabelBuilder.loadMarkerTemplates()
+            // 每株建花/葉兩個 callout group,掛在 frameCorrection 下。
             var roots: [String: Entity] = [:]
             var bindings: [String: ObjectTrackingController.PlantCalloutBinding] = [:]
 
@@ -61,7 +60,6 @@ struct RealPlantTrackingView: View {
                     let label = attachments.entity(for: "label-\(profile.referenceObjectID)-\(anchor.part.rawValue)")
                     let callout = SpatialLabelBuilder.makeCallout(
                         part: anchor.part,
-                        template: anchor.part == .flower ? templates.flower : templates.leaf,
                         label: label,
                         labelOffset: anchor.labelOffset)
                     correction.addChild(callout)

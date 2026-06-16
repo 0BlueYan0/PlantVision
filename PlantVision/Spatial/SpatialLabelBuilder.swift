@@ -1,7 +1,6 @@
 import RealityKit
 import simd
 import UIKit
-import PlantAnchor
 
 /// 組裝空間標籤所需的 RealityKit 物件,以及純數學的平滑/座標換算。
 /// 數學部分刻意抽成 static 純函式,方便日後加單元測試。
@@ -20,16 +19,6 @@ enum SpatialLabelBuilder {
     }
 
     // MARK: - RealityKit 物件
-
-    /// 部位標記球(實機校正時用來確認錨點落在真實花/葉上)。
-    static func makeMarker(radius: Float, color: UIColor) -> ModelEntity {
-        let marker = ModelEntity(
-            mesh: .generateSphere(radius: max(0.004, radius)),
-            materials: [UnlitMaterial(color: color.withAlphaComponent(0.6))]
-        )
-        marker.name = "part-marker"
-        return marker
-    }
 
     /// 從部位點 `a` 指到標籤點 `b` 的指引線(細圓柱)。
     /// 圓柱預設沿 +Y 軸,需把它旋轉對齊 a→b 方向。
@@ -65,40 +54,17 @@ enum SpatialLabelBuilder {
 
 extension SpatialLabelBuilder {
 
-    /// 載入並取出兩個 marker 模板；失敗回 (nil, nil)，由 makeCallout 走 fallback。
-    @MainActor
-    static func loadMarkerTemplates() async -> (flower: Entity?, leaf: Entity?) {
-        guard let root = try? await Entity(named: "MarkerTemplate", in: plantAnchorBundle) else {
-            return (nil, nil)
-        }
-        return (root.findEntity(named: "FlowerMarker"), root.findEntity(named: "LeafMarker"))
-    }
-
-    /// 組一個部位 callout：clone 模板（發光球+光暈+脈動）+ 長引線 + SwiftUI 標籤。
-    /// `template` 為 nil 時退回程式化發光球。group.position 由選取層每幀更新。
+    /// 組一個部位 callout:依設計只有「同色細發光引線 + SwiftUI 標籤」,不含部位圓點/發光球。
+    /// 引線從部位點(group 原點)指向標籤位置;group.position 由選取層每幀更新。
     @MainActor
     static func makeCallout(part: PlantPart,
-                            template: Entity?,
                             label: Entity?,
                             labelOffset: SIMD3<Float>) -> Entity {
         let group = Entity()
         group.name = "callout-\(part.rawValue)"
         group.isEnabled = false   // 選取層選到候選前先隱藏
 
-        let marker: Entity
-        if let template {
-            let clone = template.clone(recursive: true)
-            clone.position = .zero
-            // 剝除模板自帶的短引線/標籤底板，改用我們自己的長引線+SwiftUI標籤（避免花葉標籤重疊）
-            clone.findEntity(named: "LeaderLine")?.removeFromParent()
-            clone.findEntity(named: "LabelBacking")?.removeFromParent()
-            playAllAnimations(on: clone)   // 脈動 + Halo 旋轉，循環
-            marker = clone
-        } else {
-            marker = makeMarker(radius: 0.02, color: UIColor(part.markerColor))
-        }
-        group.addChild(marker)
-
+        // 部位色(花黃/葉綠)細發光引線,從部位點(.zero)指到標籤。
         group.addChild(makeLeader(from: .zero, to: labelOffset, color: UIColor(part.markerColor)))
 
         if let label {
@@ -107,14 +73,5 @@ extension SpatialLabelBuilder {
             group.addChild(label)
         }
         return group
-    }
-
-    /// 遞迴播放整個子樹上所有 USD 烘焙動畫，循環。
-    @MainActor
-    static func playAllAnimations(on entity: Entity) {
-        for anim in entity.availableAnimations {
-            entity.playAnimation(anim.repeat(), transitionDuration: 0, startsPaused: false)
-        }
-        for child in entity.children { playAllAnimations(on: child) }
     }
 }

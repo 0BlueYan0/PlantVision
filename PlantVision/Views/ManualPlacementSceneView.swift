@@ -32,8 +32,6 @@ struct ManualPlacementSceneView: View {
 
     var body: some View {
         RealityView { content, attachments in
-            let templates = await SpatialLabelBuilder.loadMarkerTemplates()
-
             let root = Entity()
             root.name = "placement-root"
 
@@ -55,7 +53,6 @@ struct ManualPlacementSceneView: View {
                 let label = attachments.entity(for: "place-label-\(anchor.part.rawValue)")
                 let callout = SpatialLabelBuilder.makeCallout(
                     part: anchor.part,
-                    template: anchor.part == .flower ? templates.flower : templates.leaf,
                     label: label,
                     labelOffset: anchor.labelOffset)
                 root.addChild(callout)
