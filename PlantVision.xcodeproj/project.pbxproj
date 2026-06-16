@@ -38,6 +38,12 @@
 		8A9100082C00000100000001 /* Sources/MacFrameRelayCore/PlantImageClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A92000E2C00000100000001 /* Sources/MacFrameRelayCore/PlantImageClassifier.swift */; };
 		8A9100092C00000100000001 /* PlantClassifier.mlmodel in Resources */ = {isa = PBXBuildFile; fileRef = 8A9200102C00000100000001 /* PlantClassifier.mlmodel */; };
 		8A91000A2C00000100000001 /* Sources/MacFrameRelayCore/TemporalLabelSmoother.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9200112C00000100000001 /* Sources/MacFrameRelayCore/TemporalLabelSmoother.swift */; };
+		8D43E257C682AF8EA79C813F /* WitherImageClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33E51D95650983A1E990190 /* WitherImageClassifier.swift */; };
+		B57466394E99F97E757D72FF /* TemporalWitherSmoother.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C083BB8D8EB1B78A4278704 /* TemporalWitherSmoother.swift */; };
+		C05EEDAB336316EE8587D939 /* WitherClassifier.mlmodel in Resources */ = {isa = PBXBuildFile; fileRef = BEA05C19A50CF44167E1B17F /* WitherClassifier.mlmodel */; };
+		DF4A15B351F32FEE7FB6316D /* CoreMLModelLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C24A26B8DA3686247E80ED /* CoreMLModelLocator.swift */; };
+		E3D74DE2545125862C281431 /* WitherScoreResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4C880CEA09FED8616EA017 /* WitherScoreResolver.swift */; };
+		FEB8C0AEF85D10D129D4601D /* WitherLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE512E0F34697281F412B28B /* WitherLevel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -76,6 +82,12 @@
 		8A92000E2C00000100000001 /* Sources/MacFrameRelayCore/PlantImageClassifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/MacFrameRelayCore/PlantImageClassifier.swift; sourceTree = "<group>"; };
 		8A9200102C00000100000001 /* PlantClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = PlantClassifier.mlmodel; sourceTree = "<group>"; };
 		8A9200112C00000100000001 /* Sources/MacFrameRelayCore/TemporalLabelSmoother.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/MacFrameRelayCore/TemporalLabelSmoother.swift; sourceTree = "<group>"; };
+		2F4C880CEA09FED8616EA017 /* WitherScoreResolver.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Sources/MacFrameRelayCore/WitherScoreResolver.swift; sourceTree = "<group>"; };
+		6C083BB8D8EB1B78A4278704 /* TemporalWitherSmoother.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Sources/MacFrameRelayCore/TemporalWitherSmoother.swift; sourceTree = "<group>"; };
+		97C24A26B8DA3686247E80ED /* CoreMLModelLocator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Sources/MacFrameRelayCore/CoreMLModelLocator.swift; sourceTree = "<group>"; };
+		A33E51D95650983A1E990190 /* WitherImageClassifier.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Sources/MacFrameRelayCore/WitherImageClassifier.swift; sourceTree = "<group>"; };
+		BEA05C19A50CF44167E1B17F /* WitherClassifier.mlmodel */ = {isa = PBXFileReference; includeInIndex = 1; path = WitherClassifier.mlmodel; sourceTree = "<group>"; };
+		CE512E0F34697281F412B28B /* WitherLevel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Sources/MacFrameRelayCore/WitherLevel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,6 +194,11 @@
 				8A92000E2C00000100000001 /* Sources/MacFrameRelayCore/PlantImageClassifier.swift */,
 				8A9200112C00000100000001 /* Sources/MacFrameRelayCore/TemporalLabelSmoother.swift */,
 				8A9200082C00000100000001 /* Sources/MacFrameRelayCore/ScreenFrameCapturer.swift */,
+				97C24A26B8DA3686247E80ED /* CoreMLModelLocator.swift */,
+				2F4C880CEA09FED8616EA017 /* WitherScoreResolver.swift */,
+				6C083BB8D8EB1B78A4278704 /* TemporalWitherSmoother.swift */,
+				CE512E0F34697281F412B28B /* WitherLevel.swift */,
+				A33E51D95650983A1E990190 /* WitherImageClassifier.swift */,
 				8A92000F2C00000100000001 /* Sources/MacFrameRelayCore/Resources */,
 			);
 			name = MacFrameRelayCore;
@@ -191,6 +208,7 @@
 			isa = PBXGroup;
 			children = (
 				8A9200102C00000100000001 /* PlantClassifier.mlmodel */,
+				BEA05C19A50CF44167E1B17F /* WitherClassifier.mlmodel */,
 			);
 			path = Sources/MacFrameRelayCore/Resources;
 			sourceTree = "<group>";
@@ -291,6 +309,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8A9100092C00000100000001 /* PlantClassifier.mlmodel in Resources */,
+				C05EEDAB336316EE8587D939 /* WitherClassifier.mlmodel in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,6 +354,11 @@
 				8A9100082C00000100000001 /* Sources/MacFrameRelayCore/PlantImageClassifier.swift in Sources */,
 				8A91000A2C00000100000001 /* Sources/MacFrameRelayCore/TemporalLabelSmoother.swift in Sources */,
 				8A9100052C00000100000001 /* Sources/MacFrameRelayCore/ScreenFrameCapturer.swift in Sources */,
+				DF4A15B351F32FEE7FB6316D /* CoreMLModelLocator.swift in Sources */,
+				E3D74DE2545125862C281431 /* WitherScoreResolver.swift in Sources */,
+				B57466394E99F97E757D72FF /* TemporalWitherSmoother.swift in Sources */,
+				FEB8C0AEF85D10D129D4601D /* WitherLevel.swift in Sources */,
+				8D43E257C682AF8EA79C813F /* WitherImageClassifier.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

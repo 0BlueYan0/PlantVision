@@ -28,7 +28,10 @@ let package = Package(
                 .copy("Resources/pelargonium-sample.jpeg"),
                 .copy("Resources/lantana-sample.jpeg"),
                 .copy("Resources/background-sample.jpg"),
-                .copy("Resources/mars-sample.jpg")
+                .copy("Resources/mars-sample.jpg"),
+                .copy("Resources/TestWitherClassifier.mlmodel"),
+                .copy("Resources/wither-healthy-sample.png"),
+                .copy("Resources/wither-withered-sample.png")
             ]
         )
     ]

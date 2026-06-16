@@ -160,26 +160,13 @@ public final class PlantImageClassifier {
     }
 
     private static func findModelURL(named modelName: String) throws -> URL {
-        for fileExtension in ["mlmodelc", "mlpackage", "mlmodel"] {
-            if let url = modelBundle.url(forResource: modelName, withExtension: fileExtension) {
-                return url
-            }
+        guard let url = CoreMLModelLocator.findModelURL(named: modelName) else {
+            throw PlantImageClassifierError.modelNotFound(modelName)
         }
-        throw PlantImageClassifierError.modelNotFound(modelName)
-    }
-
-    private static var modelBundle: Bundle {
-        #if SWIFT_PACKAGE
-        Bundle.module
-        #else
-        Bundle.main
-        #endif
+        return url
     }
 
     private static func compiledModelURL(from modelURL: URL) throws -> URL {
-        if modelURL.pathExtension == "mlmodelc" {
-            return modelURL
-        }
-        return try MLModel.compileModel(at: modelURL)
+        try CoreMLModelLocator.compiledModelURL(from: modelURL)
     }
 }
