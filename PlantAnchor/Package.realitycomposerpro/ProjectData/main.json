@@ -1,9 +1,13 @@
 {
   "pathsToIds" : {
-    "\/PlantAnchor\/Sources\/PlantAnchor\/PlantAnchor.rkassets\/Scene.usda" : "8E6BF984-EE95-4BC8-9D47-167E41B118F8"
+    "\/PlantAnchor\/Sources\/PlantAnchor\/PlantAnchor.rkassets\/Scene.usda" : "8DF0393E-F04F-46E0-9C2A-6069610950FC",
+    "\/PlantAnchor\/Sources\/PlantAnchor\/PlantAnchor.rkassets\/Untitled%20Scene.usda" : "13EB9D5D-047C-4FB6-BFC1-65CB19ABAB6F",
+    "PlantAnchor\/Sources\/PlantAnchor\/PlantAnchor.rkassets\/MarkerTemplate.usda" : "19F9AC3C-B074-42D3-8B31-D2E9FC3BD326"
   },
-  "projectID" : -6457256150536246307,
+  "projectID" : -8669094278356864181,
   "uuidToIntID" : {
-    "8E6BF984-EE95-4BC8-9D47-167E41B118F8" : 8621025996576411721
+    "13EB9D5D-047C-4FB6-BFC1-65CB19ABAB6F" : -1625738825670018894,
+    "19F9AC3C-B074-42D3-8B31-D2E9FC3BD326" : -4543714259697106117,
+    "8DF0393E-F04F-46E0-9C2A-6069610950FC" : -8263921939434156914
   }
 }

@@ -1,0 +1,542 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Codex + Reality Composer Pro Version 2.0 (494.100.6)"
+        string markerTemplateNotes = "Reusable 3D flower and leaf callout markers. Halo is represented as animated emissive particles using standard USD spheres."
+    }
+    defaultPrim = "Root"
+    endTimeCode = 180
+    framesPerSecond = 60
+    metersPerUnit = 1
+    startTimeCode = 0
+    timeCodesPerSecond = 60
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    def Scope "Materials"
+    {
+        def Material "FlowerGlowMaterial"
+        {
+            token outputs:surface.connect = </Root/Materials/FlowerGlowMaterial/PreviewSurface.outputs:surface>
+
+            def Shader "PreviewSurface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (1.0, 0.32, 0.58)
+                color3f inputs:emissiveColor = (3.4, 0.9, 1.75)
+                float inputs:metallic = 0
+                float inputs:opacity = 1
+                float inputs:roughness = 0.18
+                token outputs:surface
+            }
+        }
+
+        def Material "FlowerHaloMaterial"
+        {
+            token outputs:surface.connect = </Root/Materials/FlowerHaloMaterial/PreviewSurface.outputs:surface>
+
+            def Shader "PreviewSurface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (1.0, 0.48, 0.28)
+                color3f inputs:emissiveColor = (2.8, 1.25, 0.55)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.72
+                float inputs:roughness = 0.08
+                token outputs:surface
+            }
+        }
+
+        def Material "FlowerBackingMaterial"
+        {
+            token outputs:surface.connect = </Root/Materials/FlowerBackingMaterial/PreviewSurface.outputs:surface>
+
+            def Shader "PreviewSurface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.23, 0.09, 0.14)
+                color3f inputs:emissiveColor = (0.22, 0.06, 0.12)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.62
+                float inputs:roughness = 0.35
+                token outputs:surface
+            }
+        }
+
+        def Material "LeafGlowMaterial"
+        {
+            token outputs:surface.connect = </Root/Materials/LeafGlowMaterial/PreviewSurface.outputs:surface>
+
+            def Shader "PreviewSurface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.28, 1.0, 0.42)
+                color3f inputs:emissiveColor = (0.55, 3.6, 1.05)
+                float inputs:metallic = 0
+                float inputs:opacity = 1
+                float inputs:roughness = 0.16
+                token outputs:surface
+            }
+        }
+
+        def Material "LeafHaloMaterial"
+        {
+            token outputs:surface.connect = </Root/Materials/LeafHaloMaterial/PreviewSurface.outputs:surface>
+
+            def Shader "PreviewSurface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.2, 0.95, 0.36)
+                color3f inputs:emissiveColor = (0.35, 2.85, 0.9)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.72
+                float inputs:roughness = 0.08
+                token outputs:surface
+            }
+        }
+
+        def Material "LeafBackingMaterial"
+        {
+            token outputs:surface.connect = </Root/Materials/LeafBackingMaterial/PreviewSurface.outputs:surface>
+
+            def Shader "PreviewSurface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.04, 0.16, 0.08)
+                color3f inputs:emissiveColor = (0.04, 0.18, 0.08)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.62
+                float inputs:roughness = 0.35
+                token outputs:surface
+            }
+        }
+    }
+
+    def Xform "FlowerMarker"
+    {
+        float3 xformOp:translate = (-0.09, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:scale.timeSamples = {
+            0: (1, 1, 1),
+            45: (1.12, 1.12, 1.12),
+            90: (1, 1, 1),
+            135: (1.12, 1.12, 1.12),
+            180: (1, 1, 1),
+        }
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+
+        def Sphere "AnchorGlow" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </Root/Materials/FlowerGlowMaterial> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+            double radius = 0.02
+            float3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+
+        def Xform "Halo"
+        {
+            float xformOp:rotateY = 0
+            float xformOp:rotateY.timeSamples = {
+                0: 0,
+                90: 180,
+                180: 360,
+            }
+            float3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateY"]
+
+            def Sphere "HaloParticle_01" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Materials/FlowerHaloMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.0038
+                float3 xformOp:translate = (0.036, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate"]
+            }
+
+            def Sphere "HaloParticle_02" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Materials/FlowerHaloMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.003
+                float3 xformOp:translate = (0.031, 0.006, 0.018)
+                uniform token[] xformOpOrder = ["xformOp:translate"]
+            }
+
+            def Sphere "HaloParticle_03" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Materials/FlowerHaloMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.0034
+                float3 xformOp:translate = (0.018, -0.004, 0.031)
+                uniform token[] xformOpOrder = ["xformOp:translate"]
+            }
+
+            def Sphere "HaloParticle_04" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Materials/FlowerHaloMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.0028
+                float3 xformOp:translate = (0, 0.005, 0.036)
+                uniform token[] xformOpOrder = ["xformOp:translate"]
+            }
+
+            def Sphere "HaloParticle_05" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Materials/FlowerHaloMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.0035
+                float3 xformOp:translate = (-0.018, 0, 0.031)
+                uniform token[] xformOpOrder = ["xformOp:translate"]
+            }
+
+            def Sphere "HaloParticle_06" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Materials/FlowerHaloMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.003
+                float3 xformOp:translate = (-0.031, -0.006, 0.018)
+                uniform token[] xformOpOrder = ["xformOp:translate"]
+            }
+
+            def Sphere "HaloParticle_07" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Materials/FlowerHaloMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.0038
+                float3 xformOp:translate = (-0.036, 0.002, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate"]
+            }
+
+            def Sphere "HaloParticle_08" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Materials/FlowerHaloMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.003
+                float3 xformOp:translate = (-0.031, 0.006, -0.018)
+                uniform token[] xformOpOrder = ["xformOp:translate"]
+            }
+
+            def Sphere "HaloParticle_09" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Materials/FlowerHaloMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.0034
+                float3 xformOp:translate = (-0.018, -0.004, -0.031)
+                uniform token[] xformOpOrder = ["xformOp:translate"]
+            }
+
+            def Sphere "HaloParticle_10" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Materials/FlowerHaloMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.0028
+                float3 xformOp:translate = (0, 0.004, -0.036)
+                uniform token[] xformOpOrder = ["xformOp:translate"]
+            }
+
+            def Sphere "HaloParticle_11" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Materials/FlowerHaloMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.0035
+                float3 xformOp:translate = (0.018, 0, -0.031)
+                uniform token[] xformOpOrder = ["xformOp:translate"]
+            }
+
+            def Sphere "HaloParticle_12" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Materials/FlowerHaloMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.003
+                float3 xformOp:translate = (0.031, -0.006, -0.018)
+                uniform token[] xformOpOrder = ["xformOp:translate"]
+            }
+        }
+
+        def Cylinder "LeaderLine" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </Root/Materials/FlowerGlowMaterial> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+            token axis = "Y"
+            double height = 0.08
+            double radius = 0.0015
+            quatf xformOp:orient = (0.936897, -0.220027, 0, -0.251459)
+            float3 xformOp:translate = (0.02, 0.03, -0.0175)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient"]
+        }
+
+        def Mesh "LabelBacking" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </Root/Materials/FlowerBackingMaterial> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+            uniform bool doubleSided = 1
+            int[] faceVertexCounts = [4]
+            int[] faceVertexIndices = [0, 1, 2, 3]
+            point3f[] points = [(-0.0325, -0.0125, 0), (0.0325, -0.0125, 0), (0.0325, 0.0125, 0), (-0.0325, 0.0125, 0)]
+            uniform token subdivisionScheme = "none"
+            float3 xformOp:translate = (0.065, 0.075, -0.05)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+    }
+
+    def Xform "LeafMarker"
+    {
+        float3 xformOp:translate = (0.09, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:scale.timeSamples = {
+            0: (1, 1, 1),
+            45: (1.12, 1.12, 1.12),
+            90: (1, 1, 1),
+            135: (1.12, 1.12, 1.12),
+            180: (1, 1, 1),
+        }
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+
+        def Sphere "AnchorGlow" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </Root/Materials/LeafGlowMaterial> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+            double radius = 0.02
+            float3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+
+        def Xform "Halo"
+        {
+            float xformOp:rotateY = 0
+            float xformOp:rotateY.timeSamples = {
+                0: 0,
+                90: 180,
+                180: 360,
+            }
+            float3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateY"]
+
+            def Sphere "HaloParticle_01" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Materials/LeafHaloMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.0038
+                float3 xformOp:translate = (0.036, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate"]
+            }
+
+            def Sphere "HaloParticle_02" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Materials/LeafHaloMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.003
+                float3 xformOp:translate = (0.031, 0.006, 0.018)
+                uniform token[] xformOpOrder = ["xformOp:translate"]
+            }
+
+            def Sphere "HaloParticle_03" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Materials/LeafHaloMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.0034
+                float3 xformOp:translate = (0.018, -0.004, 0.031)
+                uniform token[] xformOpOrder = ["xformOp:translate"]
+            }
+
+            def Sphere "HaloParticle_04" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Materials/LeafHaloMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.0028
+                float3 xformOp:translate = (0, 0.005, 0.036)
+                uniform token[] xformOpOrder = ["xformOp:translate"]
+            }
+
+            def Sphere "HaloParticle_05" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Materials/LeafHaloMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.0035
+                float3 xformOp:translate = (-0.018, 0, 0.031)
+                uniform token[] xformOpOrder = ["xformOp:translate"]
+            }
+
+            def Sphere "HaloParticle_06" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Materials/LeafHaloMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.003
+                float3 xformOp:translate = (-0.031, -0.006, 0.018)
+                uniform token[] xformOpOrder = ["xformOp:translate"]
+            }
+
+            def Sphere "HaloParticle_07" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Materials/LeafHaloMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.0038
+                float3 xformOp:translate = (-0.036, 0.002, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate"]
+            }
+
+            def Sphere "HaloParticle_08" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Materials/LeafHaloMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.003
+                float3 xformOp:translate = (-0.031, 0.006, -0.018)
+                uniform token[] xformOpOrder = ["xformOp:translate"]
+            }
+
+            def Sphere "HaloParticle_09" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Materials/LeafHaloMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.0034
+                float3 xformOp:translate = (-0.018, -0.004, -0.031)
+                uniform token[] xformOpOrder = ["xformOp:translate"]
+            }
+
+            def Sphere "HaloParticle_10" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Materials/LeafHaloMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.0028
+                float3 xformOp:translate = (0, 0.004, -0.036)
+                uniform token[] xformOpOrder = ["xformOp:translate"]
+            }
+
+            def Sphere "HaloParticle_11" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Materials/LeafHaloMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.0035
+                float3 xformOp:translate = (0.018, 0, -0.031)
+                uniform token[] xformOpOrder = ["xformOp:translate"]
+            }
+
+            def Sphere "HaloParticle_12" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Materials/LeafHaloMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double radius = 0.003
+                float3 xformOp:translate = (0.031, -0.006, -0.018)
+                uniform token[] xformOpOrder = ["xformOp:translate"]
+            }
+        }
+
+        def Cylinder "LeaderLine" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </Root/Materials/LeafGlowMaterial> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+            token axis = "Y"
+            double height = 0.08
+            double radius = 0.0015
+            quatf xformOp:orient = (0.936897, -0.220027, 0, -0.251459)
+            float3 xformOp:translate = (0.02, 0.03, -0.0175)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient"]
+        }
+
+        def Mesh "LabelBacking" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </Root/Materials/LeafBackingMaterial> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+            uniform bool doubleSided = 1
+            int[] faceVertexCounts = [4]
+            int[] faceVertexIndices = [0, 1, 2, 3]
+            point3f[] points = [(-0.0325, -0.0125, 0), (0.0325, -0.0125, 0), (0.0325, 0.0125, 0), (-0.0325, 0.0125, 0)]
+            uniform token subdivisionScheme = "none"
+            float3 xformOp:translate = (0.065, 0.075, -0.05)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+    }
+}
