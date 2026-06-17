@@ -132,9 +132,9 @@ final class ManualPlacementController: ObservableObject {
                                            headWorld: headWorld, current: selectionLeaf, switchMargin: switchMargin)
         selectionFlower = f
         selectionLeaf = l
-        if let f { b.flowerCallout.position = b.flowerPoints[f]; b.flowerCallout.isEnabled = true }
+        if let f { SpatialLabelBuilder.place(b.flowerCallout, at: b.flowerPoints[f]); b.flowerCallout.isEnabled = true }
         else { b.flowerCallout.isEnabled = false }
-        if let l { b.leafCallout.position = b.leafPoints[l]; b.leafCallout.isEnabled = true }
+        if let l { SpatialLabelBuilder.place(b.leafCallout, at: b.leafPoints[l]); b.leafCallout.isEnabled = true }
         else { b.leafCallout.isEnabled = false }
     }
 

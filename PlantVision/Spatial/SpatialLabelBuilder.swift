@@ -54,8 +54,13 @@ enum SpatialLabelBuilder {
 
 extension SpatialLabelBuilder {
 
+    /// 引線終點停在標籤近緣前的間隙(公尺)。標籤約 210pt 寬的玻璃卡,半徑 ≈ 0.08m;
+    /// 引線縮短到「標籤中心前 gap」結束,避免線段穿過/超出卡片(見實機回報)。可調。
+    static let leaderCardGap: Float = 0.08
+
     /// 組一個部位 callout:依設計只有「同色細發光引線 + SwiftUI 標籤」,不含部位圓點/發光球。
-    /// 引線從部位點(group 原點)指向標籤位置;group.position 由選取層每幀更新。
+    /// 引線從部位點(group 原點)指向標籤,但停在卡片近緣前(縮短 leaderCardGap);
+    /// group 的 position / orientation 由選取層每幀以 `place(_:at:)` 更新(位置 + 朝樹叢外側 yaw)。
     @MainActor
     static func makeCallout(part: PlantPart,
                             label: Entity?,
@@ -64,8 +69,10 @@ extension SpatialLabelBuilder {
         group.name = "callout-\(part.rawValue)"
         group.isEnabled = false   // 選取層選到候選前先隱藏
 
-        // 部位色(花黃/葉綠)細發光引線,從部位點(.zero)指到標籤。
-        group.addChild(makeLeader(from: .zero, to: labelOffset, color: UIColor(part.markerColor)))
+        // 部位色(花黃/葉綠)細發光引線:從部位點(.zero)指向標籤近緣(縮短 gap,避免戳出卡片)。
+        let dist = simd_length(labelOffset)
+        let leaderEnd = dist > leaderCardGap ? labelOffset * ((dist - leaderCardGap) / dist) : labelOffset
+        group.addChild(makeLeader(from: .zero, to: leaderEnd, color: UIColor(part.markerColor)))
 
         if let label {
             label.position = labelOffset
@@ -73,5 +80,23 @@ extension SpatialLabelBuilder {
             group.addChild(label)
         }
         return group
+    }
+
+    /// 把 callout 放到部位點,並繞 +Y 轉向,使其 local +X 指向「植物中軸 → 該點」的水平方向(朝樹叢外側)。
+    /// 如此 labelOffset 的 +X 分量永遠把標籤往樹叢外推(不再因固定 model 方向而把半邊標籤埋進葉子被遮擋),
+    /// +Y 分量(花正/上、葉負/下)維持垂直分離。標籤本身有 BillboardComponent,仍面向使用者,只有位置受影響。
+    /// 由兩個場景(手動擺放 / 物件追蹤)的 refreshCallouts 每幀呼叫。
+    static func place(_ callout: Entity, at point: SIMD3<Float>) {
+        callout.position = point
+        let horizontal = SIMD3<Float>(point.x, 0, point.z)
+        let len = simd_length(horizontal)
+        guard len > 1e-4 else {
+            // 點幾乎在中軸上,沒有明確外側方向,保持不旋轉。
+            callout.orientation = simd_quatf(angle: 0, axis: [0, 1, 0])
+            return
+        }
+        let d = horizontal / len
+        // 繞 +Y 轉 θ 使 (1,0,0) → (d.x, 0, d.z):θ = atan2(-d.z, d.x)。
+        callout.orientation = simd_quatf(angle: atan2(-d.z, d.x), axis: [0, 1, 0])
     }
 }

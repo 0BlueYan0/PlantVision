@@ -40,8 +40,8 @@ struct PartAnchor: Sendable {
     /// 該部位的候選點:每個點 = 一朵花/一片葉的獨立位置(物件 local 座標,公尺)。
     /// runtime 只顯示離使用者最近的一個(見 NearestPartSelector)。
     let points: [SIMD3<Float>]
-    /// 標籤相對「選中候選點」浮出的位移(公尺,物件 local)。
-    /// 花/葉可能相鄰,靠這個位移把兩張標籤分開、各自拉指引線。
+    /// 標籤相對「選中候選點」浮出的位移(公尺)。X = 朝樹叢外側(由 `SpatialLabelBuilder.place(_:at:)`
+    /// 每幀繞 Y 對齊到該點的徑向方向),Y = 垂直分離(花正/上、葉負/下,避免兩標籤重疊),Z 一般為 0。
     let labelOffset: SIMD3<Float>
 }
 
@@ -119,7 +119,7 @@ enum SpatialLabelCatalog {
                         SIMD3<Float>(0.35195, 0.71095, 0.23149),
                         SIMD3<Float>(-0.38023, 0.67984, -0.05579)
                     ],
-                    labelOffset: SIMD3<Float>(-0.26, -0.12, 0.0)
+                    labelOffset: SIMD3<Float>(0.26, -0.12, 0.0)
                 )
             ],
             frameCorrection: .zero
