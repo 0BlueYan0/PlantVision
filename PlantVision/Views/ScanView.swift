@@ -21,124 +21,17 @@ struct ScanView: View {
     private func contentLayout(size: CGSize) -> some View {
         if size.width < 940 {
             VStack(spacing: 16) {
-                heroPanel
                 resultPanel
                 relayUtilityPanel
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
             HStack(alignment: .top, spacing: 24) {
-                heroPanel
                 resultPanel
                 relayUtilityPanel
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-    }
-
-    private var heroPanel: some View {
-        VStack(spacing: 18) {
-            HStack {
-                Label("Vision Pro Native Scan", systemImage: "visionpro")
-                    .font(.callout.weight(.semibold))
-                    .foregroundStyle(.secondary)
-                Spacer()
-                Text(statusCategory)
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(statusTint)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 7)
-                    .background(statusTint.opacity(0.12), in: Capsule())
-            }
-
-            Spacer(minLength: 0)
-
-            VStack(spacing: 16) {
-                Image(systemName: "viewfinder.circle")
-                    .font(.system(size: 78, weight: .light))
-                    .symbolRenderingMode(.hierarchical)
-                    .foregroundStyle(Theme.accent)
-                    .accessibilityHidden(true)
-
-                VStack(spacing: 8) {
-                    Text("植物辨識工作區")
-                        .font(.largeTitle.weight(.semibold))
-                        .multilineTextAlignment(.center)
-                        .lineLimit(2)
-                        .minimumScaleFactor(0.72)
-
-                    Text(appModel.recognitionState.message)
-                        .font(.title3)
-                        .foregroundStyle(.secondary)
-                        .multilineTextAlignment(.center)
-                        .frame(maxWidth: 360)
-                        .lineLimit(3)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-
-                Text("Relay 是正式辨識入口，Demo 可用來快速檢查結果展示與空間標籤流程。")
-                    .font(.callout)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
-                    .frame(maxWidth: 360)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-
-            Spacer(minLength: 0)
-
-            actionRow
-        }
-        .frame(minWidth: 280, maxWidth: 360, maxHeight: .infinity, alignment: .top)
-        .padding(Theme.panelPadding)
-        .glassPanel()
-    }
-
-    private var actionRow: some View {
-        ViewThatFits(in: .horizontal) {
-            HStack(spacing: 12) {
-                scanActions
-            }
-
-            VStack(spacing: 12) {
-                scanActions
-            }
-        }
-        .frame(maxWidth: .infinity)
-    }
-
-    @ViewBuilder
-    private var scanActions: some View {
-        Button {
-            appModel.connectRelay()
-        } label: {
-            Label("連線 Relay", systemImage: "link")
-                .frame(maxWidth: .infinity)
-        }
-        .buttonStyle(.borderedProminent)
-        .controlSize(.large)
-
-        Button {
-            Task {
-                await appModel.runDemoRecognition()
-            }
-        } label: {
-            Label("Demo 樣本", systemImage: "photo")
-                .frame(maxWidth: .infinity)
-        }
-        .buttonStyle(.bordered)
-        .controlSize(.large)
-
-        Button {
-            Task {
-                _ = await openImmersiveSpace(id: PlantVisionModel.immersiveSpaceID)
-            }
-        } label: {
-            Label("開啟空間", systemImage: "cube.transparent")
-                .frame(maxWidth: .infinity)
-        }
-        .buttonStyle(.bordered)
-        .controlSize(.large)
-        .disabled(appModel.currentResult == nil)
     }
 
     private var relayUtilityPanel: some View {
@@ -166,6 +59,16 @@ struct ScanView: View {
                     .textInputAutocapitalization(.never)
                     .autocorrectionDisabled()
             }
+
+            // Relay 是唯一辨識入口,連線按鈕直接放在這個工具面板內。
+            Button {
+                appModel.connectRelay()
+            } label: {
+                Label("連線 Relay", systemImage: "link")
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.borderedProminent)
+            .controlSize(.large)
 
             Spacer(minLength: 0)
 
@@ -240,32 +143,6 @@ struct ScanView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding(Theme.panelPadding)
             .glassPanel()
-        }
-    }
-
-    private var statusCategory: String {
-        switch appModel.recognitionState {
-        case .idle:
-            "Ready"
-        case .relayConnecting:
-            "Scanning"
-        case .relayConnected, .relayResult:
-            "Result"
-        case .demoMode, .failed:
-            "Notice"
-        }
-    }
-
-    private var statusTint: Color {
-        switch appModel.recognitionState {
-        case .failed:
-            .red
-        case .demoMode:
-            .orange
-        case .relayConnected, .relayResult:
-            Theme.accent
-        default:
-            .secondary
         }
     }
 
