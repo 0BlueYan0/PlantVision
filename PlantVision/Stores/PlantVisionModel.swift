@@ -4,6 +4,7 @@ import Foundation
 final class PlantVisionModel: ObservableObject {
     static let immersiveSpaceID = "PlantVisionImmersiveSpace"
     static let placementImmersiveSpaceID = "PlantVisionPlacementImmersiveSpace"
+    static let growthImmersiveSpaceID = "PlantVisionGrowthImmersiveSpace"
     static let plantDetailWindowID = "PlantVisionPlantDetailWindow"
 
     @Published var recognitionState: RecognitionProviderState = .idle
@@ -12,6 +13,10 @@ final class PlantVisionModel: ObservableObject {
     @Published private(set) var isHolding: Bool = false
     @Published var selectedStage: GrowthStage = .sprout
     @Published var isGrowthPlaying = false
+    /// 「重播」訊號:遞增即要求生長動畫場景瞬間歸零到發芽後重新播放(比照 placementResetToken 慣例)。
+    @Published private(set) var growthReplayToken: Int = 0
+    /// 空間資訊卡「觀看生長動畫」訊號:遞增即要求主視窗層切換到生長動畫 immersive space。
+    @Published private(set) var growthModeRequestToken: Int = 0
     /// 「擺放」面板 → 場景的重置訊號;遞增即要求把植物拉回使用者面前的地板。
     @Published private(set) var placementResetToken: Int = 0
     @Published var relayURLText: String {
@@ -77,13 +82,19 @@ final class PlantVisionModel: ObservableObject {
 
     func addCurrentResultToHistory() {
         guard let result = currentResult else { return }
+        addToHistory(plant: result.plant, confidence: result.confidence, source: result.source)
+    }
+
+    /// 直接把某株植物寫進歷史(供空間資訊卡使用:身分來自追蹤到的 reference object,
+    /// 不一定有 relay 的 currentResult)。
+    func addToHistory(plant: Plant, confidence: Double, source: RecognitionSource) {
         let record = PlantHistoryRecord(
             id: UUID(),
-            plantID: result.plant.id,
-            chineseName: result.plant.chineseName,
-            scientificName: result.plant.scientificName,
-            confidence: result.confidence,
-            source: result.source.rawValue,
+            plantID: plant.id,
+            chineseName: plant.chineseName,
+            scientificName: plant.scientificName,
+            confidence: confidence,
+            source: source.rawValue,
             createdAt: Date()
         )
         history.insert(record, at: 0)
@@ -123,10 +134,24 @@ final class PlantVisionModel: ObservableObject {
         }
     }
 
+    /// 「切換」:跳到指定階段並停止自動播放(場景會平滑轉場到該階段)。
     func setStage(_ stage: GrowthStage) {
         selectedStage = stage
         isGrowthPlaying = false
         playbackTask?.cancel()
+    }
+
+    /// 「重播」:瞬間歸零到發芽(bump token 讓場景 snap),再從頭自動播放。
+    func replayGrowth() {
+        growthReplayToken += 1
+        selectedStage = .sprout
+        isGrowthPlaying = true
+        startGrowthPlayback()
+    }
+
+    /// 空間資訊卡「觀看生長動畫」CTA:由主視窗層觀察 token 後切換 immersive space。
+    func requestGrowthMode() {
+        growthModeRequestToken += 1
     }
 
     private func apply(result: RecognitionResult, state: RecognitionProviderState) {
@@ -258,10 +283,11 @@ final class PlantVisionModel: ObservableObject {
         playbackTask?.cancel()
         playbackTask = Task { [weak self] in
             let stages = GrowthStage.allCases
+            // 停留 ~1.2s,讓場景每次階段切換的 ~0.8s 平滑轉場走完後再進下一階段。
             while !Task.isCancelled {
                 for stage in stages {
                     guard !Task.isCancelled else { return }
-                    try? await Task.sleep(nanoseconds: 900_000_000)
+                    try? await Task.sleep(nanoseconds: 1_200_000_000)
                     await MainActor.run {
                         self?.selectedStage = stage
                     }

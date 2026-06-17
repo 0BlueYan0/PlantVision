@@ -62,6 +62,13 @@ struct ManualPlacementSceneView: View {
                 }
             }
 
+            // 整株資訊卡:植物側邊,面向使用者(對齊 p.5)。
+            if let card = attachments.entity(for: "place-info-card") {
+                card.position = [0.5, 1.0, 0]
+                card.components.set(BillboardComponent())
+                root.addChild(card)
+            }
+
             // 讓 root 可被拖曳:加碰撞形狀 + 輸入目標。
             // visualBounds(relativeTo: root) 以 root-local 空間計算,只依賴已加入的子節點,
             // 不需要 root 先進入場景,因此在 content.add(root) 之前算是安全的。
@@ -103,6 +110,9 @@ struct ManualPlacementSceneView: View {
                 Attachment(id: slot.id) {
                     SpatialPartLabel(part: slot.part, plant: slot.plant)
                 }
+            }
+            Attachment(id: "place-info-card") {
+                SpatialInfoCard(plant: plant)
             }
             Attachment(id: "placement-status") {
                 ManualPlacementStatusLabel(phase: controller.phase)

@@ -32,6 +32,9 @@
 		8A1000132C00000100000001 /* Spatial/ManualPlacementController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000162C00000100000001 /* Spatial/ManualPlacementController.swift */; };
 		8A1000142C00000100000001 /* Views/ManualPlacementSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000172C00000100000001 /* Views/ManualPlacementSceneView.swift */; };
 		8A1000152C00000100000001 /* Views/ManualPlacementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000182C00000100000001 /* Views/ManualPlacementView.swift */; };
+		8A1000162C00000100000001 /* Spatial/GrowthAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000192C00000100000001 /* Spatial/GrowthAnimationController.swift */; };
+		8A1000172C00000100000001 /* Views/GrowthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A20001A2C00000100000001 /* Views/GrowthView.swift */; };
+		8A1000182C00000100000001 /* Views/SpatialInfoCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A20001B2C00000100000001 /* Views/SpatialInfoCard.swift */; };
 		8A9100012C00000100000001 /* Sources/MacFrameRelayApp/MacFrameRelayApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9200042C00000100000001 /* Sources/MacFrameRelayApp/MacFrameRelayApp.swift */; };
 		8A9100022C00000100000001 /* Sources/MacFrameRelayCore/CaptureTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9200052C00000100000001 /* Sources/MacFrameRelayCore/CaptureTarget.swift */; };
 		8A9100032C00000100000001 /* Sources/MacFrameRelayCore/CapturedFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9200062C00000100000001 /* Sources/MacFrameRelayCore/CapturedFrame.swift */; };
@@ -79,6 +82,9 @@
 		8A2000162C00000100000001 /* Spatial/ManualPlacementController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spatial/ManualPlacementController.swift; sourceTree = "<group>"; };
 		8A2000172C00000100000001 /* Views/ManualPlacementSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/ManualPlacementSceneView.swift; sourceTree = "<group>"; };
 		8A2000182C00000100000001 /* Views/ManualPlacementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/ManualPlacementView.swift; sourceTree = "<group>"; };
+		8A2000192C00000100000001 /* Spatial/GrowthAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spatial/GrowthAnimationController.swift; sourceTree = "<group>"; };
+		8A20001A2C00000100000001 /* Views/GrowthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/GrowthView.swift; sourceTree = "<group>"; };
+		8A20001B2C00000100000001 /* Views/SpatialInfoCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/SpatialInfoCard.swift; sourceTree = "<group>"; };
 		8A9200012C00000100000001 /* MacFrameRelayApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacFrameRelayApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A9200022C00000100000001 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		8A9200032C00000100000001 /* AppBundleInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = AppBundleInfo.plist; sourceTree = "<group>"; };
@@ -159,6 +165,9 @@
 				8A2000162C00000100000001 /* Spatial/ManualPlacementController.swift */,
 				8A2000172C00000100000001 /* Views/ManualPlacementSceneView.swift */,
 				8A2000182C00000100000001 /* Views/ManualPlacementView.swift */,
+				8A2000192C00000100000001 /* Spatial/GrowthAnimationController.swift */,
+				8A20001A2C00000100000001 /* Views/GrowthView.swift */,
+				8A20001B2C00000100000001 /* Views/SpatialInfoCard.swift */,
 				8A2000152C00000100000001 /* Resources/PlantTracker.referenceobject */,
 				8A20000C2C00000100000001 /* Info.plist */,
 				8A20000D2C00000100000001 /* PlantVision.entitlements */,
@@ -366,6 +375,9 @@
 				8A1000132C00000100000001 /* Spatial/ManualPlacementController.swift in Sources */,
 				8A1000142C00000100000001 /* Views/ManualPlacementSceneView.swift in Sources */,
 				8A1000152C00000100000001 /* Views/ManualPlacementView.swift in Sources */,
+				8A1000162C00000100000001 /* Spatial/GrowthAnimationController.swift in Sources */,
+				8A1000172C00000100000001 /* Views/GrowthView.swift in Sources */,
+				8A1000182C00000100000001 /* Views/SpatialInfoCard.swift in Sources */,
 				5E6BA76B470FCB4D492C116F /* WitherLevel.swift in Sources */,
 				379D08AD405E2459CD9EF68A /* WitherAdviceCatalog.swift in Sources */,
 				D1E2A3B4C5060718293A0B02 /* PlantHealth.swift in Sources */,
