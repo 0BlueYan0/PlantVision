@@ -6,9 +6,11 @@ struct ManualPlacementView: View {
     @Environment(\.openImmersiveSpace) private var openImmersiveSpace
     @Environment(\.dismissImmersiveSpace) private var dismissImmersiveSpace
 
-    @State private var isSpaceOpen = false
+    /// 本頁目前開了哪一種 immersive space:模型擺放(無追蹤)或物件追蹤測試。
+    private enum OpenSpace { case none, model, tracking }
+    @State private var openSpace: OpenSpace = .none
     @State private var isTransitioning = false   // 轉場中(開/關空間)鎖住按鈕,避免並發 open/dismiss
-    // TODO: isSpaceOpen 是本地狀態;若使用者用系統手勢(數位錶冠/home)關閉空間,這裡不會更新,
+    // TODO: openSpace 是本地狀態;若使用者用系統手勢(數位錶冠/home)關閉空間,這裡不會更新,
     // reset/close 按鈕會仍顯示可用(點下去無害:dismiss 已關空間是 no-op)。日後可由場景在 onDisappear
     // 更新 appModel 的已發布旗標來同步。
 
@@ -53,7 +55,7 @@ struct ManualPlacementView: View {
                     isTransitioning = true
                     await dismissImmersiveSpace()   // 關掉任何已開的空間,避免衝突
                     let result = await openImmersiveSpace(id: PlantVisionModel.placementImmersiveSpaceID)
-                    isSpaceOpen = (result == .opened)
+                    openSpace = (result == .opened) ? .model : .none
                     isTransitioning = false
                 }
             } label: {
@@ -70,13 +72,14 @@ struct ManualPlacementView: View {
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.bordered)
-            .disabled(!isSpaceOpen || isTransitioning)
+            // reset 只對模型擺放有意義(bump placementResetToken;追蹤場景不觀察)。
+            .disabled(openSpace != .model || isTransitioning)
 
             Button {
                 Task {
                     isTransitioning = true
                     await dismissImmersiveSpace()
-                    isSpaceOpen = false
+                    openSpace = .none
                     isTransitioning = false
                 }
             } label: {
@@ -84,7 +87,32 @@ struct ManualPlacementView: View {
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.bordered)
-            .disabled(!isSpaceOpen || isTransitioning)
+            .disabled(openSpace == .none || isTransitioning)
+
+            Divider()
+
+            // 測試用:跳過 Mac 辨識流程,直接啟動物件追蹤,把花/葉空間標籤貼到真實植物上。
+            // 與「開啟空間並擺放」互斥——先 dismiss 再開,共用本頁的關閉/狀態邏輯。
+            Text("測試")
+                .font(.headline)
+                .foregroundStyle(.secondary)
+
+            Button {
+                Task {
+                    isTransitioning = true
+                    await dismissImmersiveSpace()   // 關掉任何已開的空間,避免衝突
+                    let result = await openImmersiveSpace(id: PlantVisionModel.immersiveSpaceID)
+                    openSpace = (result == .opened) ? .tracking : .none
+                    isTransitioning = false
+                }
+            } label: {
+                Label("直接啟動物件追蹤(跳過辨識)", systemImage: "viewfinder")
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.bordered)
+            .disabled(isTransitioning)
+
+            Label("跳過 Mac 辨識,直接用物件追蹤把花/葉標籤貼到真實植物(實機才有追蹤;模擬器顯示示意場景)", systemImage: "testtube.2")
 
             Divider()
 
