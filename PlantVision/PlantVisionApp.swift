@@ -12,7 +12,7 @@ struct PlantVisionApp: App {
         .defaultSize(width: 1320, height: 760)
 
         WindowGroup(id: PlantVisionModel.plantDetailWindowID) {
-            PlantDetailView(result: appModel.currentResult)
+            PlantDetailView(result: appModel.currentResult, health: appModel.plantHealth)
                 .environmentObject(appModel)
         }
         .defaultSize(width: 560, height: 620)

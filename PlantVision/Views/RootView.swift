@@ -81,7 +81,7 @@ struct RootView: View {
         case .scan:
             ScanView()
         case .detail:
-            PlantDetailView(result: appModel.currentResult, wither: appModel.witherStatus)
+            PlantDetailView(result: appModel.currentResult, health: appModel.plantHealth)
         case .place:
             ManualPlacementView()
         case .history:

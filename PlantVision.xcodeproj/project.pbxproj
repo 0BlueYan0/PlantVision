@@ -11,6 +11,8 @@
 		1E8CA02F2FE116CA00A3D3C5 /* NearestPartSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8CA02E2FE116CA00A3D3C5 /* NearestPartSelector.swift */; };
 		379D08AD405E2459CD9EF68A /* WitherAdviceCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8443F880774BC6973C61D9 /* WitherAdviceCatalog.swift */; };
 		5E6BA76B470FCB4D492C116F /* WitherLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925CEB6635F2451C0B04616E /* WitherLevel.swift */; };
+		D1E2A3B4C5060718293A0B02 /* PlantHealth.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E2A3B4C5060718293A0B01 /* PlantHealth.swift */; };
+		D1E2A3B4C5060718293A0C02 /* LeafYellowingLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E2A3B4C5060718293A0C01 /* LeafYellowingLevel.swift */; };
 		8A1000012C00000100000001 /* PlantVisionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000012C00000100000001 /* PlantVisionApp.swift */; };
 		8A1000022C00000100000001 /* Models/PlantModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000022C00000100000001 /* Models/PlantModels.swift */; };
 		8A1000032C00000100000001 /* Services/PlantDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000032C00000100000001 /* Services/PlantDatabase.swift */; };
@@ -46,6 +48,11 @@
 		DF4A15B351F32FEE7FB6316D /* CoreMLModelLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C24A26B8DA3686247E80ED /* CoreMLModelLocator.swift */; };
 		E3D74DE2545125862C281431 /* WitherScoreResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4C880CEA09FED8616EA017 /* WitherScoreResolver.swift */; };
 		FEB8C0AEF85D10D129D4601D /* WitherLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE512E0F34697281F412B28B /* WitherLevel.swift */; };
+		E1F2A3B4C5060718293A0D02 /* WitherTrendResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F2A3B4C5060718293A0D01 /* WitherTrendResolver.swift */; };
+		E1F2A3B4C5060718293A0E02 /* LeafYellowingResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F2A3B4C5060718293A0E01 /* LeafYellowingResolver.swift */; };
+		E1F2A3B4C5060718293A0F02 /* LeafYellowingLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F2A3B4C5060718293A0F01 /* LeafYellowingLevel.swift */; };
+		E1F2A3B4C5060718293A1002 /* LeafColorSampler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F2A3B4C5060718293A1001 /* LeafColorSampler.swift */; };
+		E1F2A3B4C5060718293A1102 /* PlantHealthResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F2A3B4C5060718293A1101 /* PlantHealthResolver.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -92,6 +99,13 @@
 		BEA05C19A50CF44167E1B17F /* WitherClassifier.mlmodel */ = {isa = PBXFileReference; includeInIndex = 1; path = WitherClassifier.mlmodel; sourceTree = "<group>"; };
 		CE512E0F34697281F412B28B /* WitherLevel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Sources/MacFrameRelayCore/WitherLevel.swift; sourceTree = "<group>"; };
 		FB8443F880774BC6973C61D9 /* WitherAdviceCatalog.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Services/WitherAdviceCatalog.swift; sourceTree = "<group>"; };
+		D1E2A3B4C5060718293A0B01 /* PlantHealth.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Services/PlantHealth.swift; sourceTree = "<group>"; };
+		D1E2A3B4C5060718293A0C01 /* LeafYellowingLevel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Services/LeafYellowingLevel.swift; sourceTree = "<group>"; };
+		E1F2A3B4C5060718293A0D01 /* WitherTrendResolver.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Sources/MacFrameRelayCore/WitherTrendResolver.swift; sourceTree = "<group>"; };
+		E1F2A3B4C5060718293A0E01 /* LeafYellowingResolver.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Sources/MacFrameRelayCore/LeafYellowingResolver.swift; sourceTree = "<group>"; };
+		E1F2A3B4C5060718293A0F01 /* LeafYellowingLevel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Sources/MacFrameRelayCore/LeafYellowingLevel.swift; sourceTree = "<group>"; };
+		E1F2A3B4C5060718293A1001 /* LeafColorSampler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Sources/MacFrameRelayCore/LeafColorSampler.swift; sourceTree = "<group>"; };
+		E1F2A3B4C5060718293A1101 /* PlantHealthResolver.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Sources/MacFrameRelayCore/PlantHealthResolver.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +164,8 @@
 				8A20000D2C00000100000001 /* PlantVision.entitlements */,
 				925CEB6635F2451C0B04616E /* WitherLevel.swift */,
 				FB8443F880774BC6973C61D9 /* WitherAdviceCatalog.swift */,
+				D1E2A3B4C5060718293A0B01 /* PlantHealth.swift */,
+				D1E2A3B4C5060718293A0C01 /* LeafYellowingLevel.swift */,
 			);
 			path = PlantVision;
 			sourceTree = "<group>";
@@ -205,6 +221,11 @@
 				6C083BB8D8EB1B78A4278704 /* TemporalWitherSmoother.swift */,
 				CE512E0F34697281F412B28B /* WitherLevel.swift */,
 				A33E51D95650983A1E990190 /* WitherImageClassifier.swift */,
+				E1F2A3B4C5060718293A0D01 /* WitherTrendResolver.swift */,
+				E1F2A3B4C5060718293A0E01 /* LeafYellowingResolver.swift */,
+				E1F2A3B4C5060718293A0F01 /* LeafYellowingLevel.swift */,
+				E1F2A3B4C5060718293A1001 /* LeafColorSampler.swift */,
+				E1F2A3B4C5060718293A1101 /* PlantHealthResolver.swift */,
 				8A92000F2C00000100000001 /* Sources/MacFrameRelayCore/Resources */,
 			);
 			name = MacFrameRelayCore;
@@ -347,6 +368,8 @@
 				8A1000152C00000100000001 /* Views/ManualPlacementView.swift in Sources */,
 				5E6BA76B470FCB4D492C116F /* WitherLevel.swift in Sources */,
 				379D08AD405E2459CD9EF68A /* WitherAdviceCatalog.swift in Sources */,
+				D1E2A3B4C5060718293A0B02 /* PlantHealth.swift in Sources */,
+				D1E2A3B4C5060718293A0C02 /* LeafYellowingLevel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,6 +390,11 @@
 				B57466394E99F97E757D72FF /* TemporalWitherSmoother.swift in Sources */,
 				FEB8C0AEF85D10D129D4601D /* WitherLevel.swift in Sources */,
 				8D43E257C682AF8EA79C813F /* WitherImageClassifier.swift in Sources */,
+				E1F2A3B4C5060718293A0D02 /* WitherTrendResolver.swift in Sources */,
+				E1F2A3B4C5060718293A0E02 /* LeafYellowingResolver.swift in Sources */,
+				E1F2A3B4C5060718293A0F02 /* LeafYellowingLevel.swift in Sources */,
+				E1F2A3B4C5060718293A1002 /* LeafColorSampler.swift in Sources */,
+				E1F2A3B4C5060718293A1102 /* PlantHealthResolver.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
