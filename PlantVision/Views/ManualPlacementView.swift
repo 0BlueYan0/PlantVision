@@ -29,7 +29,7 @@ struct ManualPlacementView: View {
         VStack(spacing: 20) {
             Image(systemName: "leaf.circle.fill")
                 .font(.system(size: 120))
-                .foregroundStyle(.green)
+                .foregroundStyle(Theme.accent)
                 .padding()
             Text("手動擺放植物")
                 .font(.largeTitle.weight(.bold))
@@ -41,8 +41,8 @@ struct ManualPlacementView: View {
                 .frame(maxWidth: 480)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding(24)
-        .glassBackgroundEffect()
+        .padding(Theme.panelPadding)
+        .glassPanel()
     }
 
     private var controls: some View {
@@ -121,8 +121,10 @@ struct ManualPlacementView: View {
             Label("花/葉標籤指向離你最近的部位", systemImage: "tag")
         }
         .font(.callout)
+        // 容器層套 .controlSize(.large),所有子按鈕一致放大到 visionOS 注視目標下限(EH-02 ≥ 60pt)。
+        .controlSize(.large)
         .frame(width: 360, alignment: .leading)
         .padding(22)
-        .glassBackgroundEffect()
+        .glassPanel(cornerRadius: Theme.cardCorner)
     }
 }

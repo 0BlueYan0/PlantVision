@@ -5,82 +5,27 @@ struct RootView: View {
     @State private var selectedSection: WorkbenchSection = .scan
 
     var body: some View {
-        HStack(spacing: 18) {
-            workbenchRail
-            sectionContent
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-        }
-        .padding(18)
-        .frame(minWidth: 1120, minHeight: 620)
-        .tint(.green)
-    }
-
-    private var workbenchRail: some View {
-        VStack(spacing: 12) {
-            VStack(spacing: 8) {
-                Image(systemName: "leaf.circle.fill")
-                    .font(.system(size: 34))
-                    .foregroundStyle(.green)
-                Text("PlantVision")
-                    .font(.headline)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.8)
-            }
-            .padding(.bottom, 12)
-
+        // visionOS 會把 TabView 的分頁自動渲染成視窗左側的 leading ornament(HIG WN-04 / OR-03),
+        // 免費獲得注視 hover 回饋(EH-03)、選取態與 VoiceOver,取代原本自製的 104pt 玻璃 rail。
+        TabView(selection: $selectedSection) {
             ForEach(WorkbenchSection.allCases) { section in
-                Button {
-                    selectedSection = section
-                } label: {
-                    VStack(spacing: 6) {
-                        Image(systemName: section.systemImage)
-                            .font(.title2)
-                        Text(section.title)
-                            .font(.caption2.weight(.semibold))
-                            .lineLimit(1)
-                            .minimumScaleFactor(0.75)
-                    }
-                    .frame(width: 72, height: 64)
-                    .contentShape(RoundedRectangle(cornerRadius: 16))
+                Tab(section.title, systemImage: section.systemImage, value: section) {
+                    content(for: section)
                 }
-                .buttonStyle(.plain)
-                .foregroundStyle(selectedSection == section ? .green : .primary)
-                .background(
-                    selectedSection == section ? .green.opacity(0.16) : .clear,
-                    in: RoundedRectangle(cornerRadius: 16)
-                )
-                .accessibilityLabel(section.accessibilityLabel)
             }
-
-            Spacer(minLength: 12)
-
-            Button {
-                selectedSection = .detail
-            } label: {
-                Image(systemName: appModel.currentResult == nil ? "leaf" : "leaf.fill")
-                    .font(.title3)
-                    .frame(width: 44, height: 44)
-                    .contentShape(Circle())
-            }
-            .buttonStyle(.plain)
-            .foregroundStyle(appModel.currentResult == nil ? Color.secondary : Color.green)
-            .background(.white.opacity(0.08), in: Circle())
-            .disabled(appModel.currentResult == nil)
-            .accessibilityLabel("查看目前辨識結果")
         }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 18)
-        .frame(width: 104)
-        .frame(maxHeight: .infinity)
-        .glassBackgroundEffect()
+        .frame(minWidth: 1120, minHeight: 620)
+        .tint(Theme.accent)
     }
 
     @ViewBuilder
-    private var sectionContent: some View {
-        switch selectedSection {
+    private func content(for section: WorkbenchSection) -> some View {
+        switch section {
         case .scan:
             ScanView()
         case .detail:
+            // Detail 改為常駐分頁:無辨識結果時 PlantDetailView 會顯示 empty state,
+            // 取代原本 rail 上那顆只有 44pt(違反 EH-02 60pt)又無 hover 的動態按鈕。
             PlantDetailView(result: appModel.currentResult)
         case .place:
             ManualPlacementView()
@@ -90,7 +35,7 @@ struct RootView: View {
     }
 }
 
-private enum WorkbenchSection: String, CaseIterable, Identifiable {
+enum WorkbenchSection: String, CaseIterable, Identifiable {
     case scan
     case detail
     case place

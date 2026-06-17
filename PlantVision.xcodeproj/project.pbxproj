@@ -15,6 +15,7 @@
 		8A1000042C00000100000001 /* Services/RecognitionProviders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000042C00000100000001 /* Services/RecognitionProviders.swift */; };
 		8A1000052C00000100000001 /* Stores/PlantVisionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000052C00000100000001 /* Stores/PlantVisionModel.swift */; };
 		8A1000062C00000100000001 /* Views/RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000062C00000100000001 /* Views/RootView.swift */; };
+		8A1000FF2C00000100000001 /* Views/Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000FF2C00000100000001 /* Views/Theme.swift */; };
 		8A1000072C00000100000001 /* Views/ScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000072C00000100000001 /* Views/ScanView.swift */; };
 		8A1000082C00000100000001 /* Views/PlantDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2000082C00000100000001 /* Views/PlantDetailView.swift */; };
 		8A10000A2C00000100000001 /* Views/HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A20000A2C00000100000001 /* Views/HistoryView.swift */; };
@@ -48,6 +49,7 @@
 		8A2000042C00000100000001 /* Services/RecognitionProviders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/RecognitionProviders.swift; sourceTree = "<group>"; };
 		8A2000052C00000100000001 /* Stores/PlantVisionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stores/PlantVisionModel.swift; sourceTree = "<group>"; };
 		8A2000062C00000100000001 /* Views/RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/RootView.swift; sourceTree = "<group>"; };
+		8A2000FF2C00000100000001 /* Views/Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Theme.swift; sourceTree = "<group>"; };
 		8A2000072C00000100000001 /* Views/ScanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/ScanView.swift; sourceTree = "<group>"; };
 		8A2000082C00000100000001 /* Views/PlantDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/PlantDetailView.swift; sourceTree = "<group>"; };
 		8A20000A2C00000100000001 /* Views/HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/HistoryView.swift; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 				8A20000F2C00000100000001 /* Services/SocketIORelayClient.swift */,
 				8A2000052C00000100000001 /* Stores/PlantVisionModel.swift */,
 				8A2000062C00000100000001 /* Views/RootView.swift */,
+				8A2000FF2C00000100000001 /* Views/Theme.swift */,
 				8A2000072C00000100000001 /* Views/ScanView.swift */,
 				8A2000082C00000100000001 /* Views/PlantDetailView.swift */,
 				8A20000A2C00000100000001 /* Views/HistoryView.swift */,
@@ -308,6 +311,7 @@
 				8A10000C2C00000100000001 /* Services/SocketIORelayClient.swift in Sources */,
 				8A1000052C00000100000001 /* Stores/PlantVisionModel.swift in Sources */,
 				8A1000062C00000100000001 /* Views/RootView.swift in Sources */,
+				8A1000FF2C00000100000001 /* Views/Theme.swift in Sources */,
 				8A1000072C00000100000001 /* Views/ScanView.swift in Sources */,
 				8A1000082C00000100000001 /* Views/PlantDetailView.swift in Sources */,
 				8A10000A2C00000100000001 /* Views/HistoryView.swift in Sources */,

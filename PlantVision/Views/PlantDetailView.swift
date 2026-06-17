@@ -15,7 +15,7 @@ struct PlantDetailView: View {
                         }
                         .padding(26)
                         .frame(maxWidth: 680, alignment: .leading)
-                        .glassBackgroundEffect()
+                        .glassPanel()
                         .padding(28)
                     }
                 } else {
@@ -40,7 +40,7 @@ struct EmptyStateView: View {
         VStack(spacing: 16) {
             Image(systemName: systemImage)
                 .font(.system(size: 68))
-                .foregroundStyle(.green)
+                .foregroundStyle(Theme.accent)
             Text(title)
                 .font(.title2.weight(.semibold))
             Text(message)

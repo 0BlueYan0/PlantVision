@@ -13,7 +13,7 @@ struct ScanView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
             .navigationTitle("PlantVision")
-            .tint(ScanTheme.actionBlue)
+            .tint(Theme.accent)
         }
     }
 
@@ -57,12 +57,12 @@ struct ScanView: View {
                 Image(systemName: "viewfinder.circle")
                     .font(.system(size: 78, weight: .light))
                     .symbolRenderingMode(.hierarchical)
-                    .foregroundStyle(ScanTheme.actionBlue)
+                    .foregroundStyle(Theme.accent)
                     .accessibilityHidden(true)
 
                 VStack(spacing: 8) {
                     Text("植物辨識工作區")
-                        .font(.system(size: 34, weight: .semibold, design: .default))
+                        .font(.largeTitle.weight(.semibold))
                         .multilineTextAlignment(.center)
                         .lineLimit(2)
                         .minimumScaleFactor(0.72)
@@ -89,9 +89,8 @@ struct ScanView: View {
             actionRow
         }
         .frame(minWidth: 280, maxWidth: 360, maxHeight: .infinity, alignment: .top)
-        .padding(24)
-        .background(ScanTheme.heroSurface, in: RoundedRectangle(cornerRadius: 28, style: .continuous))
-        .glassBackgroundEffect()
+        .padding(Theme.panelPadding)
+        .glassPanel()
     }
 
     private var actionRow: some View {
@@ -179,11 +178,7 @@ struct ScanView: View {
         }
         .padding(20)
         .frame(minWidth: 240, maxWidth: 290, maxHeight: .infinity, alignment: .topLeading)
-        .background(ScanTheme.utilitySurface, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
-        .overlay(
-            RoundedRectangle(cornerRadius: 18, style: .continuous)
-                .strokeBorder(.primary.opacity(0.08), lineWidth: 1)
-        )
+        .glassPanel(cornerRadius: Theme.cardCorner)
     }
 
     @ViewBuilder
@@ -225,8 +220,8 @@ struct ScanView: View {
                 .controlSize(.large)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-            .padding(24)
-            .glassBackgroundEffect()
+            .padding(Theme.panelPadding)
+            .glassPanel()
         } else {
             VStack(spacing: 16) {
                 Image(systemName: "leaf")
@@ -243,8 +238,8 @@ struct ScanView: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .padding(24)
-            .glassBackgroundEffect()
+            .padding(Theme.panelPadding)
+            .glassPanel()
         }
     }
 
@@ -268,7 +263,7 @@ struct ScanView: View {
         case .demoMode:
             .orange
         case .relayConnected, .relayResult:
-            ScanTheme.actionBlue
+            Theme.accent
         default:
             .secondary
         }
@@ -313,7 +308,7 @@ struct ScanView: View {
     private var relayStatusTint: Color {
         switch appModel.relayStatus {
         case .connected, .joined:
-            ScanTheme.actionBlue
+            Theme.accent
         case .failed:
             .red
         default:
@@ -408,7 +403,7 @@ private struct ScanResultHeader: View {
             HStack(alignment: .top, spacing: 12) {
                 VStack(alignment: .leading, spacing: 6) {
                     Text(result.plant.chineseName)
-                        .font(.system(size: 38, weight: .semibold, design: .default))
+                        .font(.largeTitle.weight(.semibold))
                         .lineLimit(2)
                         .minimumScaleFactor(0.72)
                         .layoutPriority(1)
@@ -424,10 +419,10 @@ private struct ScanResultHeader: View {
             HStack(spacing: 8) {
                 Label(result.source.rawValue, systemImage: sourceIcon)
                     .font(.callout.weight(.semibold))
-                    .foregroundStyle(ScanTheme.actionBlue)
+                    .foregroundStyle(Theme.accent)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 7)
-                    .background(ScanTheme.actionBlue.opacity(0.12), in: Capsule())
+                    .background(Theme.accent.opacity(0.12), in: Capsule())
 
                 if isHolding {
                     Label("已鎖定", systemImage: "lock.fill")
@@ -482,7 +477,7 @@ private struct ScanInfoRows: View {
                 Text("辨識信心")
             }
             .gaugeStyle(.accessoryLinearCapacity)
-            .tint(ScanTheme.actionBlue)
+            .tint(Theme.accent)
         }
     }
 }
@@ -500,7 +495,7 @@ private struct ScanChipGrid: View {
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(.horizontal, 10)
                     .padding(.vertical, 7)
-                    .background(ScanTheme.actionBlue.opacity(0.10), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+                    .background(Theme.accent.opacity(0.10), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
             }
         }
     }
@@ -512,16 +507,10 @@ private struct ConfidencePill: View {
     var body: some View {
         Text("\(Int(confidence * 100))%")
             .font(.title3.monospacedDigit().weight(.semibold))
-            .foregroundStyle(ScanTheme.actionBlue)
+            .foregroundStyle(Theme.accent)
             .padding(.horizontal, 14)
             .padding(.vertical, 9)
-            .background(ScanTheme.actionBlue.opacity(0.12), in: Capsule())
+            .background(Theme.accent.opacity(0.12), in: Capsule())
             .accessibilityLabel("辨識信心 \(Int(confidence * 100))%")
     }
-}
-
-private enum ScanTheme {
-    static let actionBlue = Color(red: 0.0, green: 0.40, blue: 0.80)
-    static let heroSurface = Color.white.opacity(0.72)
-    static let utilitySurface = Color.white.opacity(0.18)
 }
