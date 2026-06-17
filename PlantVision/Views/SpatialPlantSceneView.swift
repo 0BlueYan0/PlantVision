@@ -190,7 +190,7 @@ struct SpatialPlantLabel: View {
         }
         .padding(14)
         .frame(width: 260, alignment: .leading)
-        .glassBackgroundEffect()
+        .glassPanel(cornerRadius: Theme.cardCorner)
         .contentShape(Rectangle())
         .onTapGesture { onToggleHold() }
     }

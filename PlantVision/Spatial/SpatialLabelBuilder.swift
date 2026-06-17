@@ -20,20 +20,51 @@ enum SpatialLabelBuilder {
 
     // MARK: - RealityKit 物件
 
-    /// 從部位點 `a` 指到標籤點 `b` 的指引線(細圓柱)。
-    /// 圓柱預設沿 +Y 軸,需把它旋轉對齊 a→b 方向。
+    /// 從部位點 `a` 指到標籤點 `b` 的指引線。
+    /// 結構:核心細圓柱 +(可選)同軸半透明光暈圓柱 +(可選)卡側銜接小球;
+    /// 圓柱預設沿 +Y 軸,整個 leader 父節點旋轉對齊 a→b 方向。外觀參數見「引線外觀(可調)」。
     static func makeLeader(from a: SIMD3<Float>,
                            to b: SIMD3<Float>,
-                           radius: Float = 0.0015,
-                           color: UIColor = .white) -> ModelEntity {
+                           radius: Float = leaderRadius,
+                           color: UIColor = .white) -> Entity {
         let direction = b - a
         let length = simd_length(direction)
-        let cylinder = ModelEntity(
-            mesh: .generateCylinder(height: max(length, 0.0001), radius: radius),
+        let h = max(length, 0.0001)
+
+        // 父節點:承載核心線 / 光暈 / 端點,統一定位與旋轉。
+        let leader = Entity()
+        leader.name = "part-leader"
+
+        // 核心細發光線(unlit,從各角度等亮)。
+        let core = ModelEntity(
+            mesh: .generateCylinder(height: h, radius: radius),
             materials: [UnlitMaterial(color: color)]
         )
-        cylinder.name = "part-leader"
-        cylinder.position = (a + b) / 2
+        leader.addChild(core)
+
+        // 同軸半透明光暈:略大半徑、低 alpha,讓引線在葉叢前更易辨識(對比 / 可讀)。
+        if leaderHaloEnabled {
+            var haloMaterial = UnlitMaterial(color: color)
+            haloMaterial.blending = .transparent(opacity: .init(floatLiteral: leaderHaloOpacity))
+            let halo = ModelEntity(
+                mesh: .generateCylinder(height: h, radius: radius * leaderHaloRadiusMultiple),
+                materials: [haloMaterial]
+            )
+            leader.addChild(halo)
+        }
+
+        // 卡側銜接小球:把線「接」進標籤卡那一端(local +Y 的 b 端 = world b)。
+        // 只在卡側,不在植物部位端重加圓點(尊重 commit 2c6ee92「移除部位圓點」)。
+        if leaderCardNodeEnabled {
+            let node = ModelEntity(
+                mesh: .generateSphere(radius: radius * leaderCardNodeRadiusMultiple),
+                materials: [UnlitMaterial(color: color)]
+            )
+            node.position = SIMD3<Float>(0, h / 2, 0)
+            leader.addChild(node)
+        }
+
+        leader.position = (a + b) / 2
 
         if length > 1e-5 {
             let up = SIMD3<Float>(0, 1, 0)
@@ -41,25 +72,42 @@ enum SpatialLabelBuilder {
             let dot = simd_dot(up, n)
             if dot < 0.9999 && dot > -0.9999 {
                 let axis = simd_normalize(simd_cross(up, n))
-                cylinder.orientation = simd_quatf(angle: acos(dot), axis: axis)
+                leader.orientation = simd_quatf(angle: acos(dot), axis: axis)
             } else if dot <= -0.9999 {
                 // 反向:繞任一水平軸轉 180°
-                cylinder.orientation = simd_quatf(angle: .pi, axis: [1, 0, 0])
+                leader.orientation = simd_quatf(angle: .pi, axis: [1, 0, 0])
             }
         }
-        return cylinder
+        return leader
     }
 
 }
 
 extension SpatialLabelBuilder {
 
-    /// 引線終點停在標籤近緣前的間隙(公尺)。標籤約 210pt 寬的玻璃卡,半徑 ≈ 0.08m;
+    // MARK: - 引線外觀(可調)
+
+    /// 核心引線半徑(公尺)。原 0.0015;略加粗讓 1–2m 下更清楚,仍維持細緻。
+    static let leaderRadius: Float = 0.0022
+
+    /// 是否畫同軸半透明光暈(讓引線在葉叢前更顯眼)。
+    static let leaderHaloEnabled = true
+    /// 光暈半徑相對核心的倍數。
+    static let leaderHaloRadiusMultiple: Float = 2.6
+    /// 光暈不透明度(0...1)。
+    static let leaderHaloOpacity: Float = 0.22
+
+    /// 是否在「卡片那一端」加同色銜接小球,把線接進卡片(不在植物部位端加,尊重移除圓點的設計)。
+    static let leaderCardNodeEnabled = true
+    /// 卡側小球半徑相對核心的倍數。
+    static let leaderCardNodeRadiusMultiple: Float = 3.0
+
+    /// 引線終點停在標籤近緣前的間隙(公尺)。標籤約 240pt 寬的玻璃卡,半徑 ≈ 0.08m;
     /// 引線縮短到「標籤中心前 gap」結束,避免線段穿過/超出卡片(見實機回報)。可調。
     static let leaderCardGap: Float = 0.08
 
-    /// 組一個部位 callout:依設計只有「同色細發光引線 + SwiftUI 標籤」,不含部位圓點/發光球。
-    /// 引線從部位點(group 原點)指向標籤,但停在卡片近緣前(縮短 leaderCardGap);
+    /// 組一個部位 callout:依設計只有「同色發光引線(核心線 + 光暈 + 卡側銜接小球)+ SwiftUI 標籤」,
+    /// 不在植物部位端加圓點/發光球。引線從部位點(group 原點)指向標籤,但停在卡片近緣前(縮短 leaderCardGap);
     /// group 的 position / orientation 由選取層每幀以 `place(_:at:)` 更新(位置 + 朝樹叢外側 yaw)。
     @MainActor
     static func makeCallout(part: PlantPart,

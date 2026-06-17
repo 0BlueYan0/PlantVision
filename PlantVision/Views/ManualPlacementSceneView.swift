@@ -155,6 +155,6 @@ struct ManualPlacementStatusLabel: View {
             .multilineTextAlignment(.center)
             .padding(16)
             .frame(maxWidth: 360)
-            .glassBackgroundEffect()
+            .glassPanel(cornerRadius: Theme.cardCorner)
     }
 }

@@ -1,6 +1,10 @@
 import SwiftUI
 
-/// 指向真實植物某個部位(花/葉)的精簡標籤。比資訊卡小,聚焦單一部位說明。
+/// 指向真實植物某個部位(花/葉)的精簡標籤卡。比資訊卡小,聚焦單一部位說明。
+///
+/// 重設計:標頭改用「部位色 tinted 圓形 icon chip + 部位名」,植物中文名作 subtitle;
+/// 退掉原本左側 4pt 細色條,讓花黃/葉綠的色彩語意更明確。字級放大、改用語意樣式,
+/// 確保在 1–2m 仍好讀(HIG SL-02)。材質維持 visionOS 系統玻璃(非 Liquid Glass)。
 struct SpatialPartLabel: View {
     let part: PlantPart
     let plant: Plant
@@ -13,37 +17,37 @@ struct SpatialPartLabel: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 5) {
-            HStack(spacing: 6) {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(spacing: 12) {
+                // 部位色 tinted 圓形 icon chip:取代左側細色條,色彩語意更明確,也更像一張刻意設計的 callout 卡。
                 Image(systemName: part.symbolName)
-                    .font(.footnote.weight(.bold))
-                    .foregroundStyle(part.markerColor)
-                Text(part.displayName)
                     .font(.headline)
+                    .foregroundStyle(part.markerColor)
+                    .frame(width: 40, height: 40)
+                    .background(part.markerColor.opacity(0.18), in: Circle())
+                    .accessibilityHidden(true)
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(part.displayName)
+                        .font(.title3.weight(.semibold))
+                    Text(plant.chineseName)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
             }
+
             Text(note)
-                .font(.caption)
+                .font(.callout)
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
-            Text(plant.chineseName)
-                .font(.caption2)
-                .foregroundStyle(.tertiary)
         }
-        .padding(.vertical, 12)
-        .padding(.leading, 18)   // 留給左側部位色直條
-        .padding(.trailing, 14)
-        // 固定寬、並讓高度貼齊內容,避免被 RealityView attachment 的大尺寸提案撐高。
-        .frame(width: 210, alignment: .leading)
+        .padding(16)
+        // 固定寬、並讓高度貼齊內容,避免被 RealityView attachment 的大尺寸提案撐高(見 commit 022186e)。
+        .frame(width: 240, alignment: .leading)
         .fixedSize(horizontal: false, vertical: true)
-        .glassBackgroundEffect()
-        // 部位色直條改用 overlay:只填滿卡片(內容決定)的高度,不會反過來把卡片撐高。
-        .overlay(alignment: .leading) {
-            Capsule()
-                .fill(part.markerColor)
-                .frame(width: 4)
-                .padding(.vertical, 10)
-                .padding(.leading, 7)
-        }
+        .glassPanel(cornerRadius: 22)
+        // 整張卡合併為單一 VoiceOver 元素,一次讀完「部位 · 植物 · 說明」。
+        .accessibilityElement(children: .combine)
     }
 }
 
@@ -69,6 +73,6 @@ struct SpatialTrackingStatusLabel: View {
             .multilineTextAlignment(.center)
             .padding(16)
             .frame(maxWidth: 360)
-            .glassBackgroundEffect()
+            .glassPanel(cornerRadius: Theme.cardCorner)
     }
 }
