@@ -3,6 +3,7 @@ import SwiftUI
 struct ScanView: View {
     @EnvironmentObject private var appModel: PlantVisionModel
     @Environment(\.openImmersiveSpace) private var openImmersiveSpace
+    @Environment(\.dismissImmersiveSpace) private var dismissImmersiveSpace
     @Environment(\.openWindow) private var openWindow
 
     var body: some View {
@@ -117,6 +118,16 @@ struct ScanView: View {
                         }
                     } label: {
                         Label("放置空間標籤", systemImage: "mappin.and.ellipse")
+                    }
+
+                    Button {
+                        Task {
+                            // 同時只能開一個 immersive space:先關掉任何已開的再開,避免 .error。
+                            await dismissImmersiveSpace()
+                            _ = await openImmersiveSpace(id: PlantVisionModel.objectAlignedPlacementImmersiveSpaceID)
+                        }
+                    } label: {
+                        Label("放置虛擬模型", systemImage: "cube.transparent")
                     }
                 }
                 .buttonStyle(.bordered)

@@ -4,6 +4,7 @@ import Foundation
 final class PlantVisionModel: ObservableObject {
     static let immersiveSpaceID = "PlantVisionImmersiveSpace"
     static let placementImmersiveSpaceID = "PlantVisionPlacementImmersiveSpace"
+    static let objectAlignedPlacementImmersiveSpaceID = "PlantVisionObjectAlignedPlacementImmersiveSpace"
     static let plantDetailWindowID = "PlantVisionPlantDetailWindow"
 
     @Published var recognitionState: RecognitionProviderState = .idle

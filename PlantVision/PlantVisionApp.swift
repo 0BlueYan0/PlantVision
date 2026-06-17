@@ -26,5 +26,10 @@ struct PlantVisionApp: App {
             ManualPlacementSceneView()
                 .environmentObject(appModel)
         }
+
+        ImmersiveSpace(id: PlantVisionModel.objectAlignedPlacementImmersiveSpaceID) {
+            ObjectAlignedPlacementSceneView()
+                .environmentObject(appModel)
+        }
     }
 }
