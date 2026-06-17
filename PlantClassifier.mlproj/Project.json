@@ -3,21 +3,21 @@
     "projectCreated",
     [
       {
-        "createdDate" : "2026-06-16T06:14:28Z",
+        "createdDate" : "2026-06-17T11:02:54Z",
         "event" : "projectCreated",
-        "id" : "CF3C281A-7B93-4371-9B91-D0DDBE9C8EBD",
+        "id" : "4452360F-66ED-4593-87D2-2232759A5B89",
         "subtitle" : "PlantClassifier",
         "title" : "Project Created"
       }
     ]
   ],
   "authorName" : "口可口可 macbook air m4",
-  "createdDate" : "2026-06-16T06:14:28Z",
+  "createdDate" : "2026-06-17T11:02:54Z",
   "description" : "",
-  "id" : "1E033F34-9FFF-4DCA-B3B7-C0259C02320B",
+  "id" : "59825543-C575-42B3-929A-A4EACC21A1BB",
   "license" : "",
   "location" : "",
-  "modifiedDate" : "2026-06-16T06:14:28Z",
+  "modifiedDate" : "2026-06-17T11:02:54Z",
   "projectName" : "PlantClassifier",
   "settingsEntity" : {
     "snapshotOnExtendTraining" : true,

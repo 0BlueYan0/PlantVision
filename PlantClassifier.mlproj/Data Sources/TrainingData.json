@@ -1,49 +1,49 @@
 {
   "activityEntities" : [
-    "dataSourceCreated",
+    "dataSourceMetrics",
     [
       {
-        "createdDate" : "2026-06-16T06:45:41Z",
-        "event" : "dataSourceCreated",
-        "id" : "F8069DD7-0B3F-47A5-B878-8221C822694B",
-        "subtitle" : "TrainingData",
-        "title" : "Data Source Created"
+        "createdDate" : "2026-06-17T11:03:22Z",
+        "event" : "dataSourceMetrics",
+        "id" : "AE264656-19B4-4DD2-BF0A-F31A488EA68B",
+        "subtitle" : "3 Classes, 464 Items",
+        "title" : "Data Summary"
       }
     ],
     "dataSourceTrainingStarted",
     [
       {
-        "createdDate" : "2026-06-16T06:46:01Z",
+        "createdDate" : "2026-06-17T11:03:22Z",
         "event" : "dataSourceTrainingStarted",
-        "id" : "64734E35-A2B5-4DF9-B0C7-076A1D7D585D",
+        "id" : "E92BD4E2-EFD6-44C6-B471-7918B195144C",
         "subtitle" : "PlantClassifier 1",
         "title" : "Used By"
       }
     ],
-    "dataSourceMetrics",
+    "dataSourceCreated",
     [
       {
-        "createdDate" : "2026-06-16T06:46:01Z",
-        "event" : "dataSourceMetrics",
-        "id" : "4044112E-86A3-4700-8EF9-991EE1F8B638",
-        "subtitle" : "3 Classes, 339 Items",
-        "title" : "Data Summary"
+        "createdDate" : "2026-06-17T11:03:00Z",
+        "event" : "dataSourceCreated",
+        "id" : "6D1BAF2C-C417-485C-8ADD-991F24A2F217",
+        "subtitle" : "TrainingData",
+        "title" : "Data Source Created"
       }
     ]
   ],
-  "createdDate" : "2026-06-16T06:45:41Z",
+  "createdDate" : "2026-06-17T11:03:00Z",
   "dataPathRelativeToProjectURL" : "../../PlantVisionTraining/TrainingData/",
   "dataResult" : {
-    "createdDate" : "2026-06-16T06:45:41Z",
-    "dataSourceID" : "AD8983BC-3ED5-42E6-962C-FD5BA0AA902A",
+    "createdDate" : "2026-06-17T11:03:00Z",
+    "dataSourceID" : "19787397-E830-4A8B-AE74-C9FB0A202C76",
     "dataURL" : "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/"
   },
   "dataURL" : "file:///Users/0blueyan0/develop/PlantVisionTraining/TrainingData/",
   "experimentIDs" : [
-    "D0966609-934E-4FCB-A7ED-95C7311B10BD"
+    "88B68352-5698-48C2-BD51-8C56D14F53FD"
   ],
-  "id" : "AD8983BC-3ED5-42E6-962C-FD5BA0AA902A",
-  "modifiedDate" : "2026-06-16T06:46:01Z",
+  "id" : "19787397-E830-4A8B-AE74-C9FB0A202C76",
+  "modifiedDate" : "2026-06-17T11:03:22Z",
   "pathType" : 0,
   "preferredFilename" : "TrainingData",
   "title" : "TrainingData",
