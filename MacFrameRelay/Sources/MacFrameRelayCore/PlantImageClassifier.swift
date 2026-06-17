@@ -57,11 +57,16 @@ public final class PlantImageClassifier {
     /// 植物若只佔鏡像畫面一小塊，整張 centerCrop 會被判成 background，
     /// 所以改用滑動窗讓佔比小、位置偏的植物也能被個別區塊看成特寫。
     public func classifyScene(_ image: CGImage) throws -> PlantClassificationResult? {
+        try classifyScene(tiles: Self.sceneTiles(in: image))
+    }
+
+    /// 以「已經切好的區塊」做整幅判定。抽出這個多載是為了讓抽幀迴圈把同一批 tiles
+    /// 同時餵給植物分類器與枯萎分類器，避免對同一幀重複切圖（見 `sceneTiles(in:)`）。
+    public func classifyScene(tiles: [CGImage]) throws -> PlantClassificationResult? {
         var bestConfidence: [String: Float] = [:]
         var confidentTileCounts: [String: Int] = [:]
 
-        for tileRect in Self.tileRects(width: image.width, height: image.height) {
-            guard let tile = image.cropping(to: tileRect) else { continue }
+        for tile in tiles {
             for observation in try classifications(in: tile) {
                 bestConfidence[observation.identifier] = max(
                     observation.confidence,
@@ -74,6 +79,12 @@ public final class PlantImageClassifier {
         }
 
         return Self.resolveScene(bestConfidence: bestConfidence, confidentTileCounts: confidentTileCounts)
+    }
+
+    /// 把整幅畫面切成與投票一致的重疊區塊。抽幀迴圈呼叫一次後，可把結果同時交給
+    /// 植物分類器與枯萎分類器共用（兩個模型各跑各的，但共用同一組 tiles）。
+    public static func sceneTiles(in image: CGImage) -> [CGImage] {
+        tileRects(width: image.width, height: image.height).compactMap { image.cropping(to: $0) }
     }
 
     /// 由各區塊彙整出的「高信心區塊數」與「各類最高信心」決定整個畫面的判定。
@@ -119,8 +130,9 @@ public final class PlantImageClassifier {
     }
 
     /// 全幅中央正方形＋半幅滑動窗（步幅為邊長一半，相鄰區塊重疊，
-    /// 讓真正的植物能同時出現在多個區塊）
-    private static func tileRects(width: Int, height: Int) -> [CGRect] {
+    /// 讓真正的植物能同時出現在多個區塊）。`internal` 以便單元測試釘住幾何，
+    /// 資料前處理腳本 `dataset_tools/tile_images.py` 必須切出與此一致的區塊。
+    static func tileRects(width: Int, height: Int) -> [CGRect] {
         let fullSide = min(width, height)
         var rects = [CGRect(
             x: (width - fullSide) / 2,
@@ -148,26 +160,13 @@ public final class PlantImageClassifier {
     }
 
     private static func findModelURL(named modelName: String) throws -> URL {
-        for fileExtension in ["mlmodelc", "mlpackage", "mlmodel"] {
-            if let url = modelBundle.url(forResource: modelName, withExtension: fileExtension) {
-                return url
-            }
+        guard let url = CoreMLModelLocator.findModelURL(named: modelName) else {
+            throw PlantImageClassifierError.modelNotFound(modelName)
         }
-        throw PlantImageClassifierError.modelNotFound(modelName)
-    }
-
-    private static var modelBundle: Bundle {
-        #if SWIFT_PACKAGE
-        Bundle.module
-        #else
-        Bundle.main
-        #endif
+        return url
     }
 
     private static func compiledModelURL(from modelURL: URL) throws -> URL {
-        if modelURL.pathExtension == "mlmodelc" {
-            return modelURL
-        }
-        return try MLModel.compileModel(at: modelURL)
+        try CoreMLModelLocator.compiledModelURL(from: modelURL)
     }
 }

@@ -23,6 +23,9 @@ final class PlantVisionModel: ObservableObject {
     }
     @Published var relayStatus: RelayClientStatus = .disconnected
     @Published private(set) var history: [PlantHistoryRecord] = []
+    /// 最新的綜合植物健康（枯萎＋黃化＋趨勢，來自 Mac relay，與植物辨識獨立）。
+    /// nil 代表本幀沒有任何健康訊號,2D 視窗即不顯示。
+    @Published private(set) var plantHealth: PlantHealthStatus?
 
     private let demoProvider = DemoRecognitionProvider()
     private let relayClient = SocketIORelayClient()
@@ -164,10 +167,31 @@ final class PlantVisionModel: ObservableObject {
         return .switchTo(plantID: incomingKnownPlantID)
     }
 
+    /// 由一幀 payload 組出綜合健康狀態。每個子訊號缺欄位則為 nil;三者皆缺回 nil(整體不顯示)。
+    /// 缺 level 但有 ratio 時用鏡像閾值後備推等級(對齊 Mac 端)。
+    static func makePlantHealth(from payload: RelayFramePayload) -> PlantHealthStatus? {
+        let wither = payload.witherRatio.map { ratio in
+            WitherStatus(ratio: ratio, level: payload.witherLevel ?? WitherLevel.level(forRatio: ratio))
+        }
+        let yellowing = payload.yellowRatio.map { ratio in
+            YellowingStatus(ratio: ratio, level: payload.yellowLevel ?? LeafYellowingLevel.level(forRatio: ratio))
+        }
+        let trend = payload.witherTrend.flatMap { WitherTrend(rawValue: $0) }
+        let status = PlantHealthStatus(wither: wither, yellowing: yellowing, trend: trend)
+        return status.hasAnySignal ? status : nil
+    }
+
     private func handleRelayFramePayload(_ payload: RelayFramePayload) {
         guard payload.message == "成功抽幀" else {
             updateState(.relayResult("收到 Relay 訊息：\(payload.message)"))
             return
+        }
+
+        // 健康訊號（枯萎＋黃化＋趨勢）與植物辨識是獨立的兩條線:直接依當前幀更新
+        // (缺欄位則該子訊號隱藏,全缺則整體不顯示,向後相容)。鎖定時凍結,與資訊卡一致;
+        // 不耦合到 decideDisplay 的辨識決策。
+        if !isHolding {
+            plantHealth = Self.makePlantHealth(from: payload)
         }
 
         // 僅當 plantID 對應到資料庫中的植物時才視為「已知植物」;background / 未知 / nil 一律視為非植物。

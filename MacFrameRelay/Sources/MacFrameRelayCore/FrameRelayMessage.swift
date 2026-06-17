@@ -31,6 +31,38 @@ public struct PlantClassificationResult: Equatable, Sendable {
     }
 }
 
+/// 一幀的枯萎程度摘要：連續比例（0–1）＋對應等級。兩者一起傳，確保 payload 裡的
+/// `witherRatio` 與 `witherLevel` 一致。只給比例時，等級用 `WitherLevel` 的預設閾值推出。
+public struct WitherSummary: Equatable, Sendable {
+    public let ratio: Double
+    public let level: Int
+
+    public init(ratio: Double, level: Int) {
+        self.ratio = ratio
+        self.level = level
+    }
+
+    public init(ratio: Double) {
+        self.init(ratio: ratio, level: WitherLevel.level(forRatio: ratio))
+    }
+}
+
+/// 一幀的葉片黃化摘要：連續比例（0–1）＋對應等級。結構比照 `WitherSummary`，
+/// 但用 `LeafYellowingLevel` 的獨立閾值推等級——黃化與枯萎是兩種不同的劣化訊號。
+public struct LeafYellowingSummary: Equatable, Sendable {
+    public let ratio: Double
+    public let level: Int
+
+    public init(ratio: Double, level: Int) {
+        self.ratio = ratio
+        self.level = level
+    }
+
+    public init(ratio: Double) {
+        self.init(ratio: ratio, level: LeafYellowingLevel.level(forRatio: ratio))
+    }
+}
+
 public struct FrameRelayMessage: Equatable, Sendable {
     public let text: String
     public let type: String
@@ -38,6 +70,12 @@ public struct FrameRelayMessage: Equatable, Sendable {
     public let frameWidth: Int?
     public let frameHeight: Int?
     public let classification: PlantClassificationResult?
+    /// 枯萎程度摘要。與 `classification`（植物辨識）彼此獨立——兩個模型各跑各的。
+    public let wither: WitherSummary?
+    /// 葉片黃化摘要。與枯萎、辨識皆為獨立訊號，由顏色統計算出（不需 ML）。
+    public let yellowing: LeafYellowingSummary?
+    /// 枯萎程度的時間變化趨勢（惡化／改善／穩定）。樣本不足時為 nil。
+    public let trend: WitherTrend?
 
     public var jsonPayload: Data {
         let timestamp = capturedAt.map { ISO8601DateFormatter().string(from: $0) }
@@ -48,7 +86,12 @@ public struct FrameRelayMessage: Equatable, Sendable {
             frameWidth: frameWidth,
             frameHeight: frameHeight,
             plantID: classification?.label,
-            confidence: classification?.confidence
+            confidence: classification?.confidence,
+            witherRatio: wither?.ratio,
+            witherLevel: wither?.level,
+            yellowRatio: yellowing?.ratio,
+            yellowLevel: yellowing?.level,
+            witherTrend: trend?.rawValue
         )
         return (try? JSONEncoder().encode(payload)) ?? Data()
     }
@@ -59,7 +102,10 @@ public struct FrameRelayMessage: Equatable, Sendable {
         capturedAt: Date? = nil,
         frameWidth: Int? = nil,
         frameHeight: Int? = nil,
-        classification: PlantClassificationResult? = nil
+        classification: PlantClassificationResult? = nil,
+        wither: WitherSummary? = nil,
+        yellowing: LeafYellowingSummary? = nil,
+        trend: WitherTrend? = nil
     ) {
         self.text = text
         self.type = type
@@ -67,18 +113,27 @@ public struct FrameRelayMessage: Equatable, Sendable {
         self.frameWidth = frameWidth
         self.frameHeight = frameHeight
         self.classification = classification
+        self.wither = wither
+        self.yellowing = yellowing
+        self.trend = trend
     }
 
     public static func successFrameCaptured(
         frame: CapturedFrame? = nil,
-        classification: PlantClassificationResult? = nil
+        classification: PlantClassificationResult? = nil,
+        wither: WitherSummary? = nil,
+        yellowing: LeafYellowingSummary? = nil,
+        trend: WitherTrend? = nil
     ) -> FrameRelayMessage {
         FrameRelayMessage(
             text: "成功抽幀",
             capturedAt: frame?.capturedAt,
             frameWidth: frame?.width,
             frameHeight: frame?.height,
-            classification: classification
+            classification: classification,
+            wither: wither,
+            yellowing: yellowing,
+            trend: trend
         )
     }
 }
@@ -91,4 +146,10 @@ private struct FrameRelayPayload: Encodable {
     let frameHeight: Int?
     let plantID: String?
     let confidence: Double?
+    // 可選的健康訊號欄位；為 nil 時 JSONEncoder 會自動省略 key，維持對舊端的向後相容。
+    let witherRatio: Double?
+    let witherLevel: Int?
+    let yellowRatio: Double?
+    let yellowLevel: Int?
+    let witherTrend: String?
 }

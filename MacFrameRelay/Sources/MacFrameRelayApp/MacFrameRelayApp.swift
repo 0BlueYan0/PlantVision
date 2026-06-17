@@ -118,6 +118,9 @@ private final class FrameRelayViewModel: ObservableObject {
     private let capturer = ScreenFrameCapturer()
     private let relayClient = SocketIORelayClient()
     private let plantClassifier = try? PlantImageClassifier()
+    /// 枯萎程度分類器：與植物辨識完全獨立的第二個模型。找不到模型時為 nil，
+    /// 此時只是不送枯萎欄位（向後相容），不影響植物辨識。
+    private let witherClassifier = try? WitherImageClassifier()
     private var automaticCaptureTask: Task<Void, Never>?
     private var localModifierFlagsMonitor: Any?
     private var globalModifierFlagsMonitor: Any?
@@ -126,6 +129,14 @@ private final class FrameRelayViewModel: ObservableObject {
     /// 跨幀穩定器：對最近幾幀的逐幀判定做多數決，濾掉決策邊界附近的抖動。
     /// 取代原本「保留上一個非背景結果 1 秒」的 hold（那會延續錯標）。
     private var labelSmoother = TemporalLabelSmoother()
+    /// 枯萎比例是連續值，用時間窗取平均壓抖動（與 labelSmoother 的多數決不同）。
+    private var witherSmoother = TemporalWitherSmoother()
+    /// 葉片黃化比例同樣是連續值，用獨立的一個時間窗平滑器壓抖動。
+    private var yellowSmoother = TemporalWitherSmoother()
+    /// 趨勢用的較長時間窗歷史（存平滑後的枯萎比例）。趨勢要看「一段時間」，
+    /// 故比 0.7 秒平滑窗長很多；超出窗或亂序的樣本會被剪掉。
+    private var witherTrendHistory: [(ratio: Double, at: Date)] = []
+    private static let witherTrendWindowSeconds: TimeInterval = 8.0
 
     init(settingsStore: FrameRelaySettingsStore = FrameRelaySettingsStore()) {
         self.settingsStore = settingsStore
@@ -222,10 +233,25 @@ private final class FrameRelayViewModel: ObservableObject {
             )
             let targetLabel = selectedTarget?.label ?? "主螢幕"
             lastCaptureDescription = "\(targetLabel) · \(frame.width) x \(frame.height) · \(frame.capturedAt.formatted(date: .omitted, time: .standard))"
-            let classification = classify(frame)
+            // 同一幀只切一次 tiles，植物分類器與枯萎分類器共用（兩個模型各跑各的）。
+            let tiles = PlantImageClassifier.sceneTiles(in: frame.cgImage)
+            let capturedAt = Date()
+            let classification = classify(tiles: tiles, at: capturedAt)
+            let wither = witherSummary(tiles: tiles, at: capturedAt)
+            // 趨勢吃平滑後的枯萎比例（wither?.ratio）；黃化是獨立的顏色統計訊號。
+            let trend = witherTrend(latestRatio: wither?.ratio, at: capturedAt)
+            let yellowing = yellowingSummary(tiles: tiles, at: capturedAt)
             statusText = relayStatusText(for: classification)
 
-            try relayClient.sendFrameResult(.successFrameCaptured(frame: frame, classification: classification))
+            try relayClient.sendFrameResult(
+                .successFrameCaptured(
+                    frame: frame,
+                    classification: classification,
+                    wither: wither,
+                    yellowing: yellowing,
+                    trend: trend
+                )
+            )
             statusText = sentStatusText(for: classification)
             return true
         } catch {
@@ -235,12 +261,41 @@ private final class FrameRelayViewModel: ObservableObject {
         }
     }
 
-    private func classify(_ frame: CapturedFrame) -> PlantClassificationResult? {
+    private func classify(tiles: [CGImage], at date: Date) -> PlantClassificationResult? {
         guard let plantClassifier else { return nil }
-        let perFrame = try? plantClassifier.classifyScene(frame.cgImage)
+        let perFrame = try? plantClassifier.classifyScene(tiles: tiles)
         // 逐幀判定交給跨幀穩定器做多數決：自動串流時需近期多幀一致才改變輸出，
         // 兩類拉鋸時回 nil（不確定），避免在 天竺葵 / 馬纓丹 之間跳。
-        return labelSmoother.record(perFrame, at: Date())
+        return labelSmoother.record(perFrame, at: date)
+    }
+
+    /// 枯萎判定：對同一批 tiles 算枯萎面積比例（枯萎 ÷ 有植物的 tile），再跨幀取平均平滑。
+    /// 與植物辨識互不相干；找不到模型或樣本不足時回 nil，payload 就不帶枯萎欄位。
+    private func witherSummary(tiles: [CGImage], at date: Date) -> WitherSummary? {
+        guard let witherClassifier else { return nil }
+        let perFrameRatio = WitherScoreResolver.resolve(witherClassifier.classifyTiles(tiles))
+        guard let smoothedRatio = witherSmoother.record(perFrameRatio, at: date) else { return nil }
+        return WitherSummary(ratio: smoothedRatio)
+    }
+
+    /// 葉片黃化判定：對同一批 tiles 抽樣像素、算黃化比例（黃 ÷ 綠+黃），再跨幀取平均平滑。
+    /// 純顏色統計、不需 ML，故與枯萎模型無關；樣本不足時回 nil，payload 就不帶黃化欄位。
+    private func yellowingSummary(tiles: [CGImage], at date: Date) -> LeafYellowingSummary? {
+        let perFrameRatio = LeafYellowingResolver.resolve(LeafColorSampler.samplePixels(in: tiles))
+        guard let smoothedRatio = yellowSmoother.record(perFrameRatio, at: date) else { return nil }
+        return LeafYellowingSummary(ratio: smoothedRatio)
+    }
+
+    /// 趨勢判定：把平滑後的枯萎比例推進較長的時間窗歷史，再交給 `WitherTrendResolver`
+    /// 判定惡化／改善／穩定。nil（該幀沒有比例）不入窗；樣本不足時回 nil。
+    private func witherTrend(latestRatio: Double?, at date: Date) -> WitherTrend? {
+        if let latestRatio {
+            witherTrendHistory.append((latestRatio, date))
+        }
+        witherTrendHistory.removeAll {
+            date.timeIntervalSince($0.at) > Self.witherTrendWindowSeconds || $0.at > date
+        }
+        return WitherTrendResolver.resolve(witherTrendHistory.map(\.ratio))
     }
 
     private func relayStatusText(for classification: PlantClassificationResult?) -> String {

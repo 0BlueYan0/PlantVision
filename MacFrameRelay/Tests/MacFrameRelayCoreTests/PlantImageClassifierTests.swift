@@ -150,3 +150,58 @@ func resolveSceneFallsBackToBackgroundWhenNoPlantQualifies() {
     )
     #expect(result?.label == bg)
 }
+
+// MARK: - tile 幾何（釘住給 dataset_tools/tile_images.py 對齊用）
+
+@Test
+func tileRectsMatchesPinnedGeometryFor6x4() {
+    // 6×4：fullSide=4 → 中央全幅方塊 (1,0,4,4)；side=2、stride=1 的半幅滑動窗，
+    // 右/下緣會被夾住（x 從 3 跳到 4 後停）。dataset_tools/tile_images.py 必須切出同一組區塊。
+    let rects = PlantImageClassifier.tileRects(width: 6, height: 4)
+    var expected = [CGRect(x: 1, y: 0, width: 4, height: 4)]
+    for y in [0, 1, 2] {
+        for x in [0, 1, 2, 3, 4] {
+            expected.append(CGRect(x: x, y: y, width: 2, height: 2))
+        }
+    }
+    #expect(rects == expected)
+}
+
+@Test
+func tileRectsCentersFullSquareAndStaysInBounds() {
+    let width = 2560
+    let height = 1664
+    let rects = PlantImageClassifier.tileRects(width: width, height: height)
+    let fullSide = min(width, height)
+
+    // 第一塊是置中的全幅方塊
+    #expect(rects.first == CGRect(
+        x: (width - fullSide) / 2, y: (height - fullSide) / 2,
+        width: fullSide, height: fullSide
+    ))
+    // 所有區塊都在畫面範圍內
+    for rect in rects {
+        #expect(rect.minX >= 0 && rect.minY >= 0)
+        #expect(rect.maxX <= CGFloat(width) && rect.maxY <= CGFloat(height))
+    }
+}
+
+@Test
+func sceneTilesCropsEveryRect() throws {
+    let image = try solidImage(width: 6, height: 4)
+    let tiles = PlantImageClassifier.sceneTiles(in: image)
+    // 6×4 共 16 塊，且每塊都成功裁切（與 tileRects 數量一致）
+    #expect(tiles.count == PlantImageClassifier.tileRects(width: 6, height: 4).count)
+    #expect(tiles.count == 16)
+}
+
+private func solidImage(width: Int, height: Int) throws -> CGImage {
+    let context = try #require(CGContext(
+        data: nil, width: width, height: height, bitsPerComponent: 8, bytesPerRow: 0,
+        space: CGColorSpace(name: CGColorSpace.sRGB)!,
+        bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+    ))
+    context.setFillColor(CGColor(red: 0.2, green: 0.6, blue: 0.2, alpha: 1))
+    context.fill(CGRect(x: 0, y: 0, width: width, height: height))
+    return try #require(context.makeImage())
+}

@@ -26,7 +26,8 @@ struct RootView: View {
         case .detail:
             // Detail 改為常駐分頁:無辨識結果時 PlantDetailView 會顯示 empty state,
             // 取代原本 rail 上那顆只有 44pt(違反 EH-02 60pt)又無 hover 的動態按鈕。
-            PlantDetailView(result: appModel.currentResult)
+            // 併入枯萎/健康功能:把 plantHealth 一併傳入,無訊號時健康卡自動不顯示。
+            PlantDetailView(result: appModel.currentResult, health: appModel.plantHealth)
         case .place:
             ManualPlacementView()
         case .history:
