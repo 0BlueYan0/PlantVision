@@ -1,0 +1,301 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Reality Composer Pro Version 2.0 (494.100.6)"
+    }
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    def Xform "anchor_flower" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (-0.05678, 0.32874, 0.08402)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "anchor_flower_1" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (0.00603, 0.31891, -0.1194)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "anchor_flower_2" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (-0.10362, 0.31044, -0.05745)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "anchor_flower_3" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (-0.09382, 0.30899, 0.07372)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "anchor_flower_4" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (-0.13492, 0.29778, -0.00455)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "anchor_flower_8" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (-0.06215, 0.28653, -0.1064)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "anchor_flower_9" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (-0.0853, 0.28519, 0.09251)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "anchor_flower_10" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (-0.09563, 0.285, -0.09317)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "anchor_flower_11" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (0.04164, 0.28155, -0.12079)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "anchor_flower_12" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (0.09654, 0.2787, 0.08967)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "anchor_flower_13" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (0.11902, 0.27804, -0.02468)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "anchor_flower_14" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (0.10851, 0.27731, -0.05893)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "anchor_flower_15" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (0.01081, 0.27343, 0.12502)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "anchor_flower_16" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (-0.12629, 0.26518, -0.04543)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "anchor_flower_17" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (0.03867, 0.25935, 0.13598)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "anchor_flower_18" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (0.09001, 0.25067, -0.0951)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "anchor_flower_19" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (-0.07776, 0.24942, -0.11063)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "anchor_flower_20" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (-0.14075, 0.24115, 0.0149)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "anchor_flower_21" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (0.10864, 0.24114, -0.05589)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "anchor_flower_22" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (-0.08707, 0.22602, -0.08843)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "anchor_flower_23" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (-0.07059, 0.22352, 0.09933)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "anchor_flower_24" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (0.08901, 0.21733, 0.1067)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "anchor_leaf" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (-0.11319, 0.32005, 0.01936)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "anchor_leaf_1" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (0.12673, 0.31914, 0.01825)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "anchor_leaf_2" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (0.03898, 0.31772, -0.12937)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "anchor_leaf_3" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (0.09326, 0.30633, 0.06462)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "anchor_leaf_4" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (0.11794, 0.30407, -0.03262)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "anchor_leaf_5" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (-0.11726, 0.30163, -0.03222)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "anchor_leaf_6" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (-0.02674, 0.30147, 0.11859)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "anchor_leaf_7" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (-0.12388, 0.28383, 0.06157)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "anchor_leaf_8" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (-0.03196, 0.28359, -0.12418)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "anchor_leaf_9" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (0.05729, 0.28217, 0.11648)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "anchor_leaf_10" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (0.03092, 0.2649, -0.13251)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "anchor_leaf_11" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (0.12776, 0.26036, 0.01941)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "anchor_leaf_12" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (0.11177, 0.25822, 0.07998)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    def Xform "anchor_leaf_13" (
+        active = true
+    )
+    {
+        float3 xformOp:translate = (-0.13179, 0.24958, -0.0149)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+}
+
