@@ -39,7 +39,7 @@ struct ManualPlacementSceneView: View {
             // TODO: 模型檔名目前硬編碼,與 catalog 的單一 profile 隱性耦合;
             // 若日後 catalog 換成別的植物,應改由 profile 提供模型資產名(新增欄位),讓模型與花/葉錨點一致。
             var baseOffset: Float = 0
-            if let model = try? await Entity(named: "馬纓丹_已原點", in: plantAnchorBundle) {
+            if let model = try? await Entity(named: "馬纓丹", in: plantAnchorBundle) {
                 root.addChild(model)
                 baseOffset = model.visualBounds(relativeTo: root).min.y
             }
