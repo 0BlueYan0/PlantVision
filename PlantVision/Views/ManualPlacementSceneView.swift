@@ -8,6 +8,8 @@ import PlantAnchor
 struct ManualPlacementSceneView: View {
     @EnvironmentObject private var appModel: PlantVisionModel
     @StateObject private var controller = ManualPlacementController()
+    /// 拖曳起手時記住「觸點 → 模型原點」的水平位移:讓捏取當下不瞬移、拖曳期間維持相對抓點。
+    @State private var dragGrabOffset: SIMD3<Float>?
 
     private struct LabelSlot: Identifiable {
         let id: String
@@ -109,14 +111,21 @@ struct ManualPlacementSceneView: View {
             }
         }
         // 沿地板拖曳:把拖曳點轉到場景座標,只取水平 X/Z,Y 永遠鎖在地面。
+        // 捏取當下記住「觸點 → 模型原點」的水平位移並維持之;否則每次捏取都會把原點瞬移到指尖
+        //(觸點落在朝向使用者那一側的植物表面),整株就會往使用者方向跳一小段。
         .gesture(
             DragGesture()
                 .targetedToAnyEntity()
                 .onChanged { value in
                     guard value.entity.name == "placement-root" else { return }
                     let p = value.convert(value.location3D, from: .local, to: .scene)
-                    value.entity.position = [p.x, controller.floorLockedY(), p.z]
+                    if dragGrabOffset == nil {
+                        dragGrabOffset = SIMD3<Float>(value.entity.position.x - p.x, 0, value.entity.position.z - p.z)
+                    }
+                    let offset = dragGrabOffset ?? .zero
+                    value.entity.position = [p.x + offset.x, controller.floorLockedY(), p.z + offset.z]
                 }
+                .onEnded { _ in dragGrabOffset = nil }
         )
         .task { await controller.start() }
         .onDisappear { controller.stop() }
