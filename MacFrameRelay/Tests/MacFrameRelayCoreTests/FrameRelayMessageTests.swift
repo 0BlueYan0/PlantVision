@@ -51,34 +51,22 @@ func successMessagePayloadOmitsWitherFieldsWhenAbsent() throws {
 }
 
 @Test
-func successMessagePayloadIncludesYellowingAndTrendFields() throws {
+func successMessagePayloadIncludesTrendField() throws {
     let message = FrameRelayMessage.successFrameCaptured(
         classification: PlantClassificationResult(label: "lantana-camara", confidence: 0.8),
         wither: WitherSummary(ratio: 0.42, level: 2),
-        yellowing: LeafYellowingSummary(ratio: 0.5, level: 2),
         trend: .worsening
     )
     let payload = try JSONSerialization.jsonObject(with: message.jsonPayload) as? [String: Any]
 
-    #expect(payload?["yellowRatio"] as? Double == 0.5)
-    #expect(payload?["yellowLevel"] as? Int == 2)
     #expect(payload?["witherTrend"] as? String == "worsening")
 }
 
 @Test
-func leafYellowingSummaryDerivesLevelFromRatio() {
-    // 只給比例時，等級用 LeafYellowingLevel 的預設閾值自動推出（0.5 → 中度=2）
-    let summary = LeafYellowingSummary(ratio: 0.5)
-    #expect(summary.level == LeafYellowingLevel.moderate)
-}
-
-@Test
-func successMessagePayloadOmitsYellowingAndTrendFieldsWhenAbsent() throws {
-    // 向後相容：沒有黃化／趨勢資料時，payload 不應出現這些 key
+func successMessagePayloadOmitsTrendFieldWhenAbsent() throws {
+    // 向後相容：沒有趨勢資料時，payload 不應出現這個 key
     let json = String(data: FrameRelayMessage.successFrameCaptured().jsonPayload, encoding: .utf8) ?? ""
 
-    #expect(!json.contains("yellowRatio"))
-    #expect(!json.contains("yellowLevel"))
     #expect(!json.contains("witherTrend"))
 }
 

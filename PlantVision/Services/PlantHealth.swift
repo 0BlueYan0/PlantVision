@@ -26,17 +26,12 @@ enum WitherTrend: String, Equatable {
     }
 }
 
-/// 把三條獨立的健康訊號（枯萎等級、黃化等級、趨勢）收斂成顯示用結果。
+/// 把獨立的健康訊號（枯萎等級、趨勢）收斂成顯示用結果。
 /// **這是 `MacFrameRelayCore.PlantHealthResolver` 的鏡像**（visionOS app target 無法跑測試，
-/// 真正的單元測試在 MacFrameRelayCore）。整體等級取枯萎與黃化的較嚴重者；趨勢化為修飾語。
+/// 真正的單元測試在 MacFrameRelayCore）。整體等級即枯萎等級；趨勢化為修飾語。
 enum PlantHealthResolver {
-    static func overallLevel(witherLevel: Int?, yellowLevel: Int?) -> Int? {
-        switch (witherLevel, yellowLevel) {
-        case let (wither?, yellow?): return max(wither, yellow)
-        case let (wither?, nil): return wither
-        case let (nil, yellow?): return yellow
-        case (nil, nil): return nil
-        }
+    static func overallLevel(witherLevel: Int?) -> Int? {
+        witherLevel
     }
 
     static func trendModifier(_ trend: WitherTrend?) -> String? {
@@ -57,30 +52,23 @@ enum PlantHealthLevel {
     }
 }
 
-/// 顯示用的綜合健康狀態：彙整枯萎、黃化、趨勢三條訊號。任一子訊號可缺（nil），
+/// 顯示用的綜合健康狀態：彙整枯萎與趨勢訊號。子訊號可缺（nil），
 /// 缺的就不在卡片上渲染——向後相容：舊 Mac 不送新欄位時，卡片只顯示有的訊號、不崩潰。
 struct PlantHealthStatus: Equatable {
     let wither: WitherStatus?
-    let yellowing: YellowingStatus?
     let trend: WitherTrend?
 
-    /// 整體健康等級（枯萎與黃化的較嚴重者）；兩者皆無時為 nil。
+    /// 整體健康等級（即枯萎等級）；枯萎無資料時為 nil。
     var overallLevel: Int? {
-        PlantHealthResolver.overallLevel(witherLevel: wither?.level, yellowLevel: yellowing?.level)
+        PlantHealthResolver.overallLevel(witherLevel: wither?.level)
     }
 
     /// 是否有任一可顯示的健康訊號。皆無則整個卡片不顯示。
-    var hasAnySignal: Bool { wither != nil || yellowing != nil }
+    var hasAnySignal: Bool { wither != nil }
 
     /// 整體等級的徽章文字；無整體等級時為 nil。
     var overallLabel: String? { overallLevel.map(PlantHealthLevel.label(forLevel:)) }
 
     /// 趨勢修飾語（副標）；無趨勢資料時為 nil。
     var trendModifier: String? { PlantHealthResolver.trendModifier(trend) }
-
-    /// 黃化偏高（達輕微以上）時的補充提示；否則 nil。
-    var yellowingHint: String? {
-        guard let yellowing, yellowing.level >= LeafYellowingLevel.mild else { return nil }
-        return "葉片偏黃常與澆水過量或缺氮、缺鐵有關，可一併留意。"
-    }
 }

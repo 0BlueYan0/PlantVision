@@ -42,7 +42,7 @@ struct PlantDetailView: View {
     }
 }
 
-/// 植物健康卡片：整體等級徽章 + 趨勢修飾語 + 各子訊號（枯萎／黃化）比例 + 一般性照護建議。
+/// 植物健康卡片：整體等級徽章 + 趨勢修飾語 + 枯萎比例 + 一般性照護建議。
 private struct PlantHealthCard: View {
     let health: PlantHealthStatus
     let plantID: String?
@@ -96,21 +96,6 @@ private struct PlantHealthCard: View {
                     ratio: wither.ratio,
                     tint: color(forLevel: wither.level)
                 )
-            }
-
-            if let yellowing = health.yellowing {
-                SignalRow(
-                    title: "葉片黃化比例",
-                    percentText: yellowing.percentText,
-                    levelLabel: yellowing.levelLabel,
-                    ratio: yellowing.ratio,
-                    tint: color(forLevel: yellowing.level)
-                )
-                if let hint = health.yellowingHint {
-                    Text(hint)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
             }
 
             Divider()

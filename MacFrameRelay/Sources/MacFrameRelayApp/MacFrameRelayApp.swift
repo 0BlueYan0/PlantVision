@@ -131,8 +131,6 @@ private final class FrameRelayViewModel: ObservableObject {
     private var labelSmoother = TemporalLabelSmoother()
     /// 枯萎比例是連續值，用時間窗取平均壓抖動（與 labelSmoother 的多數決不同）。
     private var witherSmoother = TemporalWitherSmoother()
-    /// 葉片黃化比例同樣是連續值，用獨立的一個時間窗平滑器壓抖動。
-    private var yellowSmoother = TemporalWitherSmoother()
     /// 趨勢用的較長時間窗歷史（存平滑後的枯萎比例）。趨勢要看「一段時間」，
     /// 故比 0.7 秒平滑窗長很多；超出窗或亂序的樣本會被剪掉。
     private var witherTrendHistory: [(ratio: Double, at: Date)] = []
@@ -238,9 +236,8 @@ private final class FrameRelayViewModel: ObservableObject {
             let capturedAt = Date()
             let classification = classify(tiles: tiles, at: capturedAt)
             let wither = witherSummary(tiles: tiles, at: capturedAt)
-            // 趨勢吃平滑後的枯萎比例（wither?.ratio）；黃化是獨立的顏色統計訊號。
+            // 趨勢吃平滑後的枯萎比例（wither?.ratio）。
             let trend = witherTrend(latestRatio: wither?.ratio, at: capturedAt)
-            let yellowing = yellowingSummary(tiles: tiles, at: capturedAt)
             statusText = relayStatusText(for: classification)
 
             try relayClient.sendFrameResult(
@@ -248,7 +245,6 @@ private final class FrameRelayViewModel: ObservableObject {
                     frame: frame,
                     classification: classification,
                     wither: wither,
-                    yellowing: yellowing,
                     trend: trend
                 )
             )
@@ -276,14 +272,6 @@ private final class FrameRelayViewModel: ObservableObject {
         let perFrameRatio = WitherScoreResolver.resolve(witherClassifier.classifyTiles(tiles))
         guard let smoothedRatio = witherSmoother.record(perFrameRatio, at: date) else { return nil }
         return WitherSummary(ratio: smoothedRatio)
-    }
-
-    /// 葉片黃化判定：對同一批 tiles 抽樣像素、算黃化比例（黃 ÷ 綠+黃），再跨幀取平均平滑。
-    /// 純顏色統計、不需 ML，故與枯萎模型無關；樣本不足時回 nil，payload 就不帶黃化欄位。
-    private func yellowingSummary(tiles: [CGImage], at date: Date) -> LeafYellowingSummary? {
-        let perFrameRatio = LeafYellowingResolver.resolve(LeafColorSampler.samplePixels(in: tiles))
-        guard let smoothedRatio = yellowSmoother.record(perFrameRatio, at: date) else { return nil }
-        return LeafYellowingSummary(ratio: smoothedRatio)
     }
 
     /// 趨勢判定：把平滑後的枯萎比例推進較長的時間窗歷史，再交給 `WitherTrendResolver`

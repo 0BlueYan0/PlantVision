@@ -88,7 +88,7 @@ test("relays the optional witherRatio / witherLevel fields through to Vision", a
   }
 });
 
-test("relays the optional yellowRatio / yellowLevel / witherTrend fields through to Vision", async () => {
+test("relays the optional witherTrend field through to Vision", async () => {
   const mac = connectClient(relayURL, { transports: ["websocket"] });
   const vision = connectClient(relayURL, { transports: ["websocket"] });
 
@@ -110,15 +110,11 @@ test("relays the optional yellowRatio / yellowLevel / witherTrend fields through
       confidence: 0.8,
       witherRatio: 0.42,
       witherLevel: 2,
-      yellowRatio: 0.5,
-      yellowLevel: 2,
       witherTrend: "worsening"
     });
 
     const received = await receivedPromise;
-    // relay 整包轉發，黃化與趨勢欄位應原封不動傳到 vision
-    assert.equal(received.data.yellowRatio, 0.5);
-    assert.equal(received.data.yellowLevel, 2);
+    // relay 整包轉發，趨勢欄位應原封不動傳到 vision
     assert.equal(received.data.witherTrend, "worsening");
   } finally {
     mac.disconnect();

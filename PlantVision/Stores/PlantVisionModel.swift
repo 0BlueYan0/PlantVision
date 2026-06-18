@@ -191,17 +191,14 @@ final class PlantVisionModel: ObservableObject {
         return .switchTo(plantID: incomingKnownPlantID)
     }
 
-    /// 由一幀 payload 組出綜合健康狀態。每個子訊號缺欄位則為 nil;三者皆缺回 nil(整體不顯示)。
+    /// 由一幀 payload 組出綜合健康狀態。子訊號缺欄位則為 nil;枯萎缺值回 nil(整體不顯示)。
     /// 缺 level 但有 ratio 時用鏡像閾值後備推等級(對齊 Mac 端)。
     static func makePlantHealth(from payload: RelayFramePayload) -> PlantHealthStatus? {
         let wither = payload.witherRatio.map { ratio in
             WitherStatus(ratio: ratio, level: payload.witherLevel ?? WitherLevel.level(forRatio: ratio))
         }
-        let yellowing = payload.yellowRatio.map { ratio in
-            YellowingStatus(ratio: ratio, level: payload.yellowLevel ?? LeafYellowingLevel.level(forRatio: ratio))
-        }
         let trend = payload.witherTrend.flatMap { WitherTrend(rawValue: $0) }
-        let status = PlantHealthStatus(wither: wither, yellowing: yellowing, trend: trend)
+        let status = PlantHealthStatus(wither: wither, trend: trend)
         return status.hasAnySignal ? status : nil
     }
 
@@ -211,7 +208,7 @@ final class PlantVisionModel: ObservableObject {
             return
         }
 
-        // 健康訊號（枯萎＋黃化＋趨勢）與植物辨識是獨立的兩條線:直接依當前幀更新
+        // 健康訊號（枯萎＋趨勢）與植物辨識是獨立的兩條線:直接依當前幀更新
         // (缺欄位則該子訊號隱藏,全缺則整體不顯示,向後相容)。鎖定時凍結,與資訊卡一致;
         // 不耦合到 decideDisplay 的辨識決策。
         if !isHolding {

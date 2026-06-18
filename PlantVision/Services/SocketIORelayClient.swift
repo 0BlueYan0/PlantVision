@@ -10,9 +10,7 @@ struct RelayFramePayload: Equatable {
     /// 枯萎面積比例（0–1）與等級。皆為可選——舊版 Mac 不會帶這些欄位，缺值不可崩潰。
     let witherRatio: Double?
     let witherLevel: Int?
-    /// 葉片黃化比例（0–1）與等級，以及枯萎程度的時間趨勢（rawValue）。皆為可選。
-    let yellowRatio: Double?
-    let yellowLevel: Int?
+    /// 枯萎程度的時間趨勢（rawValue）。可選。
     let witherTrend: String?
 }
 
@@ -234,8 +232,6 @@ final class SocketIORelayClient {
             // 可選欄位：舊端不帶時為 nil，不影響既有解析。
             witherRatio: data["witherRatio"] as? Double,
             witherLevel: data["witherLevel"] as? Int,
-            yellowRatio: data["yellowRatio"] as? Double,
-            yellowLevel: data["yellowLevel"] as? Int,
             witherTrend: data["witherTrend"] as? String
         )
     }

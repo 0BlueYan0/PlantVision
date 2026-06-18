@@ -5,22 +5,15 @@ import Testing
 // MARK: - overallLevel
 
 @Test
-func overallLevelTakesMoreSevereOfTwoSignals() {
-    // 枯萎 1（輕微）+ 黃化 3（嚴重）→ 整體取較嚴重者 3
-    #expect(PlantHealthResolver.overallLevel(witherLevel: 1, yellowLevel: 3) == 3)
-    #expect(PlantHealthResolver.overallLevel(witherLevel: 2, yellowLevel: 0) == 2)
+func overallLevelReflectsWitherLevel() {
+    #expect(PlantHealthResolver.overallLevel(witherLevel: 3) == 3)
+    #expect(PlantHealthResolver.overallLevel(witherLevel: 0) == 0)
 }
 
 @Test
-func overallLevelFallsBackToSingleSignalWhenOtherIsNil() {
-    #expect(PlantHealthResolver.overallLevel(witherLevel: 2, yellowLevel: nil) == 2)
-    #expect(PlantHealthResolver.overallLevel(witherLevel: nil, yellowLevel: 1) == 1)
-}
-
-@Test
-func overallLevelIsNilWhenBothSignalsMissing() {
-    // 兩條訊號都缺 → 不顯示（向後相容：舊 Mac 不送新欄位）
-    #expect(PlantHealthResolver.overallLevel(witherLevel: nil, yellowLevel: nil) == nil)
+func overallLevelIsNilWhenWitherMissing() {
+    // 枯萎缺值 → 不顯示（向後相容：舊 Mac 不送新欄位）
+    #expect(PlantHealthResolver.overallLevel(witherLevel: nil) == nil)
 }
 
 // MARK: - trendModifier
